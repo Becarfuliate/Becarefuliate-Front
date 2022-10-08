@@ -1,66 +1,68 @@
-import defaultPhotoUser from './img/r1.png';
+import defaultDataUser from './dataUser';
 import React, {useState} from 'react';
 import './Registro.css';
-
-
 
 function verifyEmail(email){
   return (/^\w+([-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail)\.(?:|com|es)+$/.test(email));
 }
 
 function verifyDataUser(dataUser){
-  if (dataUser.name === ""){
+  console.log(typeof dataUser.Password);
+  if (dataUser.Name === ""){
     alert('Falta el nombre');
     return false;
-  } else if(dataUser.password.length < 8){
+  } else if(dataUser.Password.length < 8){
     alert('La contraseña tiene menos de 8 caracteres');
     return false;
-  } else if(!verifyEmail(dataUser.email.toString())){
+  } else if(!verifyEmail(dataUser.Email)){
     alert('el email es inválido');
     return false;
   } 
-  return true
-  
+  return true;
 }
+
 function requestAndLoadDataBack(dataUser){
   return {OK:true, campoInvalido:'name/email'};
 }
-function loadDataUser(dataUser){
-  if(verifyDataUser(dataUser)){
-  /* 
-  Pasar datos al back. Si el back responde que todo salió bien, entonces se mandará 
-  el email de confirmación. Caso contrario, el back devolverá cuales datos dan error y se
-  pedirá al usuario que los ingrese nuevamente.
-  */
-    const response = requestAndLoadDataBack(dataUser);
-    if(response.OK) alert('mail de confirmación enviado');
+
+function sendMail(email){
+  alert('mail de confirmación enviado');
+}
+
+function loadDataUser(dataRegisterUser){
+  console.log(dataRegisterUser);
+  if(verifyDataUser(dataRegisterUser)){
+    /* 
+    Pasar datos al back. Si el back responde que todo salió bien, entonces se mandará 
+    el email de confirmación. Caso contrario, el back devolverá cuales datos dan error y se
+    pedirá al usuario que los ingrese nuevamente.
+   */
+    const response = requestAndLoadDataBack(dataRegisterUser);
+    if(response.OK) sendMail(dataRegisterUser.Email);
     else alert('tal dato no es correcto');
   }
 }
 
 export function Registro(){
-  const [nameUser, setName] = useState('');
-  const [passUser, setPass] = useState('');
-  const [emailUser, setEmail] = useState('');
-  const [photoUser, setPhoto] = useState(defaultPhotoUser);
-
+  const [dataUser, setDataUser] = useState(defaultDataUser);
+  
   return (
-  <div class="login-page">
-    <div class="form">
-      <form class="register-form">
+  <div className="login-page">
+    <div className="form">
+      <form className="register-form" onSubmit={() => loadDataUser(dataUser)}>
         <input type="text" placeholder="Nombre" 
-                onChange= {(email) => setName(email.target.value)}/>
+                onChange= {(name) => setDataUser({ ...dataUser, Name: name.target.value})}/>
+
         <input type="password" placeholder="Contraseña" 
-                onChange= {(email) => setPass(email.target.value)}/>
+                onChange= {(password) => setDataUser({ ...dataUser, Password: password.target.value})}/>
+
         <input type="email" placeholder="Correo electrónico" 
-                onChange= {(email) => setEmail(email.target.value)}/>
-        <input class="photo-user" type="file" accept="image/png, image/jpeg" 
-                onChange={(photo) => setPhoto(photo.target.value)}/>
-        <button type= "submit" 
-                onClick= { () => loadDataUser({name: nameUser, 
-                                              password: passUser, 
-                                              email: emailUser, 
-                                              photo: photoUser})}>Registrar</button>
+                onChange= {(email) => setDataUser({ ...dataUser, Email: email.target.value})}/>
+
+        <input className="photo-user" type="file" accept="image/png, image/jpeg" 
+                onChange={(photo) => setDataUser({ ...dataUser, Photo: photo.target.value})}/>
+
+        <button type= "submit">Registrar</button>
       </form>
     </div>
   </div>);
