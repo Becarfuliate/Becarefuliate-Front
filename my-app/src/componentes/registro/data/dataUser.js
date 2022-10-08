@@ -1,4 +1,4 @@
-import defaultPhotoUser from './img/r1.png';
+import defaultPhotoUser from '../img/r1.png';
 
 const defaultDataUser = {
     Name: "",
@@ -6,5 +6,6 @@ const defaultDataUser = {
     Email: "",
     Photo: defaultPhotoUser
 };
+
 
 export default defaultDataUser;
