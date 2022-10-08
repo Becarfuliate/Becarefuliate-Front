@@ -61,7 +61,7 @@ export function Registro(){
         <input type="email" placeholder="Correo electrónico"  name= "Email" 
         onChange= {dataUserChange} required/>
 
-        <input className="photo-user" type="file" accept="image/png, image/jpeg" 
+        <input type="file" accept="image/png, image/jpeg" placeholder= 'foto por defecto' name= "Photo"
         onChange={dataUserChange}/>
 
         <button type= "submit">Registrar</button>
