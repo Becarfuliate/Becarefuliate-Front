@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 //import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {Registro} from './componentes/registro/Registro.js';
+import {Register} from './componentes/registro/Registro.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
-  <Registro/>
+  <Register/>
   </>
 );
 /*

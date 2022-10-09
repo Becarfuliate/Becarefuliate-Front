@@ -1,26 +1,6 @@
-import defaultDataUser from './data/dataUser';
+import {defaultDataUser, verifyDataUser} from './data/dataUser';
 import React, {useState} from 'react';
 import './Registro.css';
-
-
-function verifyEmail(email){
-  return (/^\w+([-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail)\.(?:|com|es)+$/.test(email));
-}
-
-function verifyDataUser(dataUser){
-  console.log(typeof dataUser.Password);
-  if (dataUser.Name === ""){
-    alert('Falta el nombre');
-    return false;
-  } else if(dataUser.Password.length < 8){
-    alert('La contraseña tiene menos de 8 caracteres');
-    return false;
-  } else if(!verifyEmail(dataUser.Email)){
-    alert('el email es inválido');
-    return false;
-  } 
-  return true;
-}
 
 function requestAndLoadDataBack(dataUser){
   return {OK:true, campoInvalido:'name/email'};
@@ -40,7 +20,7 @@ function loadDataUser(dataRegisterUser){
   }
 }
 
-export function Registro(){
+export function Register(){
   const [dataUser, setDataUser] = useState(defaultDataUser);
   
   const dataUserChange = (formBarInfo) => {
