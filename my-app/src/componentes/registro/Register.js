@@ -1,21 +1,25 @@
 import {defaultDataUser, verifyDataUser} from './data/dataUser';
+import axios from 'axios';
 import React, {useState} from 'react';
 import './Register.css';
 
-function requestAndLoadDataBack(dataUser){
-  return {OK:true, campoInvalido:'name/email'};
+const baseURL = 'Cuentas/Crear';
+
+function CreateAccountForUser(dataUser){
+  const [accountCreationInfo, setAccountCreationInfo] = useState(null);
+  axios.post(baseURL, dataUser)
+  .then(
+    (dataLoadResponse) => setAccountCreationInfo(dataLoadResponse.data)
+  );
+
+  return accountCreationInfo;
 }
 
 function loadDataUser(dataRegisterUser){
-  console.log(dataRegisterUser);
   if(verifyDataUser(dataRegisterUser)){
-    /* 
-    Pasar datos al back. Si el back responde que todo salió bien, entonces se mandará 
-    el email de confirmación. Caso contrario, el back devolverá cuales datos dan error y se
-    pedirá al usuario que los ingrese nuevamente.
-   */
-    const response = requestAndLoadDataBack(dataRegisterUser);
-    if(response.OK) alert('Se envió el mail de confirmación');
+    const accountCreationInfo = CreateAccountForUser(dataRegisterUser);
+
+    if(accountCreationInfo.OK) alert('Se envió el mail de confirmación');
     else alert('tal dato no es correcto');
   }
 }
