@@ -8,7 +8,7 @@ function verifyPassword(password){
     const passwordHaveSpecialCharacters = /\W|_/.test(password);
     const passwordHaveUpperCaseAndLowerCase = /^(?=.*[A-Z])(?=.*[a-z])/.test(password);
 
-    return password.length >= 8 && !passwordHaveSpecialCharacters && passwordHaveUpperCaseAndLowerCase;
+    return password.length >= 8 && passwordHaveSpecialCharacters && passwordHaveUpperCaseAndLowerCase;
 }
 
 export function verifyDataUser(dataUser){

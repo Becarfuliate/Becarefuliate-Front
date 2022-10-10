@@ -1,6 +1,6 @@
 import {defaultDataUser, verifyDataUser} from './data/dataUser';
 import React, {useState} from 'react';
-import './Registro.css';
+import './Register.css';
 
 function requestAndLoadDataBack(dataUser){
   return {OK:true, campoInvalido:'name/email'};
