@@ -7,8 +7,14 @@
 // Tener la cuenta confirmada.
 
 import React, {useState, useRef} from 'react' 
+
+import serviceLogin from './serviceLogin';
 //instalo para validar si es un email
 import validator from 'validator';
+
+// function validarEmail (valor) {
+//     return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(valor));
+// }
 
 const Login = () => {
     const [userlogin, setUserlogin] = useState("");
@@ -24,20 +30,26 @@ const Login = () => {
         setPassword(e.target.value);
     };
 
+    const Loguearse = (is_login_email, userlogin, password) => {
+        serviceLogin(is_login_email, userlogin, password);
+    };
+
     const handleLogin = (e) => {
         e.preventDefault();
         if("" === userlogin || "" === password)
             alert("campos vacios, escriba algo")
         else {
-            // cheque si userlogin es un usename o un email viendo si tiene un @
-            if(validator.isEmail(userlogin))
+            if(validator.isEmail(userlogin)) {
+                console.log(userlogin);
+                Loguearse(true, userlogin, password);
                 console.log("email validator");
-            else
+            }
+            else {
+                console.log(userlogin);
+                Loguearse(false, userlogin, password);
                 console.log("username validator");
-            // Si pregunta si el email fue confirmado.
-            setCuentaActivada(true);
-            console.log(cuentaActivada);
-            alert('Submit ' + userlogin + " " + password);
+            }
+            setUserlogin("");
         }
     };
 
