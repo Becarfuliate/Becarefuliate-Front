@@ -1,35 +1,16 @@
-import {defaultDataUser, verifyDataUser} from './data/dataUser';
-import axios from 'axios';
+import {defaultDataUser} from './dataUser';
+import loadDataUser from './dataLoad.js';
 import React, {useState} from 'react';
 import './Register.css';
 
-const baseURL = 'Cuentas/Crear';
-
-function CreateAccountForUser(dataUser){
-  const [accountCreationInfo, setAccountCreationInfo] = useState(null);
-  axios.post(baseURL, dataUser)
-  .then(
-    (dataLoadResponse) => setAccountCreationInfo(dataLoadResponse.data)
-  );
-
-  return accountCreationInfo;
-}
-
-function loadDataUser(dataRegisterUser){
-  if(verifyDataUser(dataRegisterUser)){
-    const accountCreationInfo = CreateAccountForUser(dataRegisterUser);
-
-    if(accountCreationInfo.OK) alert('Se envió el mail de confirmación');
-    else alert('tal dato no es correcto');
-  }
-}
-
 export function Register(){
   const [dataUser, setDataUser] = useState(defaultDataUser);
-  
+
   const dataUserChange = (formBarInfo) => {
-    const {name,value} = formBarInfo.target;
-    setDataUser({ ...dataUser, [name]: value});
+    const dateUserMod = formBarInfo.target;
+    const {name,value} = dateUserMod;
+    if (name !== 'Photo') setDataUser({ ...dataUser, [name]: value});
+    else setDataUser({ ...dataUser, [name]: dateUserMod.files[0]});
   };
 
   return (
