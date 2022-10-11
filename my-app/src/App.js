@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
 import Partida from './components/Partida';
 
-class App extends Component {
-  render() {
+function App () {
     return (
     <Router>
         <div>
@@ -23,7 +22,6 @@ class App extends Component {
         </div>
       </Router>
     );
-  }
 }
 
 export default App;
