@@ -3,9 +3,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
 
 
-class App extends Component {
-  render() {
-    return (
+function App () {
+  return (
     <Router>
         <div>
           <h2>PyRobots</h2>
@@ -19,9 +18,9 @@ class App extends Component {
               <Route exact path='/' component={Home} />
           </Switch>
         </div>
-      </Router>
-    );
-  }
+  </Router>
+  );
 }
+
 
 export default App;
