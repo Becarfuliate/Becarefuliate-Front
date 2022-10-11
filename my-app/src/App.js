@@ -4,24 +4,24 @@ import Home from './components/Home';
 import Partida from './components/Partida';
 
 function App () {
-    return (
+  return (
     <Router>
-        <div>
-          <h2>PyRobots</h2>
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div>
+        <h2>PyRobots</h2>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <ul className="navbar-nav mr-auto">
-            <li><Link to={'/'} className="nav-link"> Home </Link></li>
+            <li><Link to={'/'} className="nav)-link"> Home </Link></li>
             <li><Link to={'/partidas'} className="nav-link">Partida</Link></li>
           </ul>
-          </nav>
-          <hr />
-          <Switch>
-              <Route exact path='/' component={Home} />
-              <Route path='/partidas' component={Partida} />
-          </Switch>
-        </div>
-      </Router>
-    );
+        </nav>
+        <hr />
+        <Switch>
+            <Route exact path='/' component={Home} />
+            <Route path='/partidas' component={Partida} />
+        </Switch>
+      </div>
+    </Router>
+  );
 }
 
 export default App;

@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 
-function Login () {
+
+/**
+ * 
+ * Usada para crear una partida con parámetros modificables
+ */
+function crearPartida () {
 
   const [state, setState] = useState ({      
     nombre: '',
@@ -40,7 +45,7 @@ function Login () {
 function Partida () {
     return (
         <div>
-          <Login/>
+          <crearPartida/>
         </div>
     );
 }
