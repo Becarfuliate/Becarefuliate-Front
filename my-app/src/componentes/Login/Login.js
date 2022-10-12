@@ -8,8 +8,8 @@
 
 import React, {useState, useRef} from 'react' 
 
-import serviceLogin from './serviceLogin';
-//instalo para validar si es un email
+import exportServiceLogin from './serviceLogin';
+//instalo para validar si es un email, npm install validator
 import validator from 'validator';
 
 // function validarEmail (valor) {
@@ -19,7 +19,7 @@ import validator from 'validator';
 const Login = () => {
     const [userlogin, setUserlogin] = useState("");
     const [password, setPassword] = useState("");
-    const [cuentaActivada, setCuentaActivada] = useState(false);
+    // const [cuentaActivada, setCuentaActivada] = useState(false);
 
     const onChangeUserlogin = (e) => {
         setUserlogin(e.target.value);
@@ -31,8 +31,11 @@ const Login = () => {
     };
 
     const Loguearse = (is_login_email, userlogin, password) => {
-        serviceLogin(is_login_email, userlogin, password);
+        exportServiceLogin.serviceLogIn(is_login_email, userlogin, password);
     };
+
+    // No hay chequeo de password pues suponemos el usuario
+    // escribira su password ingresado al registrarse y no otra cosa.
 
     const handleLogin = (e) => {
         e.preventDefault();

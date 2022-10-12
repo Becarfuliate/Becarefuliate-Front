@@ -20,3 +20,6 @@ yarn-error.log*
 
 # archivos
 package-lock.json
+
+# carpetas
+src/mocks/

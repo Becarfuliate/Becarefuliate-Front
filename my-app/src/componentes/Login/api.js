@@ -10,7 +10,7 @@ const authHeader = () => {
     }
 };
 
-// const URL = 'http://127.0.0.1:8000/py-robots/'; // aca seria la url del back
+const URL = 'http://127.0.0.1:8000/pyrobots'; // aca seria la url del back
 
 export default axios.create({
         baseURL: URL,

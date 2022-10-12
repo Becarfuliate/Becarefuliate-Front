@@ -11,9 +11,9 @@ const Envio = (is_login_email, userlogin, password) => {
             password: password
         }))
         .then((respuesta) => {
-            if(0 === respuesta.data.codigo) {
+            if(200 === respuesta.status) {
                 localStorage.setItem('user', JSON.stringify({
-                    userlogin: userlogin,
+                    email: email,
                     token: respuesta.data.token,
                 }))
             } else {
@@ -31,9 +31,9 @@ const Envio = (is_login_email, userlogin, password) => {
             password: password
         }))
         .then((respuesta) => {
-            if(0 === respuesta.data.codigo) {
+            if(200 === respuesta.status) {
                 localStorage.setItem('user', JSON.stringify({
-                    userlogin: userlogin,
+                    username: username,
                     token: respuesta.data.token,
                 }))
             } else {
@@ -55,4 +55,9 @@ const serviceLogOut = () => {
     localStorage.removeItem('user');
 };
 
-export default { serviceLogIn, serviceLogOut };
+const exportServiceLogin = {
+  serviceLogIn,
+  serviceLogOut
+}
+
+export default exportServiceLogin;
