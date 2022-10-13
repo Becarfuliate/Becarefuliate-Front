@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
+
+const baseURL = "http://localhost:8000/partida/agregar";
 
 /**
  *
@@ -7,10 +10,10 @@ import React, { useState } from "react";
 function CrearPartida() {
   const [state, setState] = useState({
     nombre: "",
-    max_players: "",
-    max_rondas: "",
-    max_juegos: "",
+    max_jugadores: "",
     contrasenia: "",
+    nro_juegos: "",
+    nro_rondas_juego: "",
   });
 
   const handleChange = (evt) => {
@@ -18,11 +21,20 @@ function CrearPartida() {
     // and use it to target the key on our `state` object with the same name, using bracket syntax
     setState({ ...state, [evt.target.name]: evt.target.value });
   };
+
   const handleSubmit = (event) => {
-    console.log("A name was submitted: " + state.nombre);
-    console.log("A max player was submitted: " + state.max_players);
-    console.log("A max round was submitted: " + state.max_rondas);
-    console.log("An ammount of games was submitted: " + state.max_juegos);
+    axios({
+      method: "POST",
+      url: baseURL,
+      data: {
+        nombre: state.nombre,
+        max_jugadores: state.max_jugadores,
+        min_jugadores: 0,
+        contrasenia: state.contrasenia,
+        nro_juegos: state.nro_juegos,
+        nro_rondas_juego: state.nro_rondas_juego,
+      },
+    });
     event.preventDefault();
   };
   const [lectura, setLectura] = useState(true);
@@ -39,16 +51,11 @@ function CrearPartida() {
       <label>Maximo de jugadores</label>
       <input
         type="number"
-        name="max_players"
+        name="max_jugadores"
         onChange={handleChange}
         required
       />
 
-      <label>Maximo de rondas</label>
-      <input type="number" name="max_rondas" onChange={handleChange} required />
-
-      <label>Cantidad de juegos</label>
-      <input type="number" name="max_juegos" onChange={handleChange} required />
       <label>Contraseña</label>
       <button type="button" onClick={changeState}>
         Click me!
@@ -58,6 +65,15 @@ function CrearPartida() {
         name="contrasenia"
         onChange={handleChange}
         readOnly={lectura}
+      />
+      <label>Cantidad de juegos</label>
+      <input type="number" name="nro_juegos" onChange={handleChange} required />
+      <label>Maximo de rondas</label>
+      <input
+        type="number"
+        name="nro_rondas_juego"
+        onChange={handleChange}
+        required
       />
       <input type="submit" name="Submit" />
     </form>
