@@ -19,19 +19,20 @@ import validator from 'validator';
 const Login = () => {
     const [userlogin, setUserlogin] = useState("");
     const [password, setPassword] = useState("");
+    const [usuarioAceptado, setUsuarioAceptado] = useState(false);
     // const [cuentaActivada, setCuentaActivada] = useState(false);
 
     const onChangeUserlogin = (e) => {
         setUserlogin(e.target.value);
     };
-    console.log("ingreso de datos: " + userlogin);
+    // console.log("ingreso de datos: " + userlogin);
 
     const onChangePassword = (e) => {
         setPassword(e.target.value);
     };
 
     const Loguearse = (is_login_email, userlogin, password) => {
-        exportServiceLogin.serviceLogIn(is_login_email, userlogin, password);
+        setUsuarioAceptado(exportServiceLogin.serviceLogIn(is_login_email, userlogin, password));
     };
 
     // No hay chequeo de password pues suponemos el usuario
@@ -43,7 +44,7 @@ const Login = () => {
             alert("campos vacios, escriba algo")
         else {
             if(validator.isEmail(userlogin)) {
-                console.log(userlogin);
+                // console.log(userlogin);
                 Loguearse(true, userlogin, password);
                 console.log("email validator");
             }
@@ -85,7 +86,13 @@ const Login = () => {
                 </label>
                 <input type="submit" value="Submit" />
             </form>
+            {usuarioAceptado && (
+                <div className='alert alert-success mt-4' role="alert">
+                    El usuario esta Logueado en PyRobots
+                </div>
+            )}
         </div>
+
     );
 };
 

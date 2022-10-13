@@ -7,8 +7,9 @@ const Envio = (is_login_email, userlogin, password) => {
     if(is_login_email) {
         email = userlogin;
         API.post('login', JSON.stringify({
-            email: email,
-            password: password
+            username: "",
+            password : password,
+            email : email
         }))
         .then((respuesta) => {
             if(200 === respuesta.status) {
@@ -16,19 +17,22 @@ const Envio = (is_login_email, userlogin, password) => {
                     email: email,
                     token: respuesta.data.token,
                 }))
+                return true; // si todo salio bien
             } else {
                 alert("Error al intentar logearte, respuesta: " + respuesta);
+                return false; // si todo salio bien
             }
             // return respuesta.data;
         })
         .catch((error) => {
-            alert("serviceLogIn error: " + error);
+            alert("email serviceLogIn ERROR: " + error);
         })
     } else {
         username = userlogin;
         API.post('login', JSON.stringify({
             username: username,
-            password: password
+            password : password,
+            email : ""
         }))
         .then((respuesta) => {
             if(200 === respuesta.status) {
@@ -36,13 +40,14 @@ const Envio = (is_login_email, userlogin, password) => {
                     username: username,
                     token: respuesta.data.token,
                 }))
+                return true; // si todo salio bien
             } else {
                 alert("Error al intentar logearte, respuesta: " + respuesta);
+                return false;
             }
-            // return respuesta.data;
         })
         .catch((error) => {
-            alert("serviceLogIn error: " + error);
+            alert("username serviceLogIn ERROR: " + error);
         })
     }
 };
