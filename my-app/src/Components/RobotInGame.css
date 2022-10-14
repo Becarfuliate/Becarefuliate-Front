@@ -1,0 +1,14 @@
+#RobotInGame {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    background-color: red;
+}
+
+#RobotInGame img {
+    width: 10px;
+    height: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
