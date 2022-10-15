@@ -4,7 +4,7 @@ const minBorder = 0;
 const maxBorder = 980;
 
 //The Robot has a size of 20x20px.
-function RobotInGame({id, image, x, y, name, num, health}) {
+function RobotInGame({id, image, x, y, name, num, health, motor, facing}) {
 
     // Check Borders
     if (x<minBorder) {
@@ -27,7 +27,7 @@ function RobotInGame({id, image, x, y, name, num, health}) {
     }
     
     const robothealth = {
-        width: `${2*health}px`
+        width: `${3.5*health}px`
     }
 
     const robotstats = {
@@ -42,10 +42,12 @@ function RobotInGame({id, image, x, y, name, num, health}) {
     </div>
     <div style={robotstats} id="RobotStats">
         <img src={image} alt=""></img>
-        <p className="name">Name: {name}</p>
-        <p className="healthtext">{health}%</p>
+        <b className="name">Name: {name}</b>
+        <b className="healthtext">{health}%</b>
         <div className="maxhealth"></div>
         <div style={robothealth} className="health"></div>
+        <b className="facing">Facing: {facing}°</b>
+        <b className="motor">Motor: {motor}%</b>
     </div>
     </div>
     );

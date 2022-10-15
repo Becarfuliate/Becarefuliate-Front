@@ -18,9 +18,10 @@
 }
 
 #RobotStats {
-    width: 500px;
-    height: 200px;
+    width: 450px;
+    height: 180px;
     position: absolute;
+    left: 100px;
     border: solid 5px black;
     background-color: lightgrey;
 }
@@ -34,33 +35,49 @@
 
 #RobotStats .name {
     position: absolute;
-    top: -2px;
-    left: 60px;
-    font-size: 20px;
+    top: 18px;
+    left: 65px;
+    font-size: 25px;
     word-spacing: 5px;
 }
 
 #RobotStats .maxhealth {
     position: absolute;
-    left: 10px;
-    top: 60px;
-    width: 200px;
-    height: 15px;
+    left: 15px;
+    top: 65px;
+    width: 350px;
+    height: 22px;
     background-color: red
 }
 
 #RobotStats .health {
     position: absolute;
-    left: 10px;
-    top: 60px;
-    width: 200px;
-    height: 15px;
+    left: 15px;
+    top: 65px;
+    width: 350px;
+    height: 22px;
     background-color: green
 }
 
 #RobotStats .healthtext {
     position: absolute;
-    left: 215px;
-    top: 36px;
-    font-size: 20px;
+    left: 380px;
+    top: 65px;
+    font-size: 25px;
+}
+
+#RobotStats .facing {
+    position: relative;
+    left: -20px;
+    top: 90px;
+    font-size: 25px;
+    word-spacing: 5px;
+}
+
+#RobotStats .motor {
+    position: relative;
+    left: 40px;
+    top: 90px;
+    font-size: 25px;
+    word-spacing: 5px;
 }
