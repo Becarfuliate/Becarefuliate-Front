@@ -11,5 +11,4 @@ html {
 #App {
   display: grid;
   place-content: center;
-  border: solid 12px black;
 }
