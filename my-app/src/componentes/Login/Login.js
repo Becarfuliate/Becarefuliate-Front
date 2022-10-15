@@ -16,7 +16,7 @@ import validator from 'validator';
 //     return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(valor));
 // }
 
-const Login = () => {
+const UserLogin = () => {
     const [userlogin, setUserlogin] = useState("");
     const [password, setPassword] = useState("");
     const [usuarioAceptado, setUsuarioAceptado] = useState(false);
@@ -95,5 +95,13 @@ const Login = () => {
 
     );
 };
+
+const Login = () => {
+    return (
+        <div>
+            <UserLogin />
+        </div>
+    );
+}
 
 export default Login
