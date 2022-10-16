@@ -1,31 +1,19 @@
-// El usuario para loguearse necesita:
-
-// Contraseña con más de 8 caracteres (contando mayúsculas y minúsculas).
-
-// Nombre o email para identificar la cuenta.
-
-// Tener la cuenta confirmada.
-
+import './Login.css'
 import React, {useState, useRef} from 'react' 
-
+import avatarRobot from "../../img/avatar-robot-defect.png"
 import exportServiceLogin from './serviceLogin';
-//instalo para validar si es un email, npm install validator
 import validator from 'validator';
-
-// function validarEmail (valor) {
-//     return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(valor));
-// }
 
 const UserLogin = () => {
     const [userlogin, setUserlogin] = useState("");
     const [password, setPassword] = useState("");
     const [usuarioAceptado, setUsuarioAceptado] = useState(false);
+    const [avatar, setAvatar] = useState(avatarRobot);
     // const [cuentaActivada, setCuentaActivada] = useState(false);
 
     const onChangeUserlogin = (e) => {
         setUserlogin(e.target.value);
     };
-    // console.log("ingreso de datos: " + userlogin);
 
     const onChangePassword = (e) => {
         setPassword(e.target.value);
@@ -44,14 +32,10 @@ const UserLogin = () => {
             alert("campos vacios, escriba algo")
         else {
             if(validator.isEmail(userlogin)) {
-                // console.log(userlogin);
                 Loguearse(true, userlogin, password);
-                console.log("email validator");
             }
             else {
-                console.log(userlogin);
                 Loguearse(false, userlogin, password);
-                console.log("username validator");
             }
             setUserlogin("");
             setPassword("");
@@ -60,37 +44,60 @@ const UserLogin = () => {
 
     return (
         <div className='Login-screen'>
-            <div className='Login-title'>
-                Sing In
-            </div>
-            <form onSubmit={handleLogin}>
-                <label>
-                    userlogin:
-                    <input
-                        type="text"
-                        placeholder='ingrese su email o username'
-                        value={userlogin}
-                        onChange={onChangeUserlogin}
-                    >
-                    </input>
-                </label>
-                <label>
-                    password:
-                    <input
-                        type="text"
-                        placeholder='ingrese su password'
-                        value={password}
-                        onChange={onChangePassword}
-                    >
-                    </input>
-                </label>
-                <input type="submit" value="Submit" />
-            </form>
-            {usuarioAceptado && (
-                <div className='alert alert-success mt-4' role="alert">
-                    El usuario esta Logueado en PyRobots
+            <div className='sub-Login-screen'>
+                <div>
+
+                    <div className="imgs">
+                        <div className="container-image-robot">
+                            <img src={avatar} alt="avatar-robot" className="avatar-robot"/>
+                        </div>
+                    </div>
+
+
+                    <div className='Login-title'>
+                        Sing In
+                    </div>
+
+                    <form className='Login-form' onSubmit={handleLogin}>
+                        <label className='label-user'>
+                            userlogin:
+                        </label>
+                        <div>
+                            <input
+                                className='input-label-user'
+                                type="text"
+                                placeholder='ingrese su email o username'
+                                value={userlogin}
+                                onChange={onChangeUserlogin}
+                            >
+                            </input>
+                        </div>
+                        <label className='label-user'>
+                            password:
+                        </label>
+                        <div>
+                            <input
+                                className='input-label-user'
+                                type="password"
+                                placeholder='ingrese su password'
+                                value={password}
+                                onChange={onChangePassword}
+                            >
+                            </input>
+                        </div>
+                        <div className='login-submit'>
+                            <input className='input-submit' type="submit" value="Submit" />
+                        </div>
+                    </form>
+
+                    {usuarioAceptado && (
+                        <div className='alert alert-success mt-4' role="alert">
+                            El usuario esta Logueado en PyRobots
+                        </div>
+                    )}
+
                 </div>
-            )}
+            </div>
         </div>
 
     );
