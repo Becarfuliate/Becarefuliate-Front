@@ -55,7 +55,7 @@ const UserLogin = () => {
 
 
                     <div className='Login-title'>
-                        Sing In
+                        Sign In
                     </div>
 
                     <form className='Login-form' onSubmit={handleLogin}>
@@ -81,6 +81,11 @@ const UserLogin = () => {
                         </div>
                         <div className='login-submit'>
                             <input className='input-submit' type="submit" value="Submit" />
+                        </div>
+                        <div>
+                            <p className='link-singUp'>
+                                <a href="#">Sign Up</a>
+                            </p>
                         </div>
                     </form>
 
