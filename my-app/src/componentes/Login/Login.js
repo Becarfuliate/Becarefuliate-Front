@@ -59,27 +59,21 @@ const UserLogin = () => {
                     </div>
 
                     <form className='Login-form' onSubmit={handleLogin}>
-                        <label className='label-user'>
-                            userlogin:
-                        </label>
                         <div>
                             <input
                                 className='input-label-user'
                                 type="text"
-                                placeholder='ingrese su email o username'
+                                placeholder='Email o Username'
                                 value={userlogin}
                                 onChange={onChangeUserlogin}
                             >
                             </input>
                         </div>
-                        <label className='label-user'>
-                            password:
-                        </label>
                         <div>
                             <input
                                 className='input-label-user'
                                 type="password"
-                                placeholder='ingrese su password'
+                                placeholder='Password'
                                 value={password}
                                 onChange={onChangePassword}
                             >
