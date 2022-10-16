@@ -4,7 +4,7 @@ const minBorder = 0;
 const maxBorder = 980;
 
 //The Robot has a size of 20x20px.
-function RobotInGame({id, image, x, y, name, num, health, motor, facing}) {
+function RobotInGame({image, x, y, name, num, health, motor, facing}) {
 
     // Check Borders
     if (x<minBorder) {
