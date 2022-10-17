@@ -1,5 +1,5 @@
 import API from './api'
-import React from 'react';
+import React, {useState} from 'react' 
 
 const dataLogin = (is_login_email ,userlogin, password) => {
     let email = "";
@@ -21,48 +21,33 @@ const dataLogin = (is_login_email ,userlogin, password) => {
     }
 };
 
-const serviceLogIn = (is_login_email, userlogin, password) => {
+// respuesta corresponde a la data enviada desde el backEnd
+// userlogin sera email o username dependiendo con cual se logueo el usuario
+const manejoRespuesta = (code, respuesta, userlogin) => {
     let Logueado = false;
-    if(is_login_email) {
-        API.post('login', dataLogin(is_login_email, userlogin, password))
-        .then((respuesta) => {
-            if(200 === respuesta.status) {
-                localStorage.setItem('user', JSON.stringify({
-                    userlogin: userlogin,
-                    token: respuesta.data.token,
-                }))
-                console.log("ingreso: ", Logueado);
-                Logueado = true; // si todo salio bien
-                console.log("salio: ", Logueado);
-            } else {
-                alert("Error al intentar logearte, respuesta: " + respuesta);
-                Logueado = false; // si todo salio bien
-            }
-            // return respuesta.data;
-        })
-        .catch((error) => {
-            alert("email serviceLogIn ERROR: " + error);
-        })
-        return Logueado;
-    } else {
-        API.post('login', dataLogin(is_login_email, userlogin, password))
-        .then((respuesta) => {
-            if(200 === respuesta.status) {
-                localStorage.setItem('user', JSON.stringify({
-                    userlogin: userlogin,
-                    token: respuesta.data.token,
-                }))
-                Logueado = true; // si todo salio bien
-            } else {
-                alert("Error al intentar logearte, respuesta: " + respuesta);
-                Logueado = false;
-            }
-        })
-        .catch((error) => {
-            alert("username serviceLogIn ERROR: " + error);
-        })
-        return Logueado;
+    switch (code) {
+        case 200:
+            localStorage.setItem('user', JSON.stringify({
+                userlogin: userlogin,
+                token: respuesta.token,
+            }));
+            Logueado = true;
+            break;
+        case 400:
+            alert(respuesta.detail);
+            break;
+        default:
+            alert("Error No Contemplado, " + respuesta)
+            break;
     }
+    return Logueado;
+}
+
+const serviceLogIn = async (is_login_email, userlogin, password) => {
+    return await API.post('login', dataLogin(is_login_email, userlogin, password))
+    .then(respuesta => manejoRespuesta(respuesta.status, respuesta.data, userlogin))
+    .catch((error) => manejoRespuesta(error.response.status, error.response.data, userlogin))
+    .then(Logueado => Logueado)
 };
 
 const serviceLogOut = () => {

@@ -21,8 +21,8 @@ const UserLogin = () => {
     };
 
     const Loguearse = (is_login_email, userlogin, password) => {
-        console.log("Login el usario es aceptado: ");
-        console.log(exportServiceLogin.serviceLogIn(is_login_email, userlogin, password));
+        exportServiceLogin.serviceLogIn(is_login_email, userlogin, password)
+        .then(respuesta => setUsuarioAceptado(respuesta));
     };
 
     // No hay chequeo de password pues suponemos el usuario
@@ -93,7 +93,7 @@ const UserLogin = () => {
 
                     {usuarioAceptado && (
                         <div className='alert alert-success mt-4' role="alert">
-                            El usuario esta Logueado en PyRobots
+                            Bienvenido a Pyrobots !
                         </div>
                     )}
 
