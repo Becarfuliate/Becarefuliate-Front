@@ -13,14 +13,21 @@ function verifyPassword(password){
         !passwordHaveSpace;
 }
 
+function verifyName(name){
+  const nameIsEmpty = name === "";
+  const nameHaveSpace = /\s/.test(name);
+
+  return !nameIsEmpty & !nameHaveSpace;
+}
+
 export function verifyDataUser(dataUser){
-  if (dataUser.Name === ""){
+  if (!verifyName(dataUser.username)){
     alert('Falta el nombre');
     return false;
-  } else if(!verifyPassword(dataUser.Password)){
+  } else if(!verifyPassword(dataUser.password)){
     alert('La contraseña es inválida');
     return false;
-  } else if(!verifyEmail(dataUser.Email)){
+  } else if(!verifyEmail(dataUser.email)){
     alert('el email es inválido');
     return false;
   } 
@@ -28,8 +35,8 @@ export function verifyDataUser(dataUser){
 }
 
 export const defaultDataUser = {
-    Name: "",
-    Password: "",
-    Email: "",
-    Photo: {}
+    "username": "",
+    "password": "",
+    "avatar": "",
+    "email": ""
 };
