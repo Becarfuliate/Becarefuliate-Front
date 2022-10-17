@@ -1,8 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Home from "./components/Home";
-import Partida from "./components/Partida";
+import Home from "./componentes/Home";
+import Partida from "./componentes/Partida/Partida";
 import Login from "./componentes/Login/Login";
+import Registro from "./componentes/registro/Register";
+import Simulacion from "./componentes/Simulacion/Simulacion";
 
 function App() {
   return (
@@ -27,6 +29,16 @@ function App() {
                 Login
               </Link>
             </li>
+            <li>
+              <Link to={"/users/registro"} className="nav-link">
+                Registro
+              </Link>
+            </li>
+            <li>
+              <Link to={"/partida/simulacion"} className="nav-link">
+                Simulacion
+              </Link>
+            </li>
           </ul>
         </nav>
         <hr />
@@ -34,6 +46,8 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route path="/partida/agregar" component={Partida} />
           <Route path="/users/login" component={Login} />
+          <Route path="/users/registro" component={Registro} />
+          <Route path="/partida/simulacion" component={Simulacion} />
         </Switch>
       </div>
     </Router>

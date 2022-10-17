@@ -84,7 +84,7 @@ const UserLogin = () => {
                         </div>
                         <div>
                             <p className='link-singUp'>
-                                <a href="#">Sign Up</a>
+                                <a href="/users/registro">Sign Up</a>
                             </p>
                         </div>
                     </form>
