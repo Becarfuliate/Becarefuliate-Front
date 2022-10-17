@@ -18,6 +18,7 @@ function Register(){
   const dataUserChange = (formBarInfo) => {
     const dateUserMod = formBarInfo.target;
     const {name,value} = dateUserMod;
+    
     if (name !== "avatar") setDataUser({ ...dataUser, [name]: value});
     else loadImg64(dateUserMod.files[0], setDataUser, dataUser);
   };
@@ -39,6 +40,7 @@ function Register(){
         onChange= {dataUserChange}/>
 
         <button type= "submit">Registrar</button>
+        <p class="message">Already registered? <a href="/users/login">Sign In</a></p>
       </form>
     </div>
   </div>);
