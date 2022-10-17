@@ -1,23 +1,49 @@
 import "./RobotInGame.css";
 
-const minBorder = 0;
+const min = 0;
+const max = 100;
 const maxBorder = 980;
+const maxFacing = 360;
 
 //The Robot has a size of 20x20px.
 function RobotInGame({image, x, y, name, num, health, motor, facing}) {
 
     // Check Borders
-    if (x<minBorder) {
-        x = minBorder;
+    if (x<min) {
+        x = min;
     }
-    if (y < minBorder) {
-        y = minBorder;
+    if (y < min) {
+        y = min;
     }
     if (x>maxBorder) {
         x = maxBorder;
     }
     if (y>maxBorder) {
         y = maxBorder;
+    }
+
+    // Check Health Limit
+    if (health > max) {
+        health = max;
+    }
+    if (health < min) {
+        health = min;
+    }
+    
+    // Check Motor Limit
+    if (motor > max) {
+        motor = max;
+    }
+    if (motor < min) {
+        motor = min;
+    }
+
+    // Check Facing Limit
+    if (facing > maxFacing) {
+        facing = maxFacing;
+    }
+    if (facing < min) {
+        facing = min;
     }
 
     //Apply Coordinates
