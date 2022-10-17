@@ -1,0 +1,12 @@
+#Board {
+    position: relative;
+    transform: translate(0%, 0%);
+    width: 1000px;
+    height: 1000px;
+    border: solid 5px black;
+    background-color: burlywood;
+}
+
+#Board li {
+    display: inline;
+}
