@@ -10,5 +10,8 @@ test('Board', () => {
     
     const component = render(<Board pieces={pieces}/>);
     const element = component.getByText('test-bot');
-    //expect(component.container).toHaveTextContent('test-bot');
+    
+    const board = document.getElementById("Board");
+    const boardstyle = getComputedStyle(board);
+    //console.log(boardstyle)
 })
