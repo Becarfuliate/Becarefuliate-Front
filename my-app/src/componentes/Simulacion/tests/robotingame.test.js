@@ -3,7 +3,7 @@ import RobotInGame from '../RobotInGame'
 
 test('RobotInGame', () => {
     
-    // Error numbers x, y, health.
+    // Error numbers in: x, y, health.
     const element = {
         id: 0, image: "https://opengameart.org/sites/default/files/styles/medium/public/robot-preview.png",
             x: -10, y: -10, name: 'test-bot', health: 120, facing: 0, motor: 0, i: 0
