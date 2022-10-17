@@ -7,9 +7,10 @@ import validator from 'validator';
 const UserLogin = () => {
     const [userlogin, setUserlogin] = useState("");
     const [password, setPassword] = useState("");
+    // Si el usuarioAceptado es verdadero =>
+    // Que esta logueado  => Que confirmo por email ser un jugador de Pyrobots
     const [usuarioAceptado, setUsuarioAceptado] = useState(false);
     const [avatar, setAvatar] = useState(avatarRobot);
-    // const [cuentaActivada, setCuentaActivada] = useState(false);
 
     const onChangeUserlogin = (e) => {
         setUserlogin(e.target.value);
@@ -20,7 +21,8 @@ const UserLogin = () => {
     };
 
     const Loguearse = (is_login_email, userlogin, password) => {
-        setUsuarioAceptado(exportServiceLogin.serviceLogIn(is_login_email, userlogin, password));
+        console.log("Login el usario es aceptado: ");
+        console.log(exportServiceLogin.serviceLogIn(is_login_email, userlogin, password));
     };
 
     // No hay chequeo de password pues suponemos el usuario
@@ -29,7 +31,7 @@ const UserLogin = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         if("" === userlogin || "" === password)
-            alert("campos vacios, escriba algo")
+            alert("algunos campos estan vacios, escriba algo")
         else {
             if(validator.isEmail(userlogin)) {
                 Loguearse(true, userlogin, password);

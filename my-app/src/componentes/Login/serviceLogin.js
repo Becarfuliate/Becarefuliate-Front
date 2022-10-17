@@ -1,59 +1,68 @@
 import API from './api'
 import React from 'react';
 
-let email = "";
-let username = "";
-const Envio = (is_login_email, userlogin, password) => {
+const dataLogin = (is_login_email ,userlogin, password) => {
+    let email = "";
+    let username = "";
     if(is_login_email) {
         email = userlogin;
-        API.post('login', JSON.stringify({
+        return {
             username: "",
             password : password,
             email : email
-        }))
+        };
+    } else {
+        username = userlogin
+        return {
+            username: username,
+            password : password,
+            email : ""
+        };
+    }
+};
+
+const serviceLogIn = (is_login_email, userlogin, password) => {
+    let Logueado = false;
+    if(is_login_email) {
+        API.post('login', dataLogin(is_login_email, userlogin, password))
         .then((respuesta) => {
             if(200 === respuesta.status) {
                 localStorage.setItem('user', JSON.stringify({
-                    email: email,
+                    userlogin: userlogin,
                     token: respuesta.data.token,
                 }))
-                return true; // si todo salio bien
+                console.log("ingreso: ", Logueado);
+                Logueado = true; // si todo salio bien
+                console.log("salio: ", Logueado);
             } else {
                 alert("Error al intentar logearte, respuesta: " + respuesta);
-                return false; // si todo salio bien
+                Logueado = false; // si todo salio bien
             }
             // return respuesta.data;
         })
         .catch((error) => {
             alert("email serviceLogIn ERROR: " + error);
         })
+        return Logueado;
     } else {
-        username = userlogin;
-        API.post('login', JSON.stringify({
-            username: username,
-            password : password,
-            email : ""
-        }))
+        API.post('login', dataLogin(is_login_email, userlogin, password))
         .then((respuesta) => {
             if(200 === respuesta.status) {
                 localStorage.setItem('user', JSON.stringify({
-                    username: username,
+                    userlogin: userlogin,
                     token: respuesta.data.token,
                 }))
-                return true; // si todo salio bien
+                Logueado = true; // si todo salio bien
             } else {
                 alert("Error al intentar logearte, respuesta: " + respuesta);
-                return false;
+                Logueado = false;
             }
         })
         .catch((error) => {
             alert("username serviceLogIn ERROR: " + error);
         })
+        return Logueado;
     }
-};
-
-const serviceLogIn = (is_login_email, userlogin, password) => {
-    return Envio(is_login_email, userlogin, password);
 };
 
 const serviceLogOut = () => {
