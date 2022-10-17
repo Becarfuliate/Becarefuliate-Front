@@ -1,0 +1,66 @@
+#RobotInGame {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    background-color: red;
+}
+
+#RobotInGame img {
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
+#RobotInGame .name {
+    position: absolute;
+    top: 4px;
+    font-size: 15px;
+}
+
+#RobotStats {
+    width: 500px;
+    height: 150px;
+    position: absolute;
+    border: solid 5px black;
+    background-color: lightgrey;
+}
+
+#RobotStats img {
+    width: 50px;
+    height: 50px;
+    border: solid 1px black;
+    background-color: white;
+}
+
+#RobotStats .name {
+    position: absolute;
+    top: -2px;
+    left: 60px;
+    font-size: 20px;
+    word-spacing: 5px;
+}
+
+#RobotStats .maxhealth {
+    position: absolute;
+    left: 10px;
+    top: 60px;
+    width: 200px;
+    height: 15px;
+    background-color: red
+}
+
+#RobotStats .health {
+    position: absolute;
+    left: 10px;
+    top: 60px;
+    width: 200px;
+    height: 15px;
+    background-color: green
+}
+
+#RobotStats .healthtext {
+    position: absolute;
+    left: 215px;
+    top: 36px;
+    font-size: 20px;
+}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .App {
   text-align: center;
 }
@@ -41,3 +42,19 @@ li {
   }
 }
 
+=======
+html {
+  background-color: gray;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#App {
+  display: grid;
+  place-content: center;
+}
+>>>>>>> a0f226e97b196a4fec9e502a1578fee1e8db7168
