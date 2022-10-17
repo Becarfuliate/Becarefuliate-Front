@@ -6,10 +6,14 @@ function loadDataUser(dataRegisterUser){
 
   if(verifyDataUser(dataRegisterUser)){
     axios.post(baseURL, dataRegisterUser)
-    .then( () =>  alert('Se envió el mail de confirmación'))
+    .then( () =>  {
+      alert('Se envió el mail de confirmación');
+      window.location.reload();
+    })
     .catch( (error) => {
       if (error.response.status === 409) alert(error.response.data.detail);
       else alert(error.response.status);
+      window.location.reload();
     });
   }
 }
