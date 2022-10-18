@@ -1,14 +1,17 @@
-import React from 'react';
 import './MailConfirmed.css';
-import logo from './mailAccepted.PNG';
-import { useCookies} from 'react-cookie';
 
-export function MailConfirmed(){
-    const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
-
-    return (
-        <div>
-        </div>
-      );
-
+function MailConfirmed(){
+  return (
+    <div className="login-page">
+    <div className="form">
+      <form className="register-form">
+        <img src='./mailAccepted.PNG' alt="img" />
+        <p>Cuenta confirmada</p>
+      </form>
+    </div>
+  </div>
+    );
 }
+
+export default MailConfirmed;
+
