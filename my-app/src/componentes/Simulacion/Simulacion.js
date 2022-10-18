@@ -1,26 +1,26 @@
-import Board from './Board';
+import Tablero from './Tablero';
 
-function Simulation() {
-  const boardSize = 980;
+function Simulacion() {
+  const tamañoTablero = 980;
 
-  // Values to Generate Random Positions:
-  const valuex = Math.floor(Math.random() * boardSize);
-  const valuey = Math.floor(Math.random() * boardSize);
+  // Valores para generar posiciones aleatorias:
+  const valorex = Math.floor(Math.random() * tamañoTablero);
+  const valorey = Math.floor(Math.random() * tamañoTablero);
   
-  const pieces = [];
+  const piezas = [];
 
-  // Robot ID - IMG - Coordinates x;y - Name
-  pieces.push({id: 12, image: "https://upload.wikimedia.org/wikipedia/commons/8/81/Chess_bdt60.png", x: 100, y: 800,name: 'joe', health: 45, facing: 360, motor: 0});
-  pieces.push({id: 42, image: "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png", x: 100, y: 700, name: 'steve', health: 70, facing: 280, motor: 0});
-  pieces.push({id: 78, image: "https://toppng.com/uploads/preview/8-bit-mario-8-bit-luigi-pixel-115633511986zud7ifcqi.png", x: 700, y: 600, name: 'mario', health: 96, facing: 45, motor: 0});
-  pieces.push({id: 69, image: "https://opengameart.org/sites/default/files/styles/medium/public/robot-preview.png", x: valuex, y: valuey, name: 'lichi-bot', health: 101, facing: 90, motor: 0});
+  // Robot ID - IMG - Coordendas x;y - nombre
+  piezas.push({id: 12, imagen: "https://upload.wikimedia.org/wikipedia/commons/8/81/Chess_bdt60.png", x: 100, y: 800, nombre: 'joe', vida: 45, mira: 360, motor: 0});
+  piezas.push({id: 42, imagen: "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png", x: 100, y: 700, nombre: 'steve', vida: 70, mira: 280, motor: 0});
+  piezas.push({id: 78, imagen: "https://toppng.com/uploads/preview/8-bit-mario-8-bit-luigi-pixel-115633511986zud7ifcqi.png", x: 700, y: 600, nombre: 'mario', vida: 96, mira: 45, motor: 0});
+  piezas.push({id: 69, imagen: "https://opengameart.org/sites/default/files/styles/medium/public/robot-preview.png", x: valorex, y: valorey, nombre: 'lichi-bot', vida: 100, mira: 90, motor: 0});
 
   return (
-    <div id="Simulation">
-      <Board pieces={pieces}/>
+    <div id="Simulacion">
+      <Tablero piezas={piezas}/>
     </div>
   );
 }
 
-export default Simulation;
+export default Simulacion;
 
