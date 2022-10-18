@@ -22,6 +22,8 @@ function CrearPartida() {
   };
 
   const handleSubmit = (event) => {
+    let user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
     const postData = {
       name: state.name,
       max_players: state.max_players,
@@ -29,6 +31,8 @@ function CrearPartida() {
       password: state.password,
       n_matchs: state.n_matchs,
       n_rounds_matchs: state.n_rounds_match,
+      user_creator: user.userlogin,
+      token: user.token,
     };
     partidas.servicioPartida(postData);
     event.preventDefault();
