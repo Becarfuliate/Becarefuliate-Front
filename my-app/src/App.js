@@ -20,8 +20,8 @@ function App() {
               </Link>
             </li>
             <li>
-              <Link to={"/ match/add"} className="nav-link">
-                Partida
+              <Link to={"/users/registro"} className="nav-link">
+                Registro
               </Link>
             </li>
             <li>
@@ -30,8 +30,8 @@ function App() {
               </Link>
             </li>
             <li>
-              <Link to={"/users/registro"} className="nav-link">
-                Registro
+              <Link to={"/ match/add"} className="nav-link">
+                Partida
               </Link>
             </li>
             <li>
@@ -44,9 +44,9 @@ function App() {
         <hr />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/ match/add" component={Partida} />
           <Route path="/users/login" component={Login} />
           <Route path="/users/registro" component={Registro} />
+          <Route path="/ match/add" component={Partida} />
           <Route path="/partida/simulacion" component={Simulacion} />
         </Switch>
       </div>
