@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./componentes/Home";
 import Partida from "./componentes/Partida/Partida";
 import Login from "./componentes/Login/Login";
-import Registro from "./componentes/registro/Register";
+import Registro from "./componentes/Registro/Register";
 import Simulacion from "./componentes/Simulacion/Simulacion";
 
 function App() {
