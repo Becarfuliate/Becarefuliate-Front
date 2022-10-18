@@ -22,10 +22,15 @@ function Register(){
     else loadImg64(dateUserMod.files[0], setDataUser, dataUser);
   };
 
+  const controllerRefresh = (event) => {
+    event.preventDefault();
+    loadDataUser(dataUser);
+  }
+
   return (
   <div className="login-page">
     <div className="form">
-      <form className="register-form" onSubmit={() => loadDataUser(dataUser)}>
+      <form className="register-form" onSubmit={controllerRefresh}>
         <input type="text" placeholder="Nombre" name= "username"
         onChange= {dataUserChange} required/>
 
@@ -39,10 +44,11 @@ function Register(){
         onChange= {dataUserChange}/>
 
         <button type= "submit">Registrar</button>
+        <p className='link-singUp'><a href="/users/login">Sign In</a></p>
       </form>
     </div>
   </div>);
 }
 
 
-export default Register
+export default Register;
