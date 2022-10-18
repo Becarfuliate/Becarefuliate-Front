@@ -1,17 +1,17 @@
-#RobotInGame {
+#RobotEnJuego {
     width: 20px;
     height: 20px;
     position: absolute;
     background-color: red;
 }
 
-#RobotInGame img {
+#RobotEnJuego img {
     display: block;
     width: 20px;
     height: 20px;
 }
 
-#RobotInGame .name {
+#RobotEnJuego .nombre {
     position: absolute;
     top: 4px;
     font-size: 15px;
@@ -33,7 +33,7 @@
     background-color: white;
 }
 
-#RobotStats .name {
+#RobotStats .nombre {
     position: absolute;
     top: 18px;
     left: 65px;
@@ -41,7 +41,7 @@
     word-spacing: 5px;
 }
 
-#RobotStats .maxhealth {
+#RobotStats .maxvida {
     position: absolute;
     left: 15px;
     top: 65px;
@@ -50,7 +50,7 @@
     background-color: red
 }
 
-#RobotStats .health {
+#RobotStats .vida {
     position: absolute;
     left: 15px;
     top: 65px;
@@ -59,14 +59,14 @@
     background-color: green
 }
 
-#RobotStats .healthtext {
+#RobotStats .vidatext {
     position: absolute;
     left: 380px;
     top: 65px;
     font-size: 25px;
 }
 
-#RobotStats .facing {
+#RobotStats .mira {
     position: relative;
     left: -20px;
     top: 90px;
