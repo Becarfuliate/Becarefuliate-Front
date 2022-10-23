@@ -1,5 +1,4 @@
 import API from './api'
-import React, {useState} from 'react' 
 
 const dataLogin = (is_login_email ,userlogin, password) => {
     let email = "";
