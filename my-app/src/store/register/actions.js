@@ -6,7 +6,6 @@ const sendDataUser = () => {
 };
 
 const modifyDataName = (name) => {
-    console.log("Entro");
     return {
         type: "MODIFY_DATA_NAME",
         data: name

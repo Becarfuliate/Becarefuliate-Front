@@ -16,7 +16,7 @@ function Register({sendDataUser, modifyDataName, modifyDataPassword, modifyDataE
         <input type="email" placeholder="Correo electrónico"  name= "email" 
         onChange= {(e) => modifyDataEmail(e.target.value)} required/>
 
-        <input type="button" onClick={() => sendDataUser()} value= 'Registrar' />
+        <input type="button" onClick={() => sendDataUser()} value= 'Registrar' name= 'Register'/>
         <p className='link-singUp'><a href="/users/login">Sign In</a></p>
       </form>
     </div>
