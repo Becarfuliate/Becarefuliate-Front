@@ -34,10 +34,11 @@ test('probando mock de axios', () => {
     // get.mockReturnValueOnce, en el momento que ejecute get como funcion yo
     // puedo indicar que quiero que retorne
     // Ojo: Debo respetar la estructura de la respuesta enviada
-     axios.get.mockReturnValueOnce({
-        data: [{
-            token: "1234"
-        }]
-     })
-     screen.debug()
+    const response = {
+        data: [ 
+          { token:"iamatoken" },
+        ]
+    };
+    console.log(axios.post.mockReturnValueOnce(response))
+    screen.debug();
 })
