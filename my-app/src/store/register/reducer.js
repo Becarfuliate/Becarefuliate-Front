@@ -3,7 +3,6 @@ import loadDataUser from './dataLoad';
 const defaultDataUser = {
     "username": "",
     "password": "",
-    "avatar": "",
     "email": ""
 };
 
