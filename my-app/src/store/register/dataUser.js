@@ -22,12 +22,6 @@ function verifyName(name){
   return !nameIsEmpty & !nameHaveSpace;
 }
 
-function verifyAvatar(avatar){
-  const avatarContLessThan50Characters = avatar.length <= 50000;
-  
-  return avatarContLessThan50Characters;
-}
-
 export function verifyDataUser(dataUser){
   if (!verifyName(dataUser.username)){
     alert('El nombre no puede estar vacío o contener espacios');
@@ -37,9 +31,6 @@ export function verifyDataUser(dataUser){
     return false;
   } else if(!verifyEmail(dataUser.email)){
     alert('el email es inválido');
-    return false;
-  } else if(!verifyAvatar(dataUser.avatar)){
-    alert('La imagen es muy grande');
     return false;
   }
   return true;
