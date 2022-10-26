@@ -1,4 +1,4 @@
-.Login-screen {
+#Login-screen {
     text-align: center;
     justify-content: center;
     display: flex; 
@@ -7,7 +7,7 @@
     background-color: #e1e3eb;
 }
 
-.sub-Login-screen {
+#sub-Login-screen {
     display: flex;
     justify-content: center;
     height: 550px;
@@ -18,13 +18,13 @@
     background-color: white;
 }
 
-.imgs {
+#imgs {
     padding-top: 20px;
     justify-content: center;
     display: flex;
 }
 
-.container-image-robot {
+#container-image-robot {
     background-color: rgb(223, 221, 221); 
     border-radius: 150px;
     align-items: center;
@@ -34,20 +34,20 @@
     width: 115px;
 }
 
-.avatar-robot {
+#avatar-robot {
     height: 100px;
     width: 100px;
     border-radius: 130px;
 }
 
-.Login-title {
+#Login-title {
     margin-top: 25px;
     margin-bottom: 25px;
     font-size: 30px;
     color:rgb(0, 60, 255);
 }
 
-input {
+input .input-label-user {
     width: 300px;
     height: 50px;
     border-radius: 60px;
@@ -56,33 +56,25 @@ input {
     outline: none;
     background-color: #fff;
     text-align: center;
-}
-
-.label-user {
-    height: 25px;
-    width: 25px;
-}
-
-.input-label-user {
     font-size: 20px;
 }
 
-.login-submit {
+#login-submit {
     padding-top: 25px;
 }
 
-.input-submit {
+#login-submit .input-submit {
     font-size: 20px;
     color: rgb(255, 0, 106);
     background-color: rgb(243, 190, 190);
 }
 
-.link-singUp {
+#link-singUp {
     margin-top: 70px;
     font-size: 25px;
     font-weight: 400;
 }
 
-a {
+#link-singUp > a {
     color: rgb(0, 140, 255);
 }
