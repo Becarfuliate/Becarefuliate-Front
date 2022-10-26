@@ -1,5 +1,5 @@
 import './Login.css'
-import React, {useState, useRef} from 'react' 
+import React, {useState } from 'react' 
 import avatarRobot from "../../img/avatar-robot-defect.png"
 import exportServiceLogin from './serviceLogin';
 import validator from 'validator';
@@ -45,22 +45,22 @@ const UserLogin = () => {
     };
 
     return (
-        <div className='Login-screen'>
-            <div className='sub-Login-screen'>
+        <div id='Login-screen'>
+            <div id='sub-Login-screen'>
                 <div>
 
-                    <div className="imgs">
-                        <div className="container-image-robot">
-                            <img src={avatar} alt="avatar-robot" className="avatar-robot"/>
+                    <div id="imgs">
+                        <div id="container-image-robot">
+                            <img src={avatar} alt="avatar-robot" id="avatar-robot"/>
                         </div>
                     </div>
 
 
-                    <div className='Login-title'>
+                    <div id='Login-title'>
                         Sign In
                     </div>
 
-                    <form className='Login-form' onSubmit={handleLogin}>
+                    <form id='Login-form' onSubmit={handleLogin}>
                         <div>
                             <input
                                 className='input-label-user'
@@ -81,18 +81,18 @@ const UserLogin = () => {
                             >
                             </input>
                         </div>
-                        <div className='login-submit'>
+                        <div id='login-submit'>
                             <input className='input-submit' type="submit" value="Submit" />
                         </div>
                         <div>
-                            <p className='link-singUp'>
+                            <p id='link-singUp'>
                                 <a href="/users/registro">Sign Up</a>
                             </p>
                         </div>
                     </form>
 
                     {usuarioAceptado && (
-                        <div className='alert alert-success mt-4' role="alert">
+                        <div id='alert alert-success mt-4' role="alert">
                             Bienvenido a Pyrobots !
                         </div>
                     )}
