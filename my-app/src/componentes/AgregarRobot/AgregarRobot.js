@@ -2,11 +2,17 @@ import React, {useState} from "react";
 import { saveAs } from 'file-saver';
 
 const UserRobotCreate = () => {
-    const [nombreRobot, setNombreRobot] = useState("");
+    const [nombreRobot, setNombreRobot] = useState('');
+    const [nombreArchivo, setNombreArchivo] = useState('');
 
     const onChangeNombreRobot = (e) => {
         setNombreRobot(e.target.value);
     }
+
+    // validacion de extension de arhivo debe ser .py
+    const is_python_file = (file_name) =>
+        console.log(file_name.substring(file_name.lastIndexOf('.')));
+    // validacion de archivo tiene una clase llamada igual al nombre del archivo => no puede ser vacio
 
     // necesitare del paquete liguero file-saver => hize npm install file-saver
     // const createFile = () => {
@@ -18,6 +24,22 @@ const UserRobotCreate = () => {
     // es compatible
     const readFile = (e) => {
         console.log(e);
+        const file = e.target.files[0]; // Esto nunca debe ser null(por ejemplo cuando cancelas la eleccion del archivo) o lanzara un error para ello agregamos la sgte.sentencia
+        if(!file) return;
+        console.log(file.name);
+        // obtengo info del archivo
+
+        const fileReader = new FileReader();
+        // obtengo solo el texto dentro del archivo
+        fileReader.readAsText(file);
+
+        fileReader.onload = () => {
+            console.log(fileReader.result);
+        }
+
+        fileReader.onerror = () => {
+            console.log(fileReader.error);
+        }
     }
 
     return (
@@ -40,6 +62,7 @@ const UserRobotCreate = () => {
                     className="input-file-img"
                     type="file"
                     multiple={ false }
+                    accept="image/*"
                 >
                 </input>
             </div>
@@ -49,6 +72,7 @@ const UserRobotCreate = () => {
                     className="input-file-file"
                     type="file"
                     multiple={ false }
+                    accept=".py"
                     onChange={readFile}
                 >
                 </input>
