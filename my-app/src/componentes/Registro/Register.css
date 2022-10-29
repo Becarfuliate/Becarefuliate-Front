@@ -32,7 +32,7 @@
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #4CAF50;
+  background: #1976d2;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -44,7 +44,7 @@
 }
 
 .form button:hover,.form button:active,.form button:focus {
-  background: #43A047;
+  background: #1948d2;
 }
 .form .message {
   margin: 15px 0 0;
@@ -52,7 +52,7 @@
   font-size: 12px;
 }
 .form .message a {
-  color: #4CAF50;
+  color: #1976d2;
   text-decoration: none;
 }
 .container {
@@ -89,9 +89,6 @@
   color: #EF3B3A;
 }
 body {
-  background: #76b852; /* fallback for old browsers */
-  background: rgb(141,194,111);
-  background: linear-gradient(90deg, rgba(141,194,111,1) 0%, rgba(118,184,82,1) 50%);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      

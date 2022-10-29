@@ -31,6 +31,7 @@ function Register(){
   <div className="login-page">
     <div className="form">
       <form className="register-form" onSubmit={controllerRefresh}>
+        <p>REGISTRARSE</p>
         <input type="text" placeholder="Nombre" name= "username"
         onChange= {dataUserChange} required/>
 
@@ -44,7 +45,6 @@ function Register(){
         onChange= {dataUserChange}/>
 
         <button type= "submit">Registrar</button>
-        <p className='link-singUp'><a href="/users/login">Sign In</a></p>
       </form>
     </div>
   </div>);
