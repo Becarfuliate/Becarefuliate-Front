@@ -39,6 +39,6 @@ test('probando mock de axios', () => {
           { token:"iamatoken" },
         ]
     };
-    console.log(axios.post.mockReturnValueOnce(response))
-    screen.debug();
+    // console.log(axios.post.mockReturnValueOnce(response))
+    // screen.debug();
 })
