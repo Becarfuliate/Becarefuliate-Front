@@ -1,6 +1,6 @@
 import {render, screen, fireEvent} from '@testing-library/react';
 import axios from 'axios';
-import Login from './Login';
+import Login from '../Login/Login';
 //mock de axios, una forma:
 jest.mock('axios') // reemplaza el axios real por un objeto fake
 // console.log('axios', axios) // Muestra que axios esta mockeado, mock, ...

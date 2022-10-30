@@ -51,6 +51,7 @@ const serviceLogIn = async (is_login_email, userlogin, password) => {
 
 const serviceLogOut = () => {
     localStorage.removeItem('user');
+    localStorage.removeItem('robots');
 };
 
 const exportServiceLogin = {

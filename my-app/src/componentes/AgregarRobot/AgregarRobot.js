@@ -1,132 +1,157 @@
-import React, {useState} from "react";
-import { saveAs } from 'file-saver';
-import axios from "axios";
+import React, {useState, useEffect} from "react";
 import imgDefaultRobot from "../../img/avatar-robot-defect.png"
-
+import exportServiceRobot from "../Servicios/serviceAgregarRobot";
 
 const UserRobotCreate = () => {
-    const [nombreRobot, setNombreRobot] = useState('');
-    const [nombreArchivo, setNombreArchivo] = useState('');
-    const [archivo, setArchivo] = useState(null);
-    const [avatar, setAvatar] = useState(imgDefaultRobot);
+    // El nombre del robot no puede ser el mismo que alguno que ya halla subido
+    // El nombre del robot = nombre del archivo = nombre de la clase principal del archivo
+    const [nameRobot, setNameRobot] = useState('');
+    const [imgAvatar, setAvatar] = useState(null);
+    const [fileRobot, setFileRobot] = useState(null);
+    const [fileRobotValidate, setFileRobotValidate] = useState(false);
+    // Indica si el robot se guardo tanto en el back como en localstorage(solo su nombre pues con solo eso se podra hacer peticiones)
+    const [savedRobot, setSavedRobot] = useState(false);
 
-    const onChangeNombreRobot = (e) => {
-        setNombreRobot(e.target.value);
-    }
+    const onChangeNameRobot = (e) => {
+        setNameRobot(e.target.value);
+    };
 
-    // validacion de extension de arhivo debe ser .py
-    const is_python_file = (file_name) =>
-        console.log(".py" === file_name.slice(file_name.lastIndexOf(".")));
-    // is_python_file(nombreArchivo);
+    const onChangeAvatar = (e) => {
+        let avt = e.target;
+        if(!avt) return;
+        setAvatar(e.target.files[0]);
+    };
 
-    // validacion de archivo tiene una clase llamada igual al nombre del archivo => no puede ser vacio
+    const onChangeFile = (e) => {
+        let file = e.target; // Esto nunca debe ser null
+        if(!file) return; // Esto impide trabajar con un null
+        setFileRobot(e.target.files[0]);
+    };
+    
+    const isFileNotEmpty = (file) => {
+        return(0 !== file.size);
+    };
+    
+    const isPythonFile = (file) => {
+        let file_name = file.name;
+        return(".py" === file_name.slice(file_name.lastIndexOf(".")));
+    };
 
-    // necesitare del paquete liguero file-saver => hize npm install file-saver
-    // const createFile = () => {
-    //     const blob = new Blob([ myValue ], { type: 'text/plain; charset=utf-8' })
-    //     saveAs(blob, )
-    // }
+    // Pre: El nombre del archivo tiene al final la extension .py
+    const nameFileEqualNameRobot = (file, name) => {
+        return(name === file.name.slice(0,-3));
+    };
 
-    // Subir archivo y avatar al Back
-    const subirArchivo = async () => {
-        // const f = new FormData();
-        // f.append('file', archivo);
-        // f.append('file', avatar);
-        // console.log(f.entries());
-        console.log("--------------------------------------------------------");
-        let name_robot = nombreRobot;
-        // usar comillas simples inclinadas `` para estos pasajes de datos con parametros 
-        await axios.post(`http://127.0.0.1:8000/upload/robot/${name_robot}`, {
-            file_robot: archivo,
-            img_robot: avatar
-        }, {
-            headers: {'Content-Type': 'multipart/form-data'}
-        })
-        .then(rst => console.log(rst.data))
-        .catch(err => console.log(err))
-    }
+    const nameRobotInFile = async (file, name) => {
+        const fileText = await file.text()
+        let isNameRobotInFile = false;
+        if(fileText.includes("class " + name))
+            isNameRobotInFile = true;
+        return isNameRobotInFile;
+    };
+
+    // validaciones:
+    // + el campo del nombre del robot no es vacio
+    // + el archivo no es vacio
+    // + es un archivo .py
+    // + el nombre del robot es igual al nombre del archivo
+    // + el nombre del robot es igual al nombre de la clase principal del robot
+
+    const validateRobot = (file, name) => {
+        let robotValid = false;
+        if(isFileNotEmpty(fileRobot)) {
+            if(isPythonFile(fileRobot)) {
+                if(nameFileEqualNameRobot(fileRobot, nameRobot)) {
+                    nameRobotInFile(fileRobot, nameRobot)
+                    .then(isRstPositive => {
+                        if(!isRstPositive) {
+                            alert("El nombre del robot debe ser igual al nombre de la clase principal del archivo del robot, no es aceptable")
+                        }
+                        setFileRobotValidate(isRstPositive);
+                    })
+                } else {
+                    alert("El nombre del archivo debe ser igual al nombre del robot, no es aceptable");
+                }
+            } else {
+                alert("No es un archivo python, no es aceptable")
+            }
+        }
+        else {
+            alert("Archivo vacio, no es aceptable")
+        }
+        return robotValid;
+    };
 
     const handleRobot = (e) => {
         e.preventDefault();
-        subirArchivo();
-    }
-
-    const onChangeAvatar = (e) => {
-        const avt = e.target;
-        if(!avt) return;
-        setAvatar(e.target.files[0]);
-    }
-    // Chequear con en caniuse.com si el navegador web usado
-    // es compatible
-    const readFile = (e) => {
-        const file = e.target.files[0]; // Esto nunca debe ser null(por ejemplo cuando cancelas la eleccion del archivo) o lanzara un error para ello agregamos la sgte.sentencia
-        if(!file) return;
-        // setArchivo(file);
-        setArchivo(file);
-        setNombreArchivo(file.name);
-        console.log(file.name)
-        console.log(nombreArchivo)
-        // obtengo info del archivo
-
-        const fileReader = new FileReader();
-        // obtengo solo el texto dentro del archivo
-        fileReader.readAsText(file);
-        
-        fileReader.onload = () => {
-            let text_file = fileReader.result
-            console.log(nombreArchivo)
-            console.log(/class Punto/i.test(nombreArchivo));
-            // console.log(fileReader.result);
+        if("" === nameRobot) {
+            alert("Campo del Nombre del Robot Vacio, escriba algo");
+        } else {
+            if(!fileRobot) return;
+            validateRobot(fileRobot, nameRobot);
+            if(fileRobotValidate) {
+                if(null === imgAvatar)
+                    setAvatar(imgDefaultRobot);
+                exportServiceRobot.serviceUploadRobot(fileRobot, imgAvatar, nameRobot).then(rst => setSavedRobot(rst));
+                setNameRobot("");
+                setAvatar(null);
+                setFileRobot(null);
+            }
         }
+    };
 
-        fileReader.onerror = () => {
-            // console.log(fileReader.error);
-        }
-    }
 
     
 
     return (
         <div id="create-robot">
-            <h1>Create Robot</h1>
-            <form id="form-robot" onSubmit={handleRobot}>
-                <div id="input-nombre-robot">
-                    <h2>Nombre del Robot</h2>
-                    <input
-                        className="input-label-nombre"
-                        type="text"
-                        placeholder="Nombre del Robot"
-                        value={nombreRobot}
-                        onChange={onChangeNombreRobot}
-                    >
-                    </input>
-                </div>
-                <div id="input-avatar-robot">
-                    <h2>Subir AvatarRobot(opcional)</h2>
-                    <input
-                        className="input-file-img"
-                        type="file"
-                        multiple={ false }
-                        accept="image/*"
-                        onChange={onChangeAvatar}
-                    >
-                    </input>
-                </div>
-                <div id="input-codigo-robot">
-                    <h2>Subir codigo python del Robot</h2>
-                    <input
-                        className="input-file-file"
-                        type="file"
-                        multiple={ false }
-                        accept=".py"
-                        onChange={readFile}
-                    >
-                    </input>
-                </div>
-                <div id='robot-submit'>
-                    <input className='input-submit' type="submit" value="Submit" />
-                </div>
-            </form>
+            <div>
+                <h1>Create Robot</h1>
+                <form id="form-robot" onSubmit={handleRobot}>
+                    <div id="input-nombre-robot">
+                        <h2>Nombre del Robot</h2>
+                        <input
+                            className="input-label-nombre"
+                            type="text"
+                            placeholder="Nombre del Robot"
+                            value={nameRobot}
+                            onChange={onChangeNameRobot}
+                        >
+                        </input>
+                    </div>
+                    <div id="input-avatar-robot">
+                        <h2>Subir AvatarRobot(opcional)</h2>
+                        <input
+                            className="input-file-img"
+                            type="file"
+                            multiple={ false }
+                            accept="image/*"
+                            onChange={onChangeAvatar}
+                        >
+                        </input>
+                    </div>
+                    <div id="input-codigo-robot">
+                        <h2>Subir codigo python del Robot</h2>
+                        <input
+                            className="input-file-file"
+                            type="file"
+                            multiple={ false }
+                            accept=".py"
+                            onChange={onChangeFile}
+                        >
+                        </input>
+                    </div>
+                    <div id='robot-submit'>
+                        <input className='input-submit' type="submit" value="Submit" />
+                    </div>
+                </form>
+
+                {savedRobot && (
+                    <div id='alert alert-success mt-4' role="alert">
+                        Robot subido exitosamente !
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
