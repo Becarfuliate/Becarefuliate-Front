@@ -27,6 +27,7 @@ const rightLink = {
 };
 
 function HomepageLogin() {
+  const nameUser = JSON.parse(localStorage.getItem("user")).userlogin;
   return (
     <div>
       <AppBar position="fixed">
@@ -37,9 +38,9 @@ function HomepageLogin() {
             underline="none"
             color="inherit"
             href="/"
-            sx={{ fontSize: 24 }}
+            sx={{ fontSize: 24}}
           >
-            {'pyRobots'}
+            {nameUser}
           </Link>
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
             <Link
@@ -54,7 +55,7 @@ function HomepageLogin() {
             <Link
               variant="button"
               underline="none"
-              href=""
+              href="/user/crearPartida"
               sx={rightLink}
             >
               {'Crear partida'}
@@ -70,13 +71,14 @@ function HomepageLogin() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/match/add" component={Partida} />
-          <Route path="/partida/simulacion" component={Simulacion} />
+      <Switch> 
+          <Route path="/user/crearPartida" component={Partida} />
       </Switch>   
     </div>
-  ); 
+  )
+  //<Route exact path="/" component={listar_partidas} />; 
+  //<Route exact path="/crearRobots" component={} />;
+  //<Route exact path="/crearRobots" component={crear simulación} />; 
 }
 
 export default HomepageLogin;

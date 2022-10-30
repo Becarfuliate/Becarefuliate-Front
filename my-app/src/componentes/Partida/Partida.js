@@ -52,40 +52,42 @@ function CrearPartida() {
     });
   }, []);
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>Nombre de partida</label>
-        <input type="text" name="name" onChange={handleChange} required />
+    <div className="login-page">
+      <div className="form">
+        <form className="register-form"  onSubmit={handleSubmit}>
+          <label>Nombre de partida</label>
+          <input type="text" name="name" onChange={handleChange} required />
 
-        <label>Maximo de jugadores</label>
-        <input
-          type="number"
-          name="max_players"
-          onChange={handleChange}
-          required
-        />
+          <label>Maximo de jugadores</label>
+          <input
+            type="number"
+            name="max_players"
+            onChange={handleChange}
+            required
+          />
 
-        <label>Contraseña</label>
-        <button type="button" onClick={changeState}>
-          Privado
-        </button>
-        <input
-          type="text"
-          name="password"
-          onChange={handleChange}
-          readOnly={lectura}
-        />
-        <label>Cantidad de juegos</label>
-        <input type="number" name="n_matchs" onChange={handleChange} required />
-        <label>Maximo de rondas</label>
-        <input
-          type="number"
-          name="n_rounds_match"
-          onChange={handleChange}
-          required
-        />
-        <input type="submit" name="Submit" />
-      </form>
+          <label>Contraseña</label>
+          <button type="button" onClick={changeState}>
+            Privado
+          </button>
+          <input
+            type="text"
+            name="password"
+            onChange={handleChange}
+            readOnly={lectura}
+          />
+          <label>Cantidad de juegos</label>
+          <input type="number" name="n_matchs" onChange={handleChange} required />
+          <label>Maximo de rondas</label>
+          <input
+            type="number"
+            name="n_rounds_match"
+            onChange={handleChange}
+            required
+          />
+          <input type="submit" name="Submit" />
+        </form>
+        </div>
       <div>
         <li>
           <>

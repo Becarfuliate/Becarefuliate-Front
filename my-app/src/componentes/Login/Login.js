@@ -41,7 +41,7 @@ const UserLogin = () => {
     const history = useHistory();
     React.useEffect(() => {
         if (localStorage.getItem("user")) history.push('/');
-      }, [localStorage]);
+    }, [localStorage]);
 
     return (
         <div className="login-page">
