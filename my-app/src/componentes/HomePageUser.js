@@ -72,5 +72,4 @@ function HomePageUser() {
 
 }
 
-
 export default HomePageUser;
