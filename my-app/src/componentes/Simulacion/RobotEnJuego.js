@@ -52,7 +52,7 @@ function RobotEnJuego({imagen, x, y, nombre, num, vida, motor, mira}) {
         left: `${x}px`
     }
     
-    const robotvida = {
+    const robotvid = {
         width: `${3.5*vida}px`
     }
 
@@ -71,7 +71,7 @@ function RobotEnJuego({imagen, x, y, nombre, num, vida, motor, mira}) {
         <b className="nombre">Nombre: {nombre}</b>
         <b className="vidatext">{vida}%</b>
         <div className="maxvida"></div>
-        <div style={robotvida} className="vida"></div>
+        <div style={robotvid} className="vida"></div>
         <b className="mira">Mira: {mira}°</b>
         <b className="motor">Motor: {motor}%</b>
     </div>
