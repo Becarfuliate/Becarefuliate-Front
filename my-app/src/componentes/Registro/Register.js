@@ -3,8 +3,6 @@ import {connect} from 'react-redux';
 import './Register.css';
 
 function Register({sendDataUser, modifyDataName, modifyDataPassword, modifyDataEmail}){
-  
-
   return (
   <div className="login-page">
     <div className="form">
