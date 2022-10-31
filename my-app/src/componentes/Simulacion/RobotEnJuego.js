@@ -51,17 +51,16 @@ function RobotEnJuego({imagen, x, y, xf, yf, nombre, num, vida, motor, mira, ron
     const robotpos = {
         top: `${maxBorde-y}px`,
         left: `${x}px`
-    }
-    */
-
+    }*/
+    
     const robotanimar = {
         animation: `animate_${num} 1s linear forwards`
     }
     
-    document.documentElement.style.setProperty(`--xinit_${num}`, `${x}px`);
-    document.documentElement.style.setProperty(`--yinit_${num}`, `${y}px`);
-    document.documentElement.style.setProperty(`--xfinal_${num}`, `${xf}px`);
-    document.documentElement.style.setProperty(`--yfinal_${num}`, `${yf}px`);
+    document.documentElement.style.setProperty("--xinit_" + num, x + "px");
+    document.documentElement.style.setProperty("--yinit_" + num, y + "px");
+    document.documentElement.style.setProperty("--xfinal_" + num, xf + "px");
+    document.documentElement.style.setProperty("--yfinal_" + num, yf + "px");
 
     const robotvid = {
         width: `${3.5*vida}px`
@@ -73,7 +72,7 @@ function RobotEnJuego({imagen, x, y, xf, yf, nombre, num, vida, motor, mira, ron
 
     return (
     <div>
-    <div key={ronda*(num+1)} style={robotanimar} id="RobotEnJuego">
+    <div user={ronda*(num+1)} key={ronda*(num+1)} style={robotanimar} id="RobotEnJuego">
         <img src={imagen} alt=""></img>
         <p className="nombre">{nombre}</p>
     </div>

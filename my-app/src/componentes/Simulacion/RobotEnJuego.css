@@ -83,22 +83,22 @@
 }
 
 :root {
-    --xinit_0: ;
-    --yinit_0: ;
-    --xfinal_0: ;
-    --yfinal_0: ;
-    --xinit_1: ;
-    --yinit_1: ;
-    --xfinal_1: ;
-    --yfinal_1: ;
-    --xinit_2: ;
-    --yinit_2: ;
-    --xfinal_2: ;
-    --yfinal_2: ;
-    --xinit_3: ;
-    --yinit_3: ;
-    --xfinal_3: ;
-    --yfinal_3: ;
+    --xinit_0: 0;
+    --yinit_0: 1000px;
+    --xfinal_0: 1000px;
+    --yfinal_0: 1000px;
+    --xinit_1: 0px;
+    --yinit_1: 0px;
+    --xfinal_1: 500px;
+    --yfinal_1: 200px;
+    --xinit_2: 1000px;
+    --yinit_2: 1000px;
+    --xfinal_2: 0px;
+    --yfinal_2: 0px;
+    --xinit_3: 1000px;
+    --yinit_3: 0px;
+    --xfinal_3: 1000px;
+    --yfinal_3: 890px;
 }
 
 @keyframes animate_0 {
@@ -115,32 +115,32 @@
 @keyframes animate_1 {
     from {
         left: var(--xinit_1);
-        top: var(--yinit_1);
+        top: var(--xinit_1);
     }
     to {
-        left: var(--xfinal_1);
-        top: var(--yfinal_1);
+        left: var(--xinit_1);
+        top: var(--xinit_1);
     }
 }
 
 @keyframes animate_2 {
     from {
         left: var(--xinit_2);
-        top: var(--yinit_2);
+        top: var(--xinit_2);
     }
     to {
-        left: var(--xfinal_2);
-        top: var(--yfinal_2);
+        left: var(--xinit_2);
+        top: var(--xinit_2);
     }
 }
 
 @keyframes animate_3 {
     from {
         left: var(--xinit_3);
-        top: var(--yinit_3);
+        top: var(--xinit_3);
     }
     to {
-        left: var(--xfinal_3);
-        top: var(--yfinal_3);
+        left: var(--xinit_3);
+        top: var(--xinit_3);
     }
 }
