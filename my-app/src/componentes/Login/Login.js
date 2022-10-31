@@ -1,5 +1,5 @@
 import './Login.css'
-import React, {useState, useRef} from 'react' 
+import React, {useState} from 'react' 
 import avatarRobot from "../../img/avatar-robot-defect.png"
 import exportServiceLogin from './serviceLogin';
 import validator from 'validator';
@@ -10,7 +10,7 @@ const UserLogin = () => {
     // Si el usuarioAceptado es verdadero =>
     // Que esta logueado  => Que confirmo por email ser un jugador de Pyrobots
     const [usuarioAceptado, setUsuarioAceptado] = useState(false);
-    const [avatar, setAvatar] = useState(avatarRobot);
+    const [avatar] = useState(avatarRobot);
 
     const onChangeUserlogin = (e) => {
         setUserlogin(e.target.value);

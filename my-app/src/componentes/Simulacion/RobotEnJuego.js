@@ -2,11 +2,11 @@ import "./RobotEnJuego.css";
 
 const min = 0;
 const max = 100;
-const maxBorde = 980;
+const maxBorde = 1000;
 const maxMira = 360;
 
-//The Robot size of 20x20px.
-function RobotEnJuego({imagen, x, y, nombre, num, vida, motor, mira}) {
+//The Robot size of 21x21px.
+function RobotEnJuego({imagen, x, y, xf, yf, nombre, num, vida, motor, mira, ronda}) {
 
     // Check Borders
     if (x<min) {
@@ -47,11 +47,22 @@ function RobotEnJuego({imagen, x, y, nombre, num, vida, motor, mira}) {
     }
 
     //Apply Coordinates
+    /*
     const robotpos = {
         top: `${maxBorde-y}px`,
         left: `${x}px`
     }
+    */
+
+    const robotanimar = {
+        animation: `animate_${num} 1s linear forwards`
+    }
     
+    document.documentElement.style.setProperty(`--xinit_${num}`, `${x}px`);
+    document.documentElement.style.setProperty(`--yinit_${num}`, `${y}px`);
+    document.documentElement.style.setProperty(`--xfinal_${num}`, `${xf}px`);
+    document.documentElement.style.setProperty(`--yfinal_${num}`, `${yf}px`);
+
     const robotvid = {
         width: `${3.5*vida}px`
     }
@@ -62,7 +73,7 @@ function RobotEnJuego({imagen, x, y, nombre, num, vida, motor, mira}) {
 
     return (
     <div>
-    <div style={robotpos} id="RobotEnJuego">
+    <div key={ronda*(num+1)} style={robotanimar} id="RobotEnJuego">
         <img src={imagen} alt=""></img>
         <p className="nombre">{nombre}</p>
     </div>

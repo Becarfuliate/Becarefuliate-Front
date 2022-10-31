@@ -1,8 +1,7 @@
 #Tablero {
     position: relative;
-    transform: translate(0%, 0%);
-    width: 1000px;
-    height: 1000px;
+    width: 1021px;
+    height: 1021px;
     border: solid 5px black;
     background-color: burlywood;
 }
