@@ -5,29 +5,18 @@ import {useState, useEffect} from "react";
 function Tablero({rondas}) {
 
     const [rondaActual, setrondaActual] = useState(1);
-    console.log(`RondaActual:${rondaActual}`);
-    console.log(`MaximoRondas:${rondas.length}`);
 
     const [vida, setVida] = useState(rondas[0].map(robot => robot.vida));
-
     const [x, setX] = useState(rondas[0].map(robot => robot.x));
-    
     const [y, setY] = useState(rondas[0].map(robot => robot.y));
-    
     const [xf, setXf] = useState(rondas[0].map(robot => robot.xf));
-    
     const [yf, setYf] = useState(rondas[0].map(robot => robot.yf));
-    
     const [id, setId] = useState(rondas[0].map(robot => robot.id));
-    
     const [nombre, setNombre] = useState(rondas[0].map(robot => robot.nombre));
-    
     const [motor, setMotor] = useState(rondas[0].map(robot => robot.motor));
-    
     const [mira, setMira] = useState(rondas[0].map(robot => robot.mira));
-    
     const [imagen, setImagen] = useState(rondas[0].map(robot => robot.imagen));
-
+    
     useEffect( () => {
         if (rondaActual < rondas.length) {
             setTimeout(() => {
