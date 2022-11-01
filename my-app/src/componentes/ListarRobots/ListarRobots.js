@@ -14,7 +14,6 @@ const Loading = () => {
 };
 
 const Listing = (props) => {
-    console.log(props.robots);
     const listResults = props.robots.map((robot, index) =>
             <li key={index}>
                 <div className='block-robot'>
@@ -34,56 +33,8 @@ const Listing = (props) => {
 
 const UserRobots = () => {
     const [listRobots, setListRobots] = useState(null);
-    const [changedListRobots, setChangedListRobots] = useState(null);
 
-    // ejecutar cada vez que se renderiza el componente
-    // al final de renderizado de este
-    // o en este caso cada vez que sube un robot el usuario
-    // se pide saber si se agrego un robot para pedir su info al back
-    // aunque deberia hacerse cada vez que finalizo una partida
-
-
-    // se supone que deberia hacerlo una vez cada vez que cambie la lista de robots en localStorage pero no es asi sino que se ejecuta y no para de hacerlo ¿?
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-          setChangedListRobots(JSON.parse(localStorage.getItem('robots')));
-        }, 1000);
-      
-        return () => clearInterval(intervalId);
-    }, []);
-
-    useEffect(() => {
-        setListRobots(exportServiceListarRobots.serviceListRobots());
-        // Borrar luego es para probar como se ve la lista de robots
-        // setListRobots([
-        //     {
-        //         "name": "Krlos",
-        //         "avatar": "asdf",
-        //         "matchs_pleyed": 2,
-        //         "matchs_won": 2,
-        //         "avg_life_time": 80,
-        //         "id": 5
-        //       },
-        //       {
-        //         "name": "Krlosssss",
-        //         "avatar": "asdf",
-        //         "matchs_pleyed": 4,
-        //         "matchs_won": 24,
-        //         "avg_life_time": 80,
-        //         "id": 6
-        //       },
-        //       {
-        //         "name": "Krloshhhhhh",
-        //         "avatar": "asdf",
-        //         "matchs_pleyed": 5,
-        //         "matchs_won": 5,
-        //         "avg_life_time": 80,
-        //         "id": 7
-        //       },
-        // ])
-    }, [changedListRobots]);
-
-
+    setListRobots(exportServiceListarRobots.serviceListRobots());
 
     return (
         <div id='content-list-robots'>

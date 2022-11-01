@@ -4,9 +4,9 @@ const getToken = () => {
     let storage = localStorage.getItem('user');
     if (storage) {
       let user = JSON.parse(localStorage.getItem('user'));
-      return { token: user.token };
+      return "token=" + user.token;
     } else {
-      return { token: "" };
+      return "token=";
     }
 };
 
@@ -27,7 +27,8 @@ const handleresponse = (code, response) => {
 }
 
 const serviceListRobots = async () => {
-    return await API.get(`/robots`, getToken())
+    let tkn = getToken();
+    return await API.get(`/robots?${tkn}`)
     .then(response => handleresponse(response.status, response.data))
     .catch((error) => handleresponse(error.response.status, error.response.data))
     .then(listRobots => listRobots)
