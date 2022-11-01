@@ -2,7 +2,7 @@ import "./RobotEnJuego.css";
 
 const min = 0;
 const max = 100;
-const maxBorde = 1000;
+const maxBorde = 1021;
 const maxMira = 360;
 
 //The Robot size of 21x21px.
@@ -28,15 +28,13 @@ function RobotEnJuego({imagen, x, y, xf, yf, nombre, num, vida, motor, mira, ron
 
     //Aplicar Coordenadas y Animación
     const robotanimar = {
-        top: `${maxBorde-y}px`,
-        left: `${x}px`,
         animation: `animate_${num} 1s linear forwards`
     }
 
     document.documentElement.style.setProperty("--xinit_" + num, x + "px");
-    document.documentElement.style.setProperty("--yinit_" + num, y + "px");
+    document.documentElement.style.setProperty("--yinit_" + num, (maxBorde-y) + "px");
     document.documentElement.style.setProperty("--xfinal_" + num, xf + "px");
-    document.documentElement.style.setProperty("--yfinal_" + num, yf + "px");
+    document.documentElement.style.setProperty("--yfinal_" + num, (maxBorde-yf) + "px");
     
     const robotvid = {
         width: `${3.5*vida}px`
