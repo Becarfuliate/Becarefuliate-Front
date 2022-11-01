@@ -2,7 +2,7 @@ import "./RobotEnJuego.css";
 
 const min = 0;
 const max = 100;
-const maxBorde = 1021;
+const maxBorde = 1000;
 const maxMira = 360;
 
 //The Robot size of 21x21px.
