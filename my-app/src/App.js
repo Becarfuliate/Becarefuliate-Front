@@ -5,6 +5,7 @@ import Partida from "./componentes/Partida/Partida";
 import Login from "./componentes/Login/Login";
 import Registro from "./componentes/Registro/Register";
 import Simulacion from "./componentes/Simulacion/Simulacion";
+import { AgregarRobot } from "./componentes/AgregarRobot";
 
 function App() {
   return (
@@ -39,6 +40,11 @@ function App() {
                 Simulacion
               </Link>
             </li>
+            <li>
+              <Link to={"/robot/agregar"} className="nav-link">
+                Agregar Robot
+              </Link>
+            </li>
           </ul>
         </nav>
         <hr />
@@ -48,6 +54,7 @@ function App() {
           <Route path="/users/registro" component={Registro} />
           <Route path="/ match/add" component={Partida} />
           <Route path="/partida/simulacion" component={Simulacion} />
+          <Route path="/robot/agregar" component={AgregarRobot} />
         </Switch>
       </div>
     </Router>
