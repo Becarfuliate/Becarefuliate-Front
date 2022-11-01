@@ -1,16 +1,16 @@
 import { BrowserRouter as Switch, Route } from "react-router-dom";
+import ListarPartida from './listar_partidas/listarPartida';
+import AgregarRobot from "./AgregarRobot/AgregarRobot";
+import listarRobot from './ListarRobots/ListarRobots';
 import Simulacion from "./Simulacion/Simulacion";
 import MuiToolbar from '@mui/material/Toolbar';
+import { useHistory } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import Partida from "./Partida/Partida";
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import * as React from 'react';
-import ListarPartida from './listar_partidas/listarPartida';
-import { useHistory } from "react-router-dom";
-import AgregarRobot from "./AgregarRobot/AgregarRobot";
-
 const Toolbar = styled(MuiToolbar)(({ theme }) => ({
   height: 64,
   [theme.breakpoints.up('sm')]: {
@@ -83,7 +83,7 @@ function HomepageLogin() {
             <Link
               variant="button"
               underline="none"
-              href=""
+              href="/listarRobot"
               sx={rightLink} >
               {'Robots'}
             </Link>
@@ -102,6 +102,7 @@ function HomepageLogin() {
           <Route path="/listarPartidas" component={ListarPartida} />
           <Route path="/signOff" component={SignOff} />
           <Route path="/subirRobot" component={AgregarRobot} />
+          <Route path="/listarRobot" component={listarRobot} />
       </Switch>   
     </div>
   )

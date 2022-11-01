@@ -100,9 +100,6 @@ const UserRobotCreate = () => {
         }
     };
 
-
-    
-
     return (
         <div id="create-robot">
             <div>
