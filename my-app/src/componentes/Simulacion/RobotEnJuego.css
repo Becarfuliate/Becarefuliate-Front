@@ -115,32 +115,32 @@
 @keyframes animate_1 {
     from {
         left: var(--xinit_1);
-        top: var(--xinit_1);
+        top: var(--yinit_1);
     }
     to {
-        left: var(--xinit_1);
-        top: var(--xinit_1);
+        left: var(--xfinal_1);
+        top: var(--yfinal_1);
     }
 }
 
 @keyframes animate_2 {
     from {
         left: var(--xinit_2);
-        top: var(--xinit_2);
+        top: var(--yinit_2);
     }
     to {
-        left: var(--xinit_2);
-        top: var(--xinit_2);
+        left: var(--xfinal_2);
+        top: var(--yfinal_2);
     }
 }
 
 @keyframes animate_3 {
     from {
         left: var(--xinit_3);
-        top: var(--xinit_3);
+        top: var(--yinit_3);
     }
     to {
-        left: var(--xinit_3);
-        top: var(--xinit_3);
+        left: var(--xfinal_3);
+        top: var(--yfinal_3);
     }
 }
