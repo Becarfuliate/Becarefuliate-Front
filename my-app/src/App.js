@@ -6,6 +6,7 @@ import Login from "./componentes/Login/Login";
 import Registro from "./componentes/Registro/Register";
 import Simulacion from "./componentes/Simulacion/Simulacion";
 import { AgregarRobot } from "./componentes/AgregarRobot";
+import { ListarRobots } from "./componentes/ListarRobots";
 
 function App() {
   return (
@@ -45,6 +46,11 @@ function App() {
                 Agregar Robot
               </Link>
             </li>
+            <li>
+              <Link to={"/listar/robots"} className="nav-link">
+                Listar Robots
+              </Link>
+            </li>
           </ul>
         </nav>
         <hr />
@@ -55,6 +61,7 @@ function App() {
           <Route path="/ match/add" component={Partida} />
           <Route path="/partida/simulacion" component={Simulacion} />
           <Route path="/robot/agregar" component={AgregarRobot} />
+          <Route path="/listar/robots" component={ListarRobots} />
         </Switch>
       </div>
     </Router>

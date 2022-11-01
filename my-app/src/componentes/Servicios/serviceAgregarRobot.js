@@ -10,7 +10,7 @@ const addRobotinStorage = (nameRobot) => {
       storageContent.push(nameRobot);
       localStorage.setItem("robots", JSON.stringify(storageContent));
     } else {
-      localStorage.setItem("name", JSON.stringify([nameRobot]));
+      localStorage.setItem("robots", JSON.stringify([nameRobot]));
     }
 };
 
