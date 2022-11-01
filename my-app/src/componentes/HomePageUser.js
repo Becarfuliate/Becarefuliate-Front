@@ -2,7 +2,7 @@ import { BrowserRouter as Switch, Route } from "react-router-dom";
 import MuiToolbar from '@mui/material/Toolbar';
 import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
-import Registro from "./Registro/Register";
+import Registro from "./registro/Register";
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Login from "./Login/Login";
@@ -46,7 +46,7 @@ function HomePageUser() {
               color="inherit"
               variant="button"
               underline="none"
-              href="/users/registro"
+              href="/home/registro"
               sx={rightLink}
             >
               {'Registrarse'}
@@ -54,7 +54,7 @@ function HomePageUser() {
             <Link
               variant="button"
               underline="none"
-              href="/users/login"
+              href="/home/login"
               sx={rightLink}
             >
               {'Iniciar sesión'}
@@ -64,8 +64,8 @@ function HomePageUser() {
       </AppBar>
       <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/users/login" component={Login} />
-          <Route path="/users/registro" component={Registro} />
+          <Route path="/home/login" component={Login} />
+          <Route path="/home/registro" component={Registro} />
       </Switch>   
     </div>
   ); 

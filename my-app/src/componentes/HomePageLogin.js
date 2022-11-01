@@ -1,5 +1,5 @@
 import { BrowserRouter as Switch, Route } from "react-router-dom";
-import Simulacion from "./Simulacion/Simulacion";
+import crearSimulacion from "./Simulacion/crearSimulacion";
 import MuiToolbar from '@mui/material/Toolbar';
 import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
@@ -45,7 +45,7 @@ function HomepageLogin() {
             variant="h6"
             underline="none"
             color="inherit"
-            href="/"
+            href="/user/ListarPartida"
             sx={{ fontSize: 24}} >
             {nameUser}
           </Link>
@@ -54,7 +54,7 @@ function HomepageLogin() {
               color="inherit"
               variant="button"
               underline="none"
-              href="/partida/simulacion"
+              href="/user/crearSimulacion"
               sx={rightLink} >
               {'Crear simulación'}
             </Link>
@@ -68,7 +68,7 @@ function HomepageLogin() {
             <Link
               variant="button"
               underline="none"
-              href="/"
+              href="/user/ListarPartida"
               sx={rightLink} >
               {'Partidas'}
             </Link>
@@ -89,7 +89,7 @@ function HomepageLogin() {
             <Link
               variant="button"
               underline="none"
-              href="/signOff"
+              href="/user/signOff"
               sx={rightLink} >
               {'Cerrar sesión'}
             </Link>
@@ -97,9 +97,10 @@ function HomepageLogin() {
         </Toolbar>
       </AppBar>
       <Switch> 
+          <Route exact path="/user/crearSimulacion" component={crearSimulacion} />; 
           <Route path="/user/crearPartida" component={Partida} />
-          <Route path="/" component={ListarPartida} />
-          <Route path="/signOff" component={SignOff} />
+          <Route path="/user/signOff" component={SignOff} />
+          <Route path="/user/ListarPartida" component={ListarPartida} />
       </Switch>   
     </div>
   )
