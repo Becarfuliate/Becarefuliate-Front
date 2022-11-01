@@ -8,7 +8,7 @@ const maxMira = 360;
 //The Robot size of 21x21px.
 function RobotEnJuego({imagen, x, y, xf, yf, nombre, num, vida, motor, mira, ronda}) {
 
-    // Check Borders
+    // Check Bordes
     if (x<min) { x = min;}
     if (y < min) { y = min;}
     if (x>maxBorde) { x = maxBorde;}
@@ -26,7 +26,7 @@ function RobotEnJuego({imagen, x, y, xf, yf, nombre, num, vida, motor, mira, ron
     if (mira > maxMira) { mira = maxMira;}
     if (mira < min) { mira = min;}
 
-    //Apply Coordinates
+    //Aplicar Coordenadas y Animación
     const robotanimar = {
         top: `${maxBorde-y}px`,
         left: `${x}px`,

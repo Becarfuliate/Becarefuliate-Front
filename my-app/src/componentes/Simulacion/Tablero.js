@@ -42,7 +42,7 @@ function Tablero({rondas}) {
                 setMira(rondas[rondaActual].map(robot => robot.mira));
                 setImagen(rondas[rondaActual].map(robot => robot.imagen));
                 setrondaActual(rondaActual+1);    
-            }, 1000);
+            }, 960);
         }
     }, [rondaActual, rondas]);
 
@@ -95,6 +95,16 @@ function Tablero({rondas}) {
                 <li key={id[1]}>
                     <RobotEnJuego imagen={imagen[1]} x={x[1]} y={y[1]} xf={xf[1]} yf={yf[1]} nombre={nombre[1]}
                     num={id[1]} vida={vida[1]} motor={motor[1]} mira={mira[1]} ronda={rondaActual}/> 
+                </li>
+            </div>
+        )
+    }
+    else if (rondas[0].length === 1) {
+        return (
+            <div id="Tablero">
+                <li key={id[0]}>
+                    <RobotEnJuego imagen={imagen[0]} x={x[0]} y={y[0]} xf={xf[0]} yf={yf[0]} nombre={nombre[0]}
+                    num={id[0]} vida={vida[0]} motor={motor[0]} mira={mira[0]} ronda={rondaActual}/> 
                 </li>
             </div>
         )
