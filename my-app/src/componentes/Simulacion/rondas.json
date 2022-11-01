@@ -3,51 +3,35 @@
       "robots": [ 
             {
                 "id": 0, 
-                "imagen": "https://opengameart.org/sites/default/files/styles/medium/public/robot-preview.png", 
+                "imagen": "https://upload.wikimedia.org/wikipedia/commons/8/81/Chess_bdt60.png", 
                 "x": 0, 
-                "y": 0,
-                "xf": 0,
-                "yf": 0, 
+                "y": 980,
+                "xf": 0, 
+                "yf": 980,
                 "nombre": "Joe", 
                 "vida": 100, 
                 "mira": 360, 
-                "motor": 0
+                "motor": 0,
+                "xmis": null,
+                "ymis": null,
+                "xmisf": null,
+                "ymisf": null
             }, 
             {
                 "id": 1, 
                 "imagen": "https://upload.wikimedia.org/wikipedia/commons/8/81/Chess_bdt60.png", 
                 "x": 0, 
                 "y": 0,
-                "xf": 0,
-                "yf": 0, 
+                "xf": 0, 
+                "yf": 0,
                 "nombre": "Mati", 
                 "vida": 100, 
                 "mira": 360, 
-                "motor": 0 
-            },
-            {
-                "id": 2, 
-                "imagen": "https://toppng.com/uploads/preview/8-bit-mario-8-bit-luigi-pixel-115633511986zud7ifcqi.png", 
-                "x": 0, 
-                "y": 0,
-                "xf": 0,
-                "yf": 0, 
-                "nombre": "Mario", 
-                "vida": 100, 
-                "mira": 360, 
-                "motor": 0 
-            },
-            {
-                "id": 3, 
-                "imagen": "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png", 
-                "x": 0, 
-                "y": 0,
-                "xf": 0,
-                "yf": 0, 
-                "nombre": "Steve", 
-                "vida": 100, 
-                "mira": 360, 
-                "motor": 0 
+                "motor": 0,
+                "xmis": null,
+                "ymis": null,
+                "xmisf": null,
+                "ymisf": null 
             }
         ]
     },
@@ -56,104 +40,35 @@
         "robots": [ 
             {
                 "id": 0, 
-                "imagen": "https://opengameart.org/sites/default/files/styles/medium/public/robot-preview.png", 
-                "x": 100, 
-                "y": 0,
-                "xf": 0,
-                "yf": 0, 
+                "imagen": "https://upload.wikimedia.org/wikipedia/commons/8/81/Chess_bdt60.png", 
+                "x": 980, 
+                "y": 980,
+                "xf": 980, 
+                "yf": 980,
                 "nombre": "Joe", 
                 "vida": 100, 
                 "mira": 360, 
-                "motor": 0   
+                "motor": 0,
+                "xmis": null,
+                "ymis": null,
+                "xmisf": null,
+                "ymisf": null   
             }, 
             {
                 "id": 1, 
                 "imagen": "https://upload.wikimedia.org/wikipedia/commons/8/81/Chess_bdt60.png", 
-                "x": 0, 
+                "x": 980, 
                 "y": 0,
-                "xf": 0,
-                "yf": 0, 
+                "xf": 980, 
+                "yf": 0,
                 "nombre": "Mati", 
                 "vida": 100, 
                 "mira": 360, 
-                "motor": 0 
-            },
-            {
-                "id": 2, 
-                "imagen": "https://toppng.com/uploads/preview/8-bit-mario-8-bit-luigi-pixel-115633511986zud7ifcqi.png", 
-                "x": 0, 
-                "y": 0,
-                "xf": 0,
-                "yf": 0, 
-                "nombre": "Mario", 
-                "vida": 100, 
-                "mira": 360, 
-                "motor": 0 
-            },
-            {
-                "id": 3, 
-                "imagen": "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png", 
-                "x": 0, 
-                "y": 0,
-                "xf": 0,
-                "yf": 0, 
-                "nombre": "Steve", 
-                "vida": 100, 
-                "mira": 360, 
-                "motor": 0 
-            }
-        ]
-    },
-    
-    {
-        "robots": [ 
-            {
-                "id": 0, 
-                "imagen": "https://opengameart.org/sites/default/files/styles/medium/public/robot-preview.png", 
-                "x": 200, 
-                "y": 0,
-                "xf": 0,
-                "yf": 0, 
-                "nombre": "Joe", 
-                "vida": 100, 
-                "mira": 360, 
-                "motor": 0   
-            }, 
-            {
-                "id": 1, 
-                "imagen": "https://upload.wikimedia.org/wikipedia/commons/8/81/Chess_bdt60.png", 
-                "x": 0, 
-                "y": 0,
-                "xf": 0,
-                "yf": 0, 
-                "nombre": "Mati", 
-                "vida": 100, 
-                "mira": 360, 
-                "motor": 0 
-            },
-            {
-                "id": 2, 
-                "imagen": "https://toppng.com/uploads/preview/8-bit-mario-8-bit-luigi-pixel-115633511986zud7ifcqi.png", 
-                "x": 0, 
-                "y": 0,
-                "xf": 0,
-                "yf": 0, 
-                "nombre": "Mario", 
-                "vida": 100, 
-                "mira": 360, 
-                "motor": 0 
-            },
-            {
-                "id": 3, 
-                "imagen": "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png", 
-                "x": 0, 
-                "y": 0,
-                "xf": 0,
-                "yf": 0, 
-                "nombre": "Steve", 
-                "vida": 100, 
-                "mira": 360, 
-                "motor": 0 
+                "motor": 0,
+                "xmis": null,
+                "ymis": null,
+                "xmisf": null,
+                "ymisf": null 
             }
         ]
     }

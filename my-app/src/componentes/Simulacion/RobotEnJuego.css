@@ -2,7 +2,6 @@
     width: 21px;
     height: 21px;
     position: absolute;
-    background-color: red;
 }
 
 #RobotEnJuego img {
@@ -83,22 +82,22 @@
 }
 
 :root {
-    --xinit_0: 0;
-    --yinit_0: 1000px;
-    --xfinal_0: 1000px;
-    --yfinal_0: 1000px;
-    --xinit_1: 0px;
-    --yinit_1: 0px;
-    --xfinal_1: 500px;
-    --yfinal_1: 200px;
-    --xinit_2: 1000px;
-    --yinit_2: 1000px;
-    --xfinal_2: 0px;
-    --yfinal_2: 0px;
-    --xinit_3: 1000px;
-    --yinit_3: 0px;
-    --xfinal_3: 1000px;
-    --yfinal_3: 890px;
+    --xinit_0: ;
+    --yinit_0: ;
+    --xfinal_0: ;
+    --yfinal_0: ;
+    --xinit_1: ;
+    --yinit_1: ;
+    --xfinal_1: ;
+    --yfinal_1: ;
+    --xinit_2: ;
+    --yinit_2: ;
+    --xfinal_2: ;
+    --yfinal_2: ;
+    --xinit_3: ;
+    --yinit_3: ;
+    --xfinal_3: ;
+    --yfinal_3: ;
 }
 
 @keyframes animate_0 {
