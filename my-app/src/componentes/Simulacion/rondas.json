@@ -11,7 +11,7 @@
                 "nombre": "Joe", 
                 "vida": 100, 
                 "mira": 360, 
-                "motor": 0   
+                "motor": 0
             }, 
             {
                 "id": 1, 
