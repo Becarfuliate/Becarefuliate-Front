@@ -13,20 +13,22 @@ const Loading = () => {
     );
 };
 
-const Listing = (robots) => {
-    return (
-        robots.forEach((robot, index) => {
+const Listing = (props) => {
+    console.log(props.robots);
+    const listResults = props.robots.map((robot, index) =>
             <li key={index}>
                 <div className='block-robot'>
-                    <p>{robot.id}</p>
-                    <p>{robot.name}</p>
-                    <p>{robot.avatar}</p>
-                    <p>{robot.matchs_pleyed}</p>
-                    <p>{robot.matchs_won}</p>
-                    <p>{robot.avg_life_time}</p>
+                    <p><strong> ID:</strong> {robot.id}</p>
+                    <p><strong> Nombre:</strong>{robot.name}</p>
+                    <p><strong> Avatar:</strong>{robot.avatar}</p>
+                    <p><strong> Partidas Jugadas:</strong>{robot.matchs_pleyed}</p>
+                    <p><strong> Partidas Ganadas:</strong>{robot.matchs_won}</p>
+                    <p><strong> Tiempo promedio de vida:</strong>{robot.avg_life_time}</p>
                 </div>
             </li>
-        })
+        )
+    return (
+        <ul id='list-robots'>{listResults}</ul>
     );
 };
 
@@ -52,20 +54,45 @@ const UserRobots = () => {
 
     useEffect(() => {
         setListRobots(exportServiceListarRobots.serviceListRobots());
+        // Borrar luego es para probar como se ve la lista de robots
+        // setListRobots([
+        //     {
+        //         "name": "Krlos",
+        //         "avatar": "asdf",
+        //         "matchs_pleyed": 2,
+        //         "matchs_won": 2,
+        //         "avg_life_time": 80,
+        //         "id": 5
+        //       },
+        //       {
+        //         "name": "Krlosssss",
+        //         "avatar": "asdf",
+        //         "matchs_pleyed": 4,
+        //         "matchs_won": 24,
+        //         "avg_life_time": 80,
+        //         "id": 6
+        //       },
+        //       {
+        //         "name": "Krloshhhhhh",
+        //         "avatar": "asdf",
+        //         "matchs_pleyed": 5,
+        //         "matchs_won": 5,
+        //         "avg_life_time": 80,
+        //         "id": 7
+        //       },
+        // ])
     }, [changedListRobots]);
 
 
 
     return (
         <div id='content-list-robots'>
-            <ul>
                 {
                 (Array.isArray(listRobots) && listRobots.length) ?
-                    <Listing id='list-robots' robots={listRobots}/>
+                    <Listing robots={listRobots}/>
                 :
                     <Loading />
                 }
-            </ul>
         </div>
     );
 };
