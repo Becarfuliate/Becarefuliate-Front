@@ -9,59 +9,35 @@ const maxMira = 360;
 function RobotEnJuego({imagen, x, y, xf, yf, nombre, num, vida, motor, mira, ronda}) {
 
     // Check Borders
-    if (x<min) {
-        x = min;
-    }
-    if (y < min) {
-        y = min;
-    }
-    if (x>maxBorde) {
-        x = maxBorde;
-    }
-    if (y>maxBorde) {
-        y = maxBorde;
-    }
+    if (x<min) { x = min;}
+    if (y < min) { y = min;}
+    if (x>maxBorde) { x = maxBorde;}
+    if (y>maxBorde) { y = maxBorde;}
 
     // Check Vida Limit
-    if (vida > max) {
-        vida = max;
-    }
-    if (vida < min) {
-        vida = min;
-    }
+    if (vida > max) { vida = max;}
+    if (vida < min) { vida = min;}
     
     // Check motor Limit
-    if (motor > max) {
-        motor = max;
-    }
-    if (motor < min) {
-        motor = min;
-    }
+    if (motor > max) { motor = max;}
+    if (motor < min) { motor = min;}
 
     // Check mira Limit
-    if (mira > maxMira) {
-        mira = maxMira;
-    }
-    if (mira < min) {
-        mira = min;
-    }
+    if (mira > maxMira) { mira = maxMira;}
+    if (mira < min) { mira = min;}
 
     //Apply Coordinates
-    /*
-    const robotpos = {
-        top: `${maxBorde-y}px`,
-        left: `${x}px`
-    }*/
-    
     const robotanimar = {
+        top: `${maxBorde-y}px`,
+        left: `${x}px`,
         animation: `animate_${num} 1s linear forwards`
     }
-    
+
     document.documentElement.style.setProperty("--xinit_" + num, x + "px");
     document.documentElement.style.setProperty("--yinit_" + num, y + "px");
     document.documentElement.style.setProperty("--xfinal_" + num, xf + "px");
     document.documentElement.style.setProperty("--yfinal_" + num, yf + "px");
-
+    
     const robotvid = {
         width: `${3.5*vida}px`
     }
@@ -71,8 +47,8 @@ function RobotEnJuego({imagen, x, y, xf, yf, nombre, num, vida, motor, mira, ron
     }
 
     return (
-    <div>
-    <div user={ronda*(num+1)} key={ronda*(num+1)} style={robotanimar} id="RobotEnJuego">
+    <div key={ronda*(num+1)}>
+    <div style={robotanimar} id="RobotEnJuego">
         <img src={imagen} alt=""></img>
         <p className="nombre">{nombre}</p>
     </div>
