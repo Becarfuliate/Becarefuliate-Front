@@ -46,10 +46,11 @@
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
+  "devDependencies": {
+    "jest-watch-typeahead": "^0.6.5",
+    "msw": "^0.47.4"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "msw": "^0.47.4"
-  }
+  "license": "ISC"
 }

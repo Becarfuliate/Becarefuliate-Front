@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import * as React from 'react';
 import ListarPartida from './listar_partidas/listarPartida';
 import { useHistory } from "react-router-dom";
+import AgregarRobot from "./AgregarRobot/AgregarRobot";
 
 const Toolbar = styled(MuiToolbar)(({ theme }) => ({
   height: 64,
@@ -68,14 +69,14 @@ function HomepageLogin() {
             <Link
               variant="button"
               underline="none"
-              href="/"
+              href="/listarPartidas"
               sx={rightLink} >
               {'Partidas'}
             </Link>
             <Link
               variant="button"
               underline="none"
-              href=""
+              href="/subirRobot"
               sx={rightLink} >
               {'Subir Robot'}
             </Link>
@@ -98,8 +99,9 @@ function HomepageLogin() {
       </AppBar>
       <Switch> 
           <Route path="/user/crearPartida" component={Partida} />
-          <Route path="/" component={ListarPartida} />
+          <Route path="/listarPartidas" component={ListarPartida} />
           <Route path="/signOff" component={SignOff} />
+          <Route path="/subirRobot" component={AgregarRobot} />
       </Switch>   
     </div>
   )

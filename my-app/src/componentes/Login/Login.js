@@ -1,16 +1,11 @@
 import React, {useState} from 'react' 
-//import avatarRobot from "../../img/avatar-robot-defect.png"
-import exportServiceLogin from './serviceLogin';
+import exportServiceLogin from '../Servicios/serviceLogin';
 import validator from 'validator';
 import { useHistory } from 'react-router-dom';
-//const avatarRobot = ''
 
 const UserLogin = () => {
     const [userlogin, setUserlogin] = useState("");
     const [password, setPassword] = useState("");
-    // Si el usuarioAceptado es verdadero =>
-    // Que esta logueado  => Que confirmo por email ser un jugador de Pyrobots
-    //const [avatar, setAvatar] = useState(avatarRobot);
 
     const onChangeUserlogin = (e) => {
         setUserlogin(e.target.value);
