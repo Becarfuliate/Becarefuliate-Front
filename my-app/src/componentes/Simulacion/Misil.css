@@ -1,9 +1,9 @@
 #Misil {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
     position: absolute;
-    background-color: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: gray;
 }
 
 :root {
@@ -27,96 +27,120 @@
 
 @keyframes animatemis_0 {
     0% {
-        width: 5px;
-        height: 5px;
+        background-color: gray;
+        width: 10px;
+        height: 10px;
         opacity: 100%;
         left: var(--xinitmis_0);
         top: var(--yinitmis_0);
+        transform: translate(-0px, -0px);
     }
     70% {
-        width: 5px;
-        height: 5px;
+        background-color: gray;
+        width: 10px;
+        height: 10px;
         opacity: 100%;
         left: var(--xfinalmis_0);
         top: var(--yfinalmis_0);
+        transform: translate(-0px, -0px);
     }
     100% {
-        width: 40px;
-        height: 40px;
-        opacity: 20%;
+        background-color: red;
+        width: 120px;
+        height: 120px;
+        opacity: 0%;
         left: var(--xfinalmis_0);
         top: var(--yfinalmis_0);
+        transform: translate(-50px, -50px);
     }
 }
 
 @keyframes animatemis_1 {
     0% {
-        width: 5px;
-        height: 5px;
+        background-color: gray;
+        width: 10px;
+        height: 10px;
         opacity: 100%;
         left: var(--xinitmis_1);
         top: var(--yinitmis_1);
+        transform: translate(-0px, -0px);
     }
     70% {
-        width: 5px;
-        height: 5px;
+        background-color: gray;
+        width: 10px;
+        height: 10px;
         opacity: 100%;
         left: var(--xfinalmis_1);
         top: var(--yfinalmis_1);
+        transform: translate(-0px, -0px);
     }
     100% {
-        width: 40px;
-        height: 40px;
-        opacity: 20%;
+        background-color: red;
+        width: 120px;
+        height: 120px;
+        opacity: 0%;
         left: var(--xfinalmis_1);
         top: var(--yfinalmis_1);
+        transform: translate(-50px, -50px);
     }
 }
 
 @keyframes animatemis_2 {
     0% {
-        width: 5px;
-        height: 5px;
+        background-color: gray;
+        width: 10px;
+        height: 10px;
         opacity: 100%;
         left: var(--xinitmis_2);
         top: var(--yinitmis_2);
+        transform: translate(-0px, -0px);
     }
     70% {
-        width: 5px;
-        height: 5px;
+        background-color: gray;
+        width: 10px;
+        height: 10px;
         opacity: 100%;
         left: var(--xfinalmis_2);
         top: var(--yfinalmis_2);
+        transform: translate(-0px, -0px);
     }
     100% {
-        width: 40px;
-        height: 40px;
-        opacity: 20%;
+        background-color: red;
+        width: 120px;
+        height: 120px;
+        opacity: 0%;
         left: var(--xfinalmis_2);
         top: var(--yfinalmis_2);
+        transform: translate(-50px, -50px);
     }
 }
 
 @keyframes animatemis_3 {
     0% {
-        width: 5px;
-        height: 5px;
+        background-color: gray;
+        width: 10px;
+        height: 10px;
         opacity: 100%;
         left: var(--xinitmis_3);
         top: var(--yinitmis_3);
+        transform: translate(-0px, -0px);
     }
     70% {
-        width: 5px;
-        height: 5px;
+        background-color: gray;
+        width: 10px;
+        height: 10px;
         opacity: 100%;
         left: var(--xfinalmis_3);
         top: var(--yfinalmis_3);
+        transform: translate(-0px, -0px);
     }
     100% {
-        width: 40px;
-        height: 40px;
-        opacity: 20%;
+        background-color: red;
+        width: 120px;
+        height: 120px;
+        opacity: 0%;
         left: var(--xfinalmis_3);
         top: var(--yfinalmis_3);
+        transform: translate(-50px, -50px);
     }
 }
