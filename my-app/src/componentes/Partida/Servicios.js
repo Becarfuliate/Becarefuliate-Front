@@ -40,7 +40,7 @@ function handleSubmit(dataPartida) {
     user_creator: user.userlogin,
     token: user.token,
   };
-
+  console.log("postData", postData);
   servicioPartida(postData);
 }
 
