@@ -44,79 +44,43 @@ function Tablero({rondas}) {
         }
     }, [rondaActual, rondas]);
 
-    if (rondas[0].length === 4) {
-        return (
-            <div id="Tablero">
-                <li key={id[0]}>
-                    <RobotEnJuego imagen={imagen[0]} x={x[0]} y={y[0]} xf={xf[0]} yf={yf[0]} nombre={nombre[0]}
-                    num={0} vida={vida[0]} motor={motor[0]} mira={mira[0]} ronda={rondaActual} /> 
-                    <Misil xmis={xmis[0]} ymis={ymis[0]} xmisf={xmisf[0]} ymisf={ymisf[0]} num={0} ronda={rondaActual}/>
-                </li>
-                <li key={id[1]}>
-                    <RobotEnJuego imagen={imagen[1]} x={x[1]} y={y[1]} xf={xf[1]} yf={yf[1]} nombre={nombre[1]}
-                    num={1} vida={vida[1]} motor={motor[1]} mira={mira[1]} ronda={rondaActual}/>
-                    <Misil xmis={xmis[1]} ymis={ymis[1]} xmisf={xmisf[1]} ymisf={ymisf[1]} num={1} ronda={rondaActual}/> 
-                </li>
-                <li key={id[2]}>
-                    <RobotEnJuego imagen={imagen[2]} x={x[2]} y={y[2]} xf={xf[2]} yf={yf[2]} nombre={nombre[2]}
-                    num={2} vida={vida[2]} motor={motor[2]} mira={mira[2]} ronda={rondaActual}/>
-                    <Misil xmis={xmis[2]} ymis={ymis[2]} xmisf={xmisf[2]} ymisf={ymisf[2]} num={2} ronda={rondaActual}/> 
-                </li>
-                <li key={id[3]}>
-                    <RobotEnJuego imagen={imagen[3]} x={x[3]} y={y[3]} xf={xf[3]} yf={yf[3]} nombre={nombre[3]}
-                    num={3} vida={vida[3]} motor={motor[3]} mira={mira[3]} ronda={rondaActual}/>
-                    <Misil xmis={xmis[3]} ymis={ymis[3]} xmisf={xmisf[3]} ymisf={ymisf[3]} num={3} ronda={rondaActual}/> 
-                </li>
-            </div>
-        )
-    } else if (rondas[0].length === 3) {
-        return (
-            <div id="Tablero">
-                <li key={id[0]}>
-                    <RobotEnJuego imagen={imagen[0]} x={x[0]} y={y[0]} xf={xf[0]} yf={yf[0]} nombre={nombre[0]}
-                    num={0} vida={vida[0]} motor={motor[0]} mira={mira[0]} ronda={rondaActual}/>
-                    <Misil xmis={xmis[0]} ymis={ymis[0]} xmisf={xmisf[0]} ymisf={ymisf[0]} num={0} ronda={rondaActual}/> 
-                </li>
-                <li key={id[1]}>
-                    <RobotEnJuego imagen={imagen[1]} x={x[1]} y={y[1]} xf={xf[1]} yf={yf[1]} nombre={nombre[1]}
-                    num={1} vida={vida[1]} motor={motor[1]} mira={mira[1]} ronda={rondaActual}/>
-                    <Misil xmis={xmis[1]} ymis={ymis[1]} xmisf={xmisf[1]} ymisf={ymisf[1]} num={1} ronda={rondaActual}/> 
-                </li>
-                <li key={id[2]}>
-                    <RobotEnJuego imagen={imagen[2]} x={x[2]} y={y[2]} xf={xf[2]} yf={yf[2]} nombre={nombre[2]}
-                    num={2} vida={vida[2]} motor={motor[2]} mira={mira[2]} ronda={rondaActual}/>
-                    <Misil xmis={xmis[2]} ymis={ymis[2]} xmisf={xmisf[2]} ymisf={ymisf[2]} num={2} ronda={rondaActual}/> 
-                </li>
-            </div>
-        )
+    const output = [];
+    rondas[0].forEach((_, i) => {
+        output.push(
+            <li key={id[i]}>
+                <RobotEnJuego imagen={imagen[i]} x={x[i]} y={y[i]} xf={xf[i]} yf={yf[i]} nombre={nombre[i]}
+                num={i} vida={vida[i]} motor={motor[i]} mira={mira[i]} ronda={rondaActual} /> 
+                <Misil xmis={xmis[i]} ymis={ymis[i]} xmisf={xmisf[i]} ymisf={ymisf[i]} num={i} ronda={rondaActual}/>
+            </li>
+        );
+    });
+
+    //Ultima Ronda.
+    const vivos = ["Supervivientes:"];
+    if (rondaActual === rondas.length) {
+        //Listar Robots vivos.
+        rondas[rondaActual-1].forEach((robot) => {
+            if (robot.vida > 0) {
+                vivos.push(
+                    <li key={robot.nombre}>
+                        {` "${robot.nombre}"`}
+                    </li>
+                );
+            }
+        });
+        //Añadir Mensaje de Supervivientes
+        output.push(
+            <li key={rondaActual} className="supervivientes">
+                {vivos}
+            </li>
+        );
     }
-    else if (rondas[0].length === 2) {
-        return (
-            <div id="Tablero">
-                <li key={id[0]}>
-                    <RobotEnJuego imagen={imagen[0]} x={x[0]} y={y[0]} xf={xf[0]} yf={yf[0]} nombre={nombre[0]}
-                    num={0} vida={vida[0]} motor={motor[0]} mira={mira[0]} ronda={rondaActual}/>
-                    <Misil xmis={xmis[0]} ymis={ymis[0]} xmisf={xmisf[0]} ymisf={ymisf[0]} num={0} ronda={rondaActual}/> 
-                </li>
-                <li key={id[1]}>
-                    <RobotEnJuego imagen={imagen[1]} x={x[1]} y={y[1]} xf={xf[1]} yf={yf[1]} nombre={nombre[1]}
-                    num={1} vida={vida[1]} motor={motor[1]} mira={mira[1]} ronda={rondaActual}/>
-                    <Misil xmis={xmis[1]} ymis={ymis[1]} xmisf={xmisf[1]} ymisf={ymisf[1]} num={1} ronda={rondaActual}/> 
-                </li>
-            </div>
-        )
-    }
-    else if (rondas[0].length === 1) {
-        return (
-            <div id="Tablero">
-                <li key={id[0]}>
-                    <RobotEnJuego imagen={imagen[0]} x={x[0]} y={y[0]} xf={xf[0]} yf={yf[0]} nombre={nombre[0]}
-                    num={0} vida={vida[0]} motor={motor[0]} mira={mira[0]} ronda={rondaActual}/>
-                    <Misil xmis={xmis[0]} ymis={ymis[0]} xmisf={xmisf[0]} ymisf={ymisf[0]} num={0} ronda={rondaActual}/> 
-                </li>
-            </div>
-        )
-    }
+
+    return (
+        <div id="Tablero">
+            {output}
+        </div>
+    )
 }
 
 export default Tablero;

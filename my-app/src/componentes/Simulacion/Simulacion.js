@@ -25,9 +25,9 @@ function Simulacion() {
   ronda2.push({id: 2, imagen: "https://toppng.com/uploads/preview/dead-pixel-society-black-and-white-pixel-11563243949kkuykxltej.png", x: 500, y: 340, xf: 500, yf: 340, nombre: 'Mario', vida: 0, mira: 45, motor: 0, xmis: null, ymis: null, xmisf: null, ymisf: null});
   ronda2.push({id: 3, imagen: "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png", x: 1000, y: 1000, xf: 1000, yf: 1000, nombre: 'Steve', vida: 20, mira: 360, motor: 0, xmis: 1000, ymis: 1000, xmisf: 300, ymisf: 220});
   
-  ronda3.push({id: 0, imagen: "https://opengameart.org/sites/default/files/styles/medium/public/robot-preview.png", x: 900, y: 1000, xf: 1000, yf: 900, nombre: 'Joe-dete Nintendo', vida: 45, mira: 360, motor: 0, xmis: null, ymis: null, xmisf: null, ymisf: null});
+  ronda3.push({id: 0, imagen: "https://opengameart.org/sites/default/files/styles/medium/public/robot-preview.png", x: 1000, y: 900, xf: 1000, yf: 900, nombre: 'Joe-dete Nintendo', vida: 45, mira: 360, motor: 0, xmis: null, ymis: null, xmisf: null, ymisf: null});
   ronda3.push({id: 1, imagen: "https://upload.wikimedia.org/wikipedia/commons/8/81/Chess_bdt60.png", x: 260, y: 260, xf: 260, yf: 260, nombre: 'Mati', vida: 80, mira: 360, motor: 0, xmis: null, ymis: null, xmisf: null, ymisf: null});
-  ronda3.push({id: 2, imagen: "http://pixelartmaker-data-78746291193.nyc3.digitaloceanspaces.com/image/451eb874bc5f737.png", x: 500, y: 340, xf: 500, yf: 340, nombre: 'Mario', vida: 0, mira: 45, motor: 0, xmis: null, ymis: null, xmisf: null, ymisf: null});
+  ronda3.push({id: 2, imagen: "https://toppng.com/uploads/preview/dead-pixel-society-black-and-white-pixel-11563243949kkuykxltej.png", x: 500, y: 340, xf: 500, yf: 340, nombre: 'Mario', vida: 0, mira: 45, motor: 0, xmis: null, ymis: null, xmisf: null, ymisf: null});
   ronda3.push({id: 3, imagen: "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png", x: 1000, y: 1000, xf: 1000, yf: 1000, nombre: 'Steve', vida: 20, mira: 360, motor: 0, xmis: null, ymis: null, xmisf: null, ymisf: null});
 
   rondas[0] = ronda0;
