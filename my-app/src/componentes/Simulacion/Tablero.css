@@ -1,12 +1,29 @@
 #Tablero {
     position: relative;
-    transform: translate(0%, 0%);
-    width: 1000px;
-    height: 1000px;
+    width: 1021px;
+    height: 1021px;
     border: solid 5px black;
     background-color: burlywood;
 }
 
-#Tablero li {
-    display: inline;
+.supervivientes {
+    position: relative;
+    top: 35%;
+    left: 30%;
+    width: 600px;
+    height: 200px;
+    background-color: lavenderblush;
+    border: solid 3px black;
+    word-spacing: 5px;
+    font-size: xx-large;
+    font-weight: bolder;
+    color: red;
+    list-style-type: none;
+}
+
+.supervivientes li {
+    position: relative;
+    left: 20%;
+    color: black;
+    list-style-type: disc;
 }
