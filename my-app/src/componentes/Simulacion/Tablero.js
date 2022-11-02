@@ -80,9 +80,7 @@ function Tablero({rondas}) {
         <div>
             <br/><br/><br/><br/><br/>
             <div id="Tablero">
-            <ul>
                 {output}
-            </ul>
             </div>
         </div>
     )
