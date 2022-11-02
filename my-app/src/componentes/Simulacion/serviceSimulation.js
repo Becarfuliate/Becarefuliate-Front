@@ -6,6 +6,7 @@ const baseURL = "http://127.0.0.1:8000";
 const defaultDataSimulation = {
     id_Robots: [],
     cant_Rondas: 0, 
+    cant_Robots: 0,
     token: JSON.parse(localStorage.getItem("user")).token
 };
 
@@ -18,10 +19,11 @@ async function ListaRobots(){
   }
 
 async function ejecutarPartida(dataSimulation){
-    if(verifyDataSimulation(dataSimulation))
+    if(verifyDataSimulation(dataSimulation)){
         await axios.post(baseURL + "/crearSimulacion", dataSimulation)
         .then((response) => alert("Pasar a nay"))
         .catch((err) => alert(err.response.datail));
+    }
 }
 
 export {ListaRobots, defaultDataSimulation, ejecutarPartida};
