@@ -15,7 +15,7 @@ async function ListaRobots(){
     return await axios.get(baseURL + "/robots?token=" + tkn)
     .then((response) => response.data)
     .catch((_) => []);
-  }
+}
 
 async function ejecutarPartida(dataSimulation){
     dataSimulation.token = JSON.parse(localStorage.getItem("user")).token;
