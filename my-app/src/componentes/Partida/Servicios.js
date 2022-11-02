@@ -1,6 +1,14 @@
 import axios from "axios";
 const baseURL = "http://127.0.0.1:8000";
 
+const defaultdataPartida = {
+  name: "",
+  max_players: "",
+  password: "",
+  n_matchs: "",
+  n_rounds_match: ""
+}
+
 async function servicioPartida(postData) {
   await axios
     .post(baseURL + "/match/add", postData)
@@ -9,7 +17,10 @@ async function servicioPartida(postData) {
     })
     .catch(function (error) {
       if (error.response.status === 409) {
-        window.alert("Revise los campos e intente de nuevo");
+        alert(error.response.data.detail);
+      }
+      if (error.response.status === 422) {
+        alert(error.response.data.detail[0].msg);
       }
       if (error.response) {
         console.log(`Returned with error: ${error.response.status}`);
@@ -17,25 +28,20 @@ async function servicioPartida(postData) {
     });
 }
 
-/*
-//name, max_players, password, n_matchs, n_rounds_match;
-async function servicioListarPartida() {
-  await axios
-    .get(baseURL + "/matchs")
-    .then((response) => {
-      const respuesta = response.data;
-      //      console.log(respuesta);
-      let lista_partidas = [];
-      //      console.log(lista_partidas);
-      respuesta.map(function (element) {
-        lista_partidas.push(`${element.name}`);
-      });
-      //      console.log(lista_partidas);
-      return lista_partidas[0];
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+function handleSubmit(dataPartida) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const postData = {
+    name: dataPartida.name,
+    max_players: dataPartida.max_players,
+    min_players: 2,
+    password: dataPartida.password,
+    n_matchs: dataPartida.n_matchs,
+    n_rounds_matchs: dataPartida.n_rounds_match,
+    user_creator: user.userlogin,
+    token: user.token,
+  };
+  console.log("postData", postData);
+  servicioPartida(postData);
 }
-*/
-export const partidas = { servicioPartida };
+
+export {handleSubmit, defaultdataPartida};

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import imgDefaultRobot from "../../img/avatar-robot-defect.png"
+import imgDefaultRobot from "./avatar-robot-defect.png";
 import exportServiceRobot from "../Servicios/serviceAgregarRobot";
 
 const UserRobotCreate = () => {
@@ -99,9 +99,6 @@ const UserRobotCreate = () => {
             }
         }
     };
-
-
-    
 
     return (
         <div id="create-robot">

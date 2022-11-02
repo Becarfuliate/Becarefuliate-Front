@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import './ListarRobots.css';
 import exportServiceListarRobots from '../Servicios/serviceListarRobots';
 
@@ -33,8 +33,7 @@ const Listing = (props) => {
 
 const UserRobots = () => {
     const [listRobots, setListRobots] = useState(null);
-
-    setListRobots(exportServiceListarRobots.serviceListRobots());
+    exportServiceListarRobots.serviceListRobots().then(listRobots => setListRobots(listRobots));
 
     return (
         <div id='content-list-robots'>

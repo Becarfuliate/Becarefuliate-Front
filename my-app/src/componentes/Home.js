@@ -1,9 +1,10 @@
 import React from 'react';
+import './home.css';
 
 function Home () {
   return (
       <div>
-        <h2>Home</h2>
+          <img src='./homepage.png' alt="avatar-robot" className='img-homepage' />
       </div>
   );
 }
