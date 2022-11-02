@@ -1,8 +1,8 @@
 import { BrowserRouter as Switch, Route } from "react-router-dom";
 import ListarPartida from './listar_partidas/listarPartida';
+import crearSimulacion from "./Simulacion/crearSimulacion";
 import AgregarRobot from "./AgregarRobot/AgregarRobot";
 import listarRobot from './ListarRobots/ListarRobots';
-import Simulacion from "./Simulacion/Simulacion";
 import MuiToolbar from '@mui/material/Toolbar';
 import { useHistory } from "react-router-dom";
 import { styled } from '@mui/material/styles';
@@ -55,7 +55,7 @@ function HomepageLogin() {
               color="inherit"
               variant="button"
               underline="none"
-              href="/partida/simulacion"
+              href="/user/crearSimulacion"
               sx={rightLink} >
               {'Crear simulación'}
             </Link>
@@ -98,6 +98,7 @@ function HomepageLogin() {
         </Toolbar>
       </AppBar>
       <Switch> 
+          <Route exact path="/user/crearSimulacion" component={crearSimulacion} />; 
           <Route path="/user/crearPartida" component={Partida} />
           <Route path="/listarPartidas" component={ListarPartida} />
           <Route path="/signOff" component={SignOff} />
