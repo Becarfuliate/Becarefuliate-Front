@@ -117,7 +117,7 @@ const UserRobotCreate = () => {
                         </input>
                     </div>
                     <div id="input-avatar-robot">
-                        <h2>Subir AvatarRobot(opcional)</h2>
+                        <h2>Subir AvatarRobot</h2>
                         <input
                             className="input-file-img"
                             type="file"
