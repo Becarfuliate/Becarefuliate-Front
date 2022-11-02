@@ -23,14 +23,13 @@ const dataLogin = (is_login_email ,userlogin, password) => {
 // respuesta corresponde a la data enviada desde el backEnd
 // userlogin sera email o username dependiendo con cual se logueo el usuario
 const manejoRespuesta = (code, respuesta, userlogin) => {
-    let Logueado = false;
     switch (code) {
         case 200:
             localStorage.setItem('user', JSON.stringify({
                 userlogin: userlogin,
                 token: respuesta.token,
             }));
-            Logueado = true;
+            window.location.reload();
             break;
         case 400:
             alert(respuesta.detail);
@@ -39,18 +38,20 @@ const manejoRespuesta = (code, respuesta, userlogin) => {
             alert("Error No Contemplado, " + respuesta)
             break;
     }
-    return Logueado;
 }
 
 const serviceLogIn = async (is_login_email, userlogin, password) => {
     return await API.post('login', dataLogin(is_login_email, userlogin, password))
-    .then(respuesta => manejoRespuesta(respuesta.status, respuesta.data, userlogin))
+    .then(respuesta => {
+        manejoRespuesta(respuesta.status, respuesta.data, userlogin);
+    })
     .catch((error) => manejoRespuesta(error.response.status, error.response.data, userlogin))
     .then(Logueado => Logueado)
 };
 
 const serviceLogOut = () => {
     localStorage.removeItem('user');
+    localStorage.removeItem('robots');
 };
 
 const exportServiceLogin = {
