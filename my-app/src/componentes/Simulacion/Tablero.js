@@ -4,7 +4,6 @@ import Misil from "./Misil";
 import {useState, useEffect} from "react";
 
 function Tablero({rondas}) {
-    window.resizeBy(1000, 1000)
     const [rondaActual, setrondaActual] = useState(1);
 
     const [vida, setVida] = useState(rondas[0].map(robot => robot.vida));
@@ -49,7 +48,7 @@ function Tablero({rondas}) {
         output.push(
             <li key={id[i]}>
                 <RobotEnJuego imagen={imagen[i]} x={x[i]} y={y[i]} xf={xf[i]} yf={yf[i]} nombre={nombre[i]}
-                num={i} vida={vida[i]} motor={motor[i]} mira={mira[i]} ronda={rondaActual} /> 
+                num={i} vida={vida[i]} motor={motor[i]} mira={mira[i]} ronda={rondaActual}/> 
                 <Misil xmis={xmis[i]} ymis={ymis[i]} xmisf={xmisf[i]} ymisf={ymisf[i]} num={i} ronda={rondaActual}/>
             </li>
         );
