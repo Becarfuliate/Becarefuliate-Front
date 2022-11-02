@@ -1,7 +1,7 @@
 #RobotEnJuego {
+    position: absolute;
     width: 21px;
     height: 21px;
-    position: absolute;
 }
 
 #RobotEnJuego img {
@@ -17,9 +17,9 @@
 }
 
 #RobotStats {
+    position: absolute;
     width: 450px;
     height: 180px;
-    position: absolute;
     left: 120px;
     border: solid 5px black;
     background-color: lightgrey;
