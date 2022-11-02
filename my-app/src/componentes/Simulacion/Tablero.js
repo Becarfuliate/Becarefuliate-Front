@@ -4,7 +4,7 @@ import Misil from "./Misil";
 import {useState, useEffect} from "react";
 
 function Tablero({rondas}) {
-
+    window.resizeBy(1000, 1000)
     const [rondaActual, setrondaActual] = useState(1);
 
     const [vida, setVida] = useState(rondas[0].map(robot => robot.vida));
@@ -77,8 +77,11 @@ function Tablero({rondas}) {
     }
 
     return (
-        <div id="Tablero">
-            {output}
+        <div>
+            <br/><br/><br/><br/><br/>
+            <div id="Tablero">
+                {output}
+            </div>
         </div>
     )
 }

@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Login from "./Login/Login";
 import * as React from 'react';
 import Home from "./Home";
+import simulacion from "./Simulacion/Simulacion";
 
 const Toolbar = styled(MuiToolbar)(({ theme }) => ({
   height: 64,
@@ -66,6 +67,7 @@ function HomePageUser() {
           <Route exact path="/" component={Home} />
           <Route path="/home/login" component={Login} />
           <Route path="/home/registro" component={Registro} />
+          <Route exact path="/simulacion" component={simulacion} />
       </Switch>   
     </div>
   ); 

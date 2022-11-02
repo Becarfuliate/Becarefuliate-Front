@@ -4,6 +4,7 @@
     height: 1021px;
     border: solid 5px black;
     background-color: burlywood;
+    list-style-type: none;
 }
 
 .supervivientes {
@@ -18,12 +19,10 @@
     font-size: xx-large;
     font-weight: bolder;
     color: red;
-    list-style-type: none;
 }
 
 .supervivientes li {
     position: relative;
-    left: 20%;
+    left: 15%;
     color: black;
-    list-style-type: disc;
 }
