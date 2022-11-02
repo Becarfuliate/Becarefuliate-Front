@@ -1,6 +1,8 @@
 function verifyId_robots(dataSimulation){
     const equalIdRobotAndCantRobots = (dataSimulation.id_Robots.length === dataSimulation.id_Robotcant_Robot);
-    return equalIdRobotAndCantRobots;
+    const cantRobotsGreater2 = (dataSimulation.id_Robotcant_Robot >= 2);
+    return equalIdRobotAndCantRobots &&
+           cantRobotsGreater2;
 }
 
 function verifyRounds(dataSimulation){
