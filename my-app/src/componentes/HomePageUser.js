@@ -2,7 +2,7 @@ import { BrowserRouter as Switch, Route } from "react-router-dom";
 import MuiToolbar from '@mui/material/Toolbar';
 import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
-import Registro from "./registro/Register";
+import Registro from "./Registro/Register";
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Login from "./Login/Login";
