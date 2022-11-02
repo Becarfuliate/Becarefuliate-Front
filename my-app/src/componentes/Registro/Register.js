@@ -1,54 +1,26 @@
-import {defaultDataUser} from './dataUser';
-import loadDataUser from './dataLoad';
-import React, {useState} from 'react';
+import {sendDataUser, modifyDataName, modifyDataPassword, modifyDataEmail} from '../../store/register/actions';
+import {connect} from 'react-redux';
 import './Register.css';
 
-function loadImg64(file, callback, dataUser) {
-	const reader = new FileReader();
-  reader.onload = () => {
-    const img64 = reader.result;
-    callback({ ...dataUser, "avatar": img64});
-  };
-	reader.readAsDataURL(file);
-}
-
-function Register(){
-  const [dataUser, setDataUser] = useState(defaultDataUser);
-
-  const dataUserChange = (formBarInfo) => {
-    const dateUserMod = formBarInfo.target;
-    const {name,value} = dateUserMod;
-    if (name !== "avatar") setDataUser({ ...dataUser, [name]: value});
-    else loadImg64(dateUserMod.files[0], setDataUser, dataUser);
-  };
-
-  const controllerRefresh = (event) => {
-    event.preventDefault();
-    loadDataUser(dataUser);
-  }
-
+function Register({sendDataUser, modifyDataName, modifyDataPassword, modifyDataEmail}){
   return (
   <div className="login-page">
     <div className="form">
-      <form className="register-form" onSubmit={controllerRefresh}>
+      <form className="register-form">
+        <p>REGISTRARSE</p>
         <input type="text" placeholder="Nombre" name= "username"
-        onChange= {dataUserChange} required/>
+        onChange= {(e) => modifyDataName(e.target.value)} required/>
 
         <input type="password" placeholder="Contraseña" name= "password"
-        onChange= {dataUserChange} required/>
+        onChange= {(e) => modifyDataPassword(e.target.value)} required/>
 
         <input type="email" placeholder="Correo electrónico"  name= "email" 
-        onChange= {dataUserChange} required/>
+        onChange= {(e) => modifyDataEmail(e.target.value)} required/>
 
-        <input type="file" accept="image/png, image/jpeg" placeholder= 'foto por defecto' name= "avatar"
-        onChange= {dataUserChange}/>
-
-        <button type= "submit">Registrar</button>
-        <p className='link-singUp'><a href="/users/login">Sign In</a></p>
+        <input type="button" onClick={() => sendDataUser()} value= 'Registrar' name= 'Register'/>
       </form>
     </div>
   </div>);
 }
 
-
-export default Register;
+export default connect(null, {sendDataUser, modifyDataName, modifyDataPassword, modifyDataEmail})(Register);

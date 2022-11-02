@@ -1,0 +1,22 @@
+#list-robots .block-robot {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#content-list-robots-loading {
+    background-color: #d3f80000;
+    width: 80%;
+    margin: 15% 0 0 15%;
+}
+
+#content-list-robots-loading .loading-robots {
+    padding: 3%;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 40px;
+    color: #b8b8b8;
+}
+
+#content-list-robots-loading .spinner-show{
+    margin-left: 5%;
+    padding: 3%;
+}
