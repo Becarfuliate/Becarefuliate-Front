@@ -15,12 +15,10 @@ const addRobotinStorage = (nameRobot) => {
 };
 
 const handleResponse = (code, respuesta, nameRobot) => {
-    let savedRobot = false;
     switch (code) {
         case 200:
             addRobotinStorage(nameRobot);
             alert(respuesta.msg);
-            savedRobot = true;
             break;
         case 409:
             alert(respuesta.detail);
@@ -40,7 +38,6 @@ const handleResponse = (code, respuesta, nameRobot) => {
             alert("Error No Contemplado, " + respuesta);
             break;
     }
-    return savedRobot;
 };
 
 const filesRobot = (filePy, fileImg) => {
@@ -80,13 +77,11 @@ const headers = () => {
     }
 };
 
-// usar comillas simples inclinadas `` para estos pasajes de datos con parametros 
 const serviceUploadRobot = async (filePy, fileImg, name) => {
     console.log("files", filesRobot(filePy, fileImg));
     return await API.post('http://localhost:8000/upload/robot', filesRobot(filePy, fileImg), paramsData(name) ,headers())
     .then(respuesta => handleResponse(respuesta.status, respuesta.data, name))
     .catch((error) => handleResponse(error.response.status, error.response.data, name))
-    .then(savedRobot => savedRobot)
 };
 
 const exportServiceRobot = {
