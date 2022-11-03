@@ -1,7 +1,7 @@
 import Tablero from './Tablero';
 
 function Simulacion() {
-  console.log(JSON.parse(localStorage.getItem("user")));
+  //console.log(JSON.parse(localStorage.getItem("user")));
 
   //Carga de las rondas
   const rondas = [];
