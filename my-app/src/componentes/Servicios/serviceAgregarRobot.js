@@ -78,7 +78,6 @@ const headers = () => {
 };
 
 const serviceUploadRobot = async (filePy, fileImg, name) => {
-    console.log("files", filesRobot(filePy, fileImg));
     return await API.post('http://localhost:8000/upload/robot', filesRobot(filePy, fileImg), paramsData(name) ,headers())
     .then(respuesta => handleResponse(respuesta.status, respuesta.data, name))
     .catch((error) => handleResponse(error.response.status, error.response.data, name))
