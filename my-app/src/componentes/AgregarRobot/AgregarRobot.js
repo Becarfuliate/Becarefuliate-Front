@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import imgDefaultRobot from "./avatar-robot-defect.png";
 import exportServiceRobot from "../Servicios/serviceAgregarRobot";
 
 const UserRobotCreate = () => {
@@ -10,7 +9,6 @@ const UserRobotCreate = () => {
     const [fileRobot, setFileRobot] = useState(null);
     const [fileRobotValidate, setFileRobotValidate] = useState(false);
     // Indica si el robot se guardo tanto en el back como en localstorage(solo su nombre pues con solo eso se podra hacer peticiones)
-    const [savedRobot, setSavedRobot] = useState(false);
 
     const onChangeNameRobot = (e) => {
         setNameRobot(e.target.value);
@@ -90,9 +88,11 @@ const UserRobotCreate = () => {
             if(!fileRobot) return;
             validateRobot(fileRobot, nameRobot);
             if(fileRobotValidate) {
-                if(null === imgAvatar)
-                    setAvatar(imgDefaultRobot);
-                exportServiceRobot.serviceUploadRobot(fileRobot, imgAvatar, nameRobot).then(rst => setSavedRobot(rst));
+                if(null === imgAvatar) {
+                    alert("Ingrese una imagen a su robot");
+                    return;
+                }
+                exportServiceRobot.serviceUploadRobot(fileRobot, imgAvatar, nameRobot);
                 setNameRobot("");
                 setAvatar(null);
                 setFileRobot(null);
@@ -117,7 +117,7 @@ const UserRobotCreate = () => {
                         </input>
                     </div>
                     <div id="input-avatar-robot">
-                        <h2>Subir AvatarRobot(opcional)</h2>
+                        <h2>Subir AvatarRobot</h2>
                         <input
                             className="input-file-img"
                             type="file"
@@ -142,12 +142,6 @@ const UserRobotCreate = () => {
                         <input className='input-submit' type="submit" value="Submit" />
                     </div>
                 </form>
-
-                {savedRobot && (
-                    <div id='alert alert-success mt-4' role="alert">
-                        Robot subido exitosamente !
-                    </div>
-                )}
             </div>
         </div>
     );
