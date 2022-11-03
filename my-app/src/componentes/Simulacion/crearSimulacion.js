@@ -13,7 +13,9 @@ function CrearPartida() {
   const [lista, setLista] = useState([]); 
   ListaRobots().then((listaRobots => setLista(listaRobots)));
 
-  const handleChange = (evt) => { setDataSimulation({ ...dataSimulation, [evt.target.name]: evt.target.value}) };
+  const handleChange = (evt) => { 
+    console.log(dataSimulation);
+    setDataSimulation({ ...dataSimulation, [evt.target.name]: evt.target.value}) };
 
   const checkedList = (i) => { 
     if(dataSimulation.id_robot.length <= 0) return false;
@@ -28,9 +30,10 @@ function CrearPartida() {
   };
 
   const history = useHistory();
-  const eject = () => {
-    EjecutarPartida(dataSimulation);
-    history.push('/simulacion');
+  const eject = async () => {
+    await EjecutarPartida(dataSimulation);
+
+    if(localStorage.getItem("simulacion")) history.push('/simulacion');
   };
   
   return (

@@ -1,5 +1,8 @@
 function verifyId_robots(dataSimulation){
-    const cantRoundsGreaterT2AndLess4 = (dataSimulation.id_robot.length >= 2 && dataSimulation.id_robot.length <= 4);
+    console.log(dataSimulation.id_robot);
+    const cantRoundsGreaterT2AndLess4 = (
+        dataSimulation.id_robot.length >= 2 && 
+        dataSimulation.id_robot.length <= 4);
     
     return cantRoundsGreaterT2AndLess4;
 }
