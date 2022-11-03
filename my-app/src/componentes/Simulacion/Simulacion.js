@@ -1,8 +1,10 @@
 import Tablero from './Tablero';
 
 function Simulacion() {
-  //console.log(JSON.parse(localStorage.getItem("user")));
+  const rondas = JSON.parse(localStorage.getItem("simulacion"));
+  console.log(rondas);
 
+  /*
   //Carga de las rondas
   const rondas = [];
   const ronda0 = [];
@@ -35,7 +37,7 @@ function Simulacion() {
   rondas[1] = ronda1;
   rondas[2] = ronda2;
   rondas[3] = ronda3;
-  
+  */
   return (
     <div id="Simulacion">
       <Tablero rondas={rondas}/>

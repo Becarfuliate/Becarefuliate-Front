@@ -18,14 +18,17 @@ async function ListaRobots(){
     .catch((_) => []);
 }
 
-async function EjecutarPartida(dataSimulation){
-    dataSimulation.token = JSON.parse(localStorage.getItem("user")).token;
-    dataSimulation.user_creator = JSON.parse(localStorage.getItem("user")).userlogin; 
-    
-    if(verifyDataSimulation(dataSimulation)) {
-        await axios.post(baseURL + "/crearSimulacion", dataSimulation)
-        .then((response) => localStorage.setItem("simulacion", JSON.stringify(response.data)))
-        .catch((err) => alert(err.response.datail));
+async function EjecutarPartida(dataSimulation){ 
+    if(true) {
+        dataSimulation.token = JSON.parse(localStorage.getItem("user")).token;
+        dataSimulation.user_creator = JSON.parse(localStorage.getItem("user")).userlogin; 
+        dataSimulation.id_robot = dataSimulation.id_robot + "";
+        dataSimulation.n_rounds_simulations = parseInt(dataSimulation.n_rounds_simulations);
+        return await axios.post(baseURL + "/simulation/add", dataSimulation)
+        .then((response) => { 
+            console.log(response.data);
+        })
+        .catch((err) => []);
     }
 }
 
