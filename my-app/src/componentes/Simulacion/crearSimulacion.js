@@ -11,6 +11,7 @@ import { useHistory } from 'react-router-dom';
 function CrearPartida() {
   const [dataSimulation, setDataSimulation] = useState(defaultDataSimulation);
   const [lista, setLista] = useState([]); 
+
   ListaRobots().then((listaRobots => setLista(listaRobots)));
 
   const handleChange = (evt) => { setDataSimulation({ ...dataSimulation, [evt.target.name]: evt.target.value}) };
@@ -29,8 +30,13 @@ function CrearPartida() {
 
   const history = useHistory();
   const eject = () => {
+    //dataSimulation.id_robot.push(1);
+    //dataSimulation.id_robot.push(2);
     EjecutarPartida(dataSimulation);
-    history.push('/simulacion');
+    if (dataSimulation.id_robot.length > 1 && dataSimulation.id_robot.length < 5 && dataSimulation.n_rounds_simulations > 1  && dataSimulation.n_rounds_simulations < 10000)
+    {
+      history.push('/simulacion');
+    }
   };
   
   return (
