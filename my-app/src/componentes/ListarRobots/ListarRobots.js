@@ -15,7 +15,7 @@ const Loading = () => {
 
 const Listing = (props) => {
     const listResults = props.robots.map((robot, index) =>
-            <li key={index}>
+            <li key={index} data-testid="robot-name">
                 <div className='block-robot'>
                     <p><strong> ID:</strong> {robot.id}</p>
                     <p><strong> Nombre:</strong>{robot.name}</p>
@@ -55,4 +55,9 @@ const ListarRobots = () => {
     );
 };
 
-export default ListarRobots;
+const objListarRobots = {
+    ListarRobots,
+    Listing
+}
+
+export default objListarRobots;
