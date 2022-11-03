@@ -3,7 +3,7 @@ import ListarPartida from './listar_partidas/listarPartida';
 import crearSimulacion from "./Simulacion/crearSimulacion";
 import simulacion from "./Simulacion/Simulacion";
 import AgregarRobot from "./AgregarRobot/AgregarRobot";
-import listarRobot from './ListarRobots/ListarRobots';
+import objListarRobots from './ListarRobots/ListarRobots';
 import MuiToolbar from '@mui/material/Toolbar';
 import { useHistory } from "react-router-dom";
 import { styled } from '@mui/material/styles';
@@ -104,7 +104,7 @@ function HomepageLogin() {
           <Route path="/listarPartidas" component={ListarPartida} />
           <Route path="/signOff" component={SignOff} />
           <Route path="/subirRobot" component={AgregarRobot} />
-          <Route path="/listarRobot" component={listarRobot} />
+          <Route path="/listarRobot" component={objListarRobots.ListarRobots} />
           <Route exact path="/simulacion" component={simulacion} />
       </Switch>   
     </div>
