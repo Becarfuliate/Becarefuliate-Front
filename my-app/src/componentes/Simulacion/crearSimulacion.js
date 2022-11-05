@@ -14,9 +14,7 @@ function CrearPartida() {
 
   ListaRobots().then((listaRobots => setLista(listaRobots)));
 
-  const handleChange = (evt) => { 
-    console.log(dataSimulation);
-    setDataSimulation({ ...dataSimulation, [evt.target.name]: evt.target.value}) };
+  const handleChange = (evt) => { setDataSimulation({ ...dataSimulation, [evt.target.name]: evt.target.value}) };
 
   const checkedList = (i) => { 
     if(dataSimulation.id_robot.length <= 0) return false;
@@ -32,13 +30,11 @@ function CrearPartida() {
 
   const history = useHistory();
   const eject = () => {
-    //dataSimulation.id_robot.push(1);
-    //dataSimulation.id_robot.push(2);
-    EjecutarPartida(dataSimulation);
-    if (dataSimulation.id_robot.length > 1 && dataSimulation.id_robot.length < 5 && dataSimulation.n_rounds_simulations > 1  && dataSimulation.n_rounds_simulations < 10000)
-    {
-      history.push('/simulacion');
-    }
+    EjecutarPartida(dataSimulation).then(data => {
+      localStorage.setItem("simulacion", JSON.stringify(data));
+      alert("aca toy pibe");
+    })
+    history.push('/simulacion');
   };
   
   return (
