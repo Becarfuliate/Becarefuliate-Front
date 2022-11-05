@@ -41,17 +41,22 @@ function RobotEnJuego({imagen, x, y, xf, yf, nombre, num, vida, motor, mira, ron
     const robotanimar = { animation: `animate_${num} 1s linear forwards`}
     
     //Robot: Estadísitcas.
+    let rimagen = imagen;
     const robotstats = { transform: `translate(199%, ${num*105}%)`}
     const robotvid = { width: `${3.5*vida}px`}
     
+    if (vida === 0) {
+        rimagen = "https://toppng.com/uploads/preview/dead-pixel-society-black-and-white-pixel-11563243949kkuykxltej.png";
+    }
+
     return (
     <div key={ronda*(num+1)}>
         <div style={robotanimar} id="RobotEnJuego">
-            <img src={imagen} alt=""></img>
+            <img src={rimagen} alt=""></img>
             <p className="nombre">{nombre}</p>
         </div>
         <div style={robotstats} id="RobotStats">
-            <img src={imagen} alt=""></img>
+            <img src={rimagen} alt=""></img>
             <b className="nombre">Nombre: {nombre}</b>
             <b className="vidatext">{vida}%</b>
             <div className="maxvida"></div>

@@ -1,11 +1,14 @@
 function verifyId_robots(dataSimulation){
-    const cantRoundsGreaterT2AndLess4 = (dataSimulation.id_Robots.length >= 2 && dataSimulation.id_Robots.length <= 4);
+    console.log(dataSimulation.id_robot);
+    const cantRoundsGreaterT2AndLess4 = (
+        dataSimulation.id_robot.length >= 2 && 
+        dataSimulation.id_robot.length <= 4);
     
     return cantRoundsGreaterT2AndLess4;
 }
 
 function verifyRounds(dataSimulation){
-    const cantRoundsGreaterThan1AndLessThan10000 = dataSimulation.cant_Rondas > 1 && dataSimulation.cant_Rondas <= 1000;
+    const cantRoundsGreaterThan1AndLessThan10000 = dataSimulation.n_rounds_simulations > 1 && dataSimulation.n_rounds_simulations <= 10000;
     return cantRoundsGreaterThan1AndLessThan10000;
 }
 

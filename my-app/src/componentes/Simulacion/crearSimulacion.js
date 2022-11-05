@@ -1,4 +1,4 @@
-import {ListaRobots, defaultDataSimulation, ejecutarPartida} from './serviceSimulation';
+import {ListaRobots, defaultDataSimulation, EjecutarPartida} from './serviceSimulation';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -6,32 +6,43 @@ import ListItem from '@mui/material/ListItem';
 import Checkbox from '@mui/material/Checkbox';
 import React, { useState } from "react";
 import List from '@mui/material/List';
+import { useHistory } from 'react-router-dom';
 
 function CrearPartida() {
   const [dataSimulation, setDataSimulation] = useState(defaultDataSimulation);
   const [lista, setLista] = useState([]); 
+
   ListaRobots().then((listaRobots => setLista(listaRobots)));
 
   const handleChange = (evt) => { setDataSimulation({ ...dataSimulation, [evt.target.name]: evt.target.value}) };
 
   const checkedList = (i) => { 
-    if(dataSimulation.id_Robots.length <= 0) return false;
-    else if(dataSimulation.id_Robots.indexOf(lista[i].id) === -1) return false;
+    if(dataSimulation.id_robot.length <= 0) return false;
+    else if(dataSimulation.id_robot.indexOf(lista[i].id) === -1) return false;
     return true;
   };
 
   const checkedChange = (i) => {
-    if(!checkedList(i)) dataSimulation.id_Robots.push(lista[i].id);
+    if(!checkedList(i)) dataSimulation.id_robot.push(lista[i].id);
     else setDataSimulation(
-      {...dataSimulation, id_Robots: dataSimulation.id_Robots.filter((robot) => robot !== lista[i].id)});
+      {...dataSimulation, id_robot: dataSimulation.id_robot.filter((robot) => robot !== lista[i].id)});
   };
 
+  const history = useHistory();
+  const eject = () => {
+    EjecutarPartida(dataSimulation).then(data => {
+      localStorage.setItem("simulacion", JSON.stringify(data));
+      alert("aca toy pibe");
+    })
+    history.push('/simulacion');
+  };
+  
   return (
     <div className="login-page">
       <div className="form">
         <form className="register-form">
           
-          <input type="number" name="cant_Rondas" placeholder="Cantidad de rondas" 
+          <input type="number" name="n_rounds_simulations" placeholder="Cantidad de rondas" 
           onChange={handleChange} min="1" max="10000" required />
 
           <p>Robots que combatirán</p>
@@ -49,7 +60,7 @@ function CrearPartida() {
             ))}
           </List>
           
-          <input type="button" value="Ejecutar partida" onClick={() => ejecutarPartida(dataSimulation)} />
+          <input type="button" value="Ejecutar partida" onClick={eject}/>
         </form>
         </div>
     </div>

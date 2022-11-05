@@ -44,7 +44,7 @@ function Tablero({rondas}) {
     }, [rondaActual, rondas]);
 
     const output = [];
-    rondas[0].forEach((_, i) => {
+    rondas[rondaActual-1].forEach((_, i) => {
         output.push(
             <li key={id[i]}>
                 <RobotEnJuego imagen={imagen[i]} x={x[i]} y={y[i]} xf={xf[i]} yf={yf[i]} nombre={nombre[i]}
