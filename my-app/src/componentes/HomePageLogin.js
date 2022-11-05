@@ -98,7 +98,8 @@ function HomepageLogin() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Switch> 
+      <Toolbar/>
+      <Switch>
           <Route exact path="/user/crearSimulacion" component={crearSimulacion} />
           <Route path="/user/crearPartida" component={Partida} />
           <Route path="/listarPartidas" component={ListarPartida} />
