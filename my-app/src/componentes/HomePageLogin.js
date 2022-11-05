@@ -105,7 +105,6 @@ function HomepageLogin() {
           <Route path="/signOff" component={SignOff} />
           <Route path="/subirRobot" component={AgregarRobot} />
           <Route path="/listarRobot" component={objListarRobots.ListarRobots} />
-          <Route exact path="/simulacion" component={simulacion} />
       </Switch>   
     </div>
   )
