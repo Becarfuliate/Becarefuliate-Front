@@ -1,10 +1,8 @@
 import {createStore, combineReducers} from 'redux';
-import reduceSim from './simulation/reducer';
-import reducerReg from './register/reducer';
+import reducer from './register/reducer'
 
 const reducers = combineReducers({
-        reducerReg,
-        reduceSim
+        reducer,
 });
 
 const store =  createStore(

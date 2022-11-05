@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import Registro from '../../Registro/Register';
+import Registro from '../Register';
 import { Provider } from "react-redux";
 import store from '../../../store/index';
 

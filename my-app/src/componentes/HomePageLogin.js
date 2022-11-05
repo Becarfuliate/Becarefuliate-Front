@@ -98,14 +98,14 @@ function HomepageLogin() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Toolbar/>
-      <Switch>
+      <Switch> 
           <Route exact path="/user/crearSimulacion" component={crearSimulacion} />
           <Route path="/user/crearPartida" component={Partida} />
           <Route path="/listarPartidas" component={ListarPartida} />
           <Route path="/signOff" component={SignOff} />
           <Route path="/subirRobot" component={AgregarRobot} />
           <Route path="/listarRobot" component={objListarRobots.ListarRobots} />
+          <Route exact path="/simulacion" component={simulacion} />
       </Switch>   
     </div>
   )

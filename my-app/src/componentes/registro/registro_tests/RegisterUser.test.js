@@ -1,6 +1,6 @@
 import { fireEvent, prettyDOM, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Registro from '../../Registro/Register';
+import Registro from '../Register';
 import { Provider } from "react-redux";
 import store from '../../../store/index';
 

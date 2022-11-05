@@ -63,7 +63,6 @@ function HomePageUser() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Toolbar/>
       <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/home/login" component={Login} />

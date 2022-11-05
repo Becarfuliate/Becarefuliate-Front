@@ -1,40 +1,53 @@
-import {sendDataSimulation, modifyDataRound, addRobot, removeRobot} from '../../store/simulation/actions';
+import {ListaRobots, defaultDataSimulation, EjecutarPartida} from './serviceSimulation';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import React, { useEffect, useState } from "react";
-import {listRobots} from './serviceSimulation';
 import ListItem from '@mui/material/ListItem';
 import Checkbox from '@mui/material/Checkbox';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from "react";
 import List from '@mui/material/List';
-import Simulacion from './Simulacion';
-import {connect} from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-function CheckRobots({addRobot, removeRobot}){
+function CrearPartida() {
+  const [dataSimulation, setDataSimulation] = useState(defaultDataSimulation);
   const [lista, setLista] = useState([]); 
-  const [checkList, setCheckList] = useState([]);
+  ListaRobots().then((listaRobots => setLista(listaRobots)));
 
-  useEffect(() => {
-    listRobots().then(listaRobots => {
-      setLista(listaRobots);
-      setCheckList(Array.from({length: listaRobots.length}, () => false));
-    });
-  }, []);
+  const handleChange = (evt) => { setDataSimulation({ ...dataSimulation, [evt.target.name]: evt.target.value}) };
 
-  const checkedChange = (i) => {
-    setCheckList(checkList.map((value, j) => (j === i)? !checkList[i] : value));
-    if(!checkList[i]) addRobot(lista[i].id);
-    else removeRobot(lista[i].id);
+  const checkedList = (i) => { 
+    if(dataSimulation.id_robot.length <= 0) return false;
+    else if(dataSimulation.id_robot.indexOf(lista[i].id) === -1) return false;
+    return true;
   };
 
+  const checkedChange = (i) => {
+    if(!checkedList(i)) dataSimulation.id_robot.push(lista[i].id);
+    else setDataSimulation(
+      {...dataSimulation, id_robot: dataSimulation.id_robot.filter((robot) => robot !== lista[i].id)});
+  };
+
+  const history = useHistory();
+  const eject = () => {
+    EjecutarPartida(dataSimulation);
+    history.push('/simulacion');
+  };
+  
   return (
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+    <div className="login-page">
+      <div className="form">
+        <form className="register-form">
+          
+          <input type="number" name="n_rounds_simulations" placeholder="Cantidad de rondas" 
+          onChange={handleChange} min="1" max="10000" required />
+
+          <p>Robots que combatirán</p>
+          <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             {lista.map((value, i) => ( 
                 <ListItem key={value.name} disablePadding>
                   <ListItemButton onClick={() => checkedChange(i)} dense>
                     <ListItemIcon>
-                      <Checkbox edge="start" checked={checkList[i]} tabIndex={-1} disableRipple
+                      <Checkbox edge="start" checked={checkedList(i)} tabIndex={-1} disableRipple
                         inputProps={{ 'aria-labelledby': `checkbox-list-label-${value.name}` }}/>
                     </ListItemIcon>
                     <ListItemText id={ `checkbox-list-label-${value.name}`} primary={`Robot: ${value.name}`} />
@@ -42,41 +55,12 @@ function CheckRobots({addRobot, removeRobot}){
                 </ListItem>
             ))}
           </List>
-  );
-}
-
-function CreateSimulation({sendDataSimulation, modifyDataRound, addRobot, removeRobot, callback}) {
-  return (
-    <div className="login-page">
-      <div className="form">
-        <form className="register-form">
           
-          <input type="number" name="n_rounds_simulations" placeholder="Cantidad de rondas" 
-          onChange={(e) => modifyDataRound(e.target.value)} min="1" max="10000" required />
-
-          <p>Robots que combatirán</p>
-          <CheckRobots addRobot= {addRobot} removeRobot= {removeRobot}/>
-          
-          <input type="button" value="Ejecutar partida" onClick={() => sendDataSimulation(callback)}/>
+          <input type="button" value="Ejecutar partida" onClick={eject}/>
         </form>
         </div>
     </div>
   );
 }
 
-function PageSimulation({sendDataSimulation, modifyDataRound, addRobot, removeRobot}){
-  const [sendData, setSendData] = useState(false);  
-  const history = useHistory();
-  useEffect(() => {
-    if (sendData) history.push('/user/crearSimulacion');
-  }, [sendData, history]);
-
-  if(!sendData) return <CreateSimulation sendDataSimulation= {sendDataSimulation} 
-                                            modifyDataRound={modifyDataRound} 
-                                            addRobot={addRobot} 
-                                            removeRobot={removeRobot}
-                                            callback= {setSendData}/>;
-  else return <Simulacion/>;
-}
-
-export default connect(null, {sendDataSimulation, modifyDataRound, addRobot, removeRobot})(PageSimulation);
+export default CrearPartida;

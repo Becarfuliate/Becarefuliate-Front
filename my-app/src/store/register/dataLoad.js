@@ -3,7 +3,7 @@ import axios from 'axios';
 
 async function loadDataUser(dataRegisterUser){
   const baseURL = 'http://localhost:8000/register';
-  //console.log(dataRegisterUser);
+  console.log(dataRegisterUser);
   if(verifyDataUser(dataRegisterUser)) 
     return await axios.post(baseURL, dataRegisterUser)
       .then( () =>  {
