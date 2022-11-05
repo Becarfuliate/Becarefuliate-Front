@@ -1,11 +1,21 @@
 import { Button } from '@mui/material';
+import { useHistory } from "react-router-dom";
+import Lobby from '../Lobby';
 
-const UnirsePatida = ()  => {
+const UnirsePartida = ()  => {
+
+    const history = useHistory();
+  
+    const handleRouteLobby = () =>{ 
+      history.push("/lobby");
+    }
+
     return (
-        <Button>
+        <Button
+        onClick={handleRouteLobby}>
             Unirse
         </Button>
     );
 }
 
-export default UnirsePatida;
+export default UnirsePartida;

@@ -12,6 +12,9 @@ import Partida from "./Partida/Partida";
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import * as React from 'react';
+
+import Lobby from "./Lobby";
+
 const Toolbar = styled(MuiToolbar)(({ theme }) => ({
   height: 64,
   [theme.breakpoints.up('sm')]: {
@@ -105,6 +108,7 @@ function HomepageLogin() {
           <Route path="/signOff" component={SignOff} />
           <Route path="/subirRobot" component={AgregarRobot} />
           <Route path="/listarRobot" component={objListarRobots.ListarRobots} />
+          <Route exact path="/lobby" component={Lobby} />
           <Route exact path="/simulacion" component={simulacion} />
       </Switch>   
     </div>
