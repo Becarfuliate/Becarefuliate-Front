@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import React, { useState } from "react";
 import axios from "axios";
+import UnirsePatida from '../UnirsePartida/UnirsePartida';
 
 const baseURL = "http://127.0.0.1:8000";
 
@@ -49,7 +50,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function ListarPartida() {
   const lista = ListaDePartidasDelUsuario();
-  lista.forEach((v) => console.log(encodeURI(v.password)));
+  // lista.forEach((v) => console.log(encodeURI(v.password)));
   return (
   <div>
     <br/><br/><br/><br/><br/><br/>
@@ -62,6 +63,7 @@ function ListarPartida() {
             <StyledTableCell align="right">min_players</StyledTableCell>
             <StyledTableCell align="right">n_matchs</StyledTableCell>
             <StyledTableCell align="right">n_rounds_matchs</StyledTableCell>
+            <StyledTableCell align="right">unirse a partidas</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -74,6 +76,9 @@ function ListarPartida() {
               <StyledTableCell align="right">{row.min_players}</StyledTableCell>
               <StyledTableCell align="right">{row.n_matchs}</StyledTableCell>
               <StyledTableCell align="right">{row.n_rounds_matchs}</StyledTableCell>
+              <StyledTableCell>
+                <UnirsePatida/>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
