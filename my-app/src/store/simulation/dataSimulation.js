@@ -8,7 +8,8 @@ function verifyId_robots(dataSimulation){
 }
 
 function verifyRounds(dataSimulation){
-    const cantRoundsGreaterThan1AndLessThan10000 = dataSimulation.n_rounds_simulations > 1 && dataSimulation.n_rounds_simulations <= 1000;
+    const cantRoundsGreaterThan1AndLessThan10000 = dataSimulation.n_rounds_simulations > 1 && 
+                                                    dataSimulation.n_rounds_simulations <= 10000;
     return cantRoundsGreaterThan1AndLessThan10000;
 }
 

@@ -77,7 +77,6 @@ function Tablero({rondas}) {
 
     return (
         <div>
-            <br/><br/><br/><br/><br/>
             <div id="Tablero">
                 {output}
             </div>
