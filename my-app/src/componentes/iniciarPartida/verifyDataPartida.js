@@ -1,4 +1,4 @@
-const MESSAGE_ERROR_USERS = "La cantidad de usuarios es menor a 2, mayor a 4 o mayor a la cantidad máxima establecida";
+const MESSAGE_ERROR_USERS = "La cantidad de usuarios es menor a 2, mayor a 4 y/o mayor a la cantidad máxima establecida";
 const MESSAGE_ERROR_ROUNDS = "Las rondas son menores a 1 o mayores a 10000";
 const MESSAGE_ERROR_GAMES = "Los juegos son menores a 1 o mayores a 200";
 
@@ -22,11 +22,11 @@ function verifyGames(games){
 
 function verifyDataPartida(dataPartida){
     if(!verifyId_robots(dataPartida.users)) 
-        return {state: 'ERROR', data: MESSAGE_ERROR_USERS};
+        return {state: 'ERROR_DATA', data: MESSAGE_ERROR_USERS};
     else if(!verifyRounds(dataPartida.n_games_simulations, dataPartida.n_users))
-        return {state: 'ERROR', data: MESSAGE_ERROR_ROUNDS};
+        return {state: 'ERROR_DATA', data: MESSAGE_ERROR_ROUNDS};
     else if(!verifyGames(dataPartida.n_games_simulations))
-        return {state: 'ERROR', data: MESSAGE_ERROR_GAMES};
+        return {state: 'ERROR_DATA', data: MESSAGE_ERROR_GAMES};
         
     return {state: 'OK', data: ""};
 }

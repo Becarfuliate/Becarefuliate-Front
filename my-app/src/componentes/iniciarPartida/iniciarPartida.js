@@ -25,6 +25,4 @@ async function iniciarPartida(dataPartida){
     return verifyData;
 }
 
-export default iniciarPartida;
-
-
+export {iniciarPartida, defaultDataPartida};
