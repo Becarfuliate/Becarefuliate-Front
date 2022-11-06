@@ -53,7 +53,6 @@ function ListarPartida() {
   // lista.forEach((v) => console.log(encodeURI(v.password)));
   return (
   <div>
-    <br/><br/><br/><br/><br/><br/>
     <TableContainer component={Paper}>
       <Table sx={{ width: 'auto', ml: 50}} aria-label="customized table">
         <TableHead>
