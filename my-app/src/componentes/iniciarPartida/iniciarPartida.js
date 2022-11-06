@@ -1,12 +1,18 @@
+import verifyDataPartida from './verifyDataPartida';
 import axios from "axios";
 
 const baseURL = "http://127.0.0.1:8000";
 const endpoint = "";
 
-function verifyDataPartida(dataPartida){
-    const err = ""
-    return {state: 'ERROR', data: err};
-}
+const defaultDataPartida = {
+    users: "",
+    n_users: 0,
+    n_rounds_simulations: 0,
+    n_games_simulations: 0,
+    id_partida: "",
+    user_creator: "",
+    token: ""
+};
 
 async function iniciarPartida(dataPartida){
     const verifyData = verifyDataPartida(dataPartida); 
