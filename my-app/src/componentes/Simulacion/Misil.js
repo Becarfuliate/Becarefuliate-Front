@@ -8,7 +8,7 @@ const maxBorde = 1021-tamaño;
 function Misil({xmis, ymis, xmisf, ymisf, num, ronda}) {
     
     let show = false;
-    if (xmis !== null || ymis !== null || xmisf !== null || ymisf !== null) {
+    if (xmis !== null && ymis !== null && xmisf !== null && ymisf !== null) {
         show = true;
     } else {
         show = false;
