@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 
 const InputModal = () => {
     const [open, setOpen] = useState(false);
+    const [inputRobotID, setInputRobotID] = useState("");
     
     const history = useHistory();
   
@@ -14,14 +15,26 @@ const InputModal = () => {
     }
 
     const onChangeRobotID = (e) => {
-        modifyDataRobotJoin(e.target.value);
+        setInputRobotID(e.target.value)
+        modifyDataRobotJoin(inputRobotID);
+    };
+
+    const checkInput = (input) => {
+        return !isNaN(input) && (/[0-9]/.test(input));
     };
 
     const handleOpen = () => setOpen(true);
+    const handleCloseToLobby = () => {
+        if(checkInput(inputRobotID)) {
+            console.log(inputRobotID);
+            setOpen(false);
+            handleRouteLobby();
+        } else {
+            alert("Escriba el ID de su Robot combatiente");
+        }
+    }
     const handleClose = () => {
-        console.log("cerro MODAL")
         setOpen(false);
-        handleRouteLobby();
     }
 
     return (
@@ -45,10 +58,14 @@ const InputModal = () => {
                 type="number"
                 name="robot ID"
                 placeholder="Escriba el ID del Robot"
+                value={inputRobotID}
                 onChange={onChangeRobotID}
             />
-            <Button variant="contained" onClick={handleClose}>
+            <Button variant="contained" onClick={handleCloseToLobby}>
                 Si has ingresado el ID del robot te dejo ir al Lobby
+            </Button>
+            <Button variant="contained" onClick={handleClose}>
+                Cerrar Modal
             </Button>
             </Box>
         </Modal>
