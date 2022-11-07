@@ -50,6 +50,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function ListarPartida() {
   const lista = ListaDePartidasDelUsuario();
+  console.log(lista);
   // lista.forEach((v) => console.log(encodeURI(v.password)));
   return (
   <div>
@@ -62,7 +63,7 @@ function ListarPartida() {
             <StyledTableCell align="right">min_players</StyledTableCell>
             <StyledTableCell align="right">n_matchs</StyledTableCell>
             <StyledTableCell align="right">n_rounds_matchs</StyledTableCell>
-            <StyledTableCell align="right">unirse a partidas</StyledTableCell>
+            <StyledTableCell align="right">Estado/Accion de la Partida</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -76,7 +77,7 @@ function ListarPartida() {
               <StyledTableCell align="right">{row.n_matchs}</StyledTableCell>
               <StyledTableCell align="right">{row.n_rounds_matchs}</StyledTableCell>
               <StyledTableCell>
-                <UnirsePatida/>
+                <UnirsePatida matchID={row.id}/>
               </StyledTableCell>
             </StyledTableRow>
           ))}

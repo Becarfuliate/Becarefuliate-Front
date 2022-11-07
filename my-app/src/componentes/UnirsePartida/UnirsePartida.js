@@ -1,21 +1,88 @@
-import { Button } from '@mui/material';
+import { Button, Box, Modal } from '@mui/material';
 import { useHistory } from "react-router-dom";
-import Lobby from '../Lobby';
+import { useState } from 'react';
+import { modifyDataUserJoin, modifyDataMatchJoin, modifyDataRobotJoin } from '../../store/joinMatch/actions';
+import {connect} from 'react-redux';
 
-const UnirsePartida = ()  => {
-
+const InputModal = () => {
+    const [open, setOpen] = useState(false);
+    
     const history = useHistory();
   
-    const handleRouteLobby = () =>{ 
-      history.push("/lobby");
+    const handleRouteLobby = () =>{
+        history.push("/lobby");
+    }
+
+    const onChangeRobotID = (e) => {
+        modifyDataRobotJoin(e.target.value);
+    };
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => {
+        console.log("cerro MODAL")
+        setOpen(false);
+        handleRouteLobby();
     }
 
     return (
-        <Button
-        onClick={handleRouteLobby}>
-            Unirse
-        </Button>
+        <div>
+        <Button onClick={handleOpen}>Open modal</Button>
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box
+                component="form"
+                sx={{
+                    '& > :not(style)': { m: 1, width: '25ch' },
+                }}
+                noValidate
+                autoComplete="off"
+            >
+            <input
+                type="number"
+                name="robot ID"
+                placeholder="Escriba el ID del Robot"
+                onChange={onChangeRobotID}
+            />
+            </Box>
+        </Modal>
+        </div>
     );
 }
 
-export default UnirsePartida;
+
+const UnirsePartida = (props)  => {
+    
+    const history = useHistory();
+    const [stateMatch, setStateMatch] = useState("join");
+  
+    const handleRouteLobby = () =>{
+        history.push("/lobby");
+    }
+    
+    const handleStateMatch = (state) => {
+        console.log("state ", state);
+        console.log("matchID ", props.matchID);
+        modifyDataMatchJoin(props.matchID);
+        if("join" === state)
+            return true;
+        else
+            return false;
+    };
+
+    return (
+            (handleStateMatch(stateMatch)) ?
+                <InputModal>
+                    {stateMatch}
+                </InputModal>
+                :
+                <Button onClick={handleRouteLobby}>
+                    {stateMatch}
+                </Button>
+    );
+}
+
+export default connect(null, {modifyDataUserJoin, modifyDataMatchJoin, modifyDataRobotJoin})(UnirsePartida);
