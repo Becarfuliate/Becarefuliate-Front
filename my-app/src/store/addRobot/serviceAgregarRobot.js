@@ -1,23 +1,10 @@
+import exportServiceLogin from '../../componentes/Servicios/serviceLogin';
+import verifyDataRobot from './verifyDataRobot';
 import axios from 'axios';
-import exportServiceLogin from '../Servicios/serviceLogin';
 
-// guardamos el nombre del robot pues esta sera unico en el back
-// y el back tendra almacenado el avatar y el archivo del mismo
-const addRobotinStorage = (nameRobot) => {
-    let storage = localStorage.getItem('robots');
-    if (storage) {
-      let storageContent = JSON.parse(localStorage.getItem('robots'));
-      storageContent.push(nameRobot);
-      localStorage.setItem("robots", JSON.stringify(storageContent));
-    } else {
-      localStorage.setItem("robots", JSON.stringify([nameRobot]));
-    }
-};
-
-const handleResponse = (code, respuesta, nameRobot) => {
+const handleResponse = (code, respuesta) => {
     switch (code) {
         case 200:
-            addRobotinStorage(nameRobot);
             alert(respuesta.msg);
             break;
         case 409:
@@ -77,11 +64,16 @@ const headers = () => {
     }
 };
 
-const serviceUploadRobot = async (filePy, fileImg, name) => {
-    console.log("files", filesRobot(filePy, fileImg));
-    return await axios.post('http://localhost:8000/upload/robot', filesRobot(filePy, fileImg), paramsData(name) ,headers())
-    .then(respuesta => handleResponse(respuesta.status, respuesta.data, name))
-    .catch((error) => handleResponse(error.response.status, error.response.data, name))
+const serviceUploadRobot = async (dataRobot) => {
+    console.log(dataRobot);
+    const resultsVerifyDataRobot = verifyDataRobot(dataRobot);
+    if (resultsVerifyDataRobot.state === 'OK')
+        await axios.post('http://localhost:8000/upload/robot', filesRobot(dataRobot.config, dataRobot.avatar), 
+                        paramsData(dataRobot.name) ,headers())
+        .then(respuesta => handleResponse(respuesta.status, respuesta.data))
+        .catch((error) => handleResponse(error.response.status, error.response.data));
+    else
+        alert(resultsVerifyDataRobot.data);
 };
 
 const exportServiceRobot = {
