@@ -10,7 +10,7 @@ function App() {
     if (localStorage.getItem("user")) setLogin(true)
     else setLogin(false);
   }, [localStorage]);
-  console.log(store.getState().reduceSim);
+  // console.log("store: ",store.getState().reduceSim);
   if(!login) return (
     <Provider store={store}>
       <HomePageUser/>

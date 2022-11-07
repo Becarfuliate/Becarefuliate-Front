@@ -4,6 +4,7 @@ import { Box, styled, Link, List, ListItem, ListItemAvatar, ListItemText, Avatar
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiAppBar from '@mui/material/AppBar';
 import HomepageLogin from './HomePageLogin';
+import store from '../store';
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -27,7 +28,8 @@ const rightLink = {
 const Lobby = () => {
   // como usar el useSelector para traer datos del store de redux
   // const { data } = useSelector(data => data);
-  
+  let a = store.getState().reducerJoin;
+  console.log("store de Join: ", a);
   // Para probar
   let robotID = "10";
   let matchID = "2";
@@ -38,8 +40,8 @@ const Lobby = () => {
   const ListUserJoin = () => {
     return (
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        {listUsersJoin.map((elem) => 
-          <ListItem>
+        {listUsersJoin.map((elem, index) => 
+          <ListItem key={index}>
             <ListItemAvatar>
               <Avatar alt="User avatar" src="#" />
             </ListItemAvatar>

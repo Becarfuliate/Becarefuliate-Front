@@ -29,7 +29,7 @@ const InputModal = () => {
         <Button onClick={handleOpen}>Open modal</Button>
         <Modal
             open={open}
-            onClose={handleClose}
+            // onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
@@ -47,6 +47,9 @@ const InputModal = () => {
                 placeholder="Escriba el ID del Robot"
                 onChange={onChangeRobotID}
             />
+            <Button variant="contained" onClick={handleClose}>
+                Si has ingresado el ID del robot te dejo ir al Lobby
+            </Button>
             </Box>
         </Modal>
         </div>
