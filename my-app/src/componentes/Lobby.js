@@ -1,12 +1,11 @@
-import { BrowserRouter as Switch, Route } from "react-router-dom";
-import MuiToolbar from '@mui/material/Toolbar';
-import { useHistory } from "react-router-dom";
-import { styled } from '@mui/material/styles';
-import MuiAppBar from '@mui/material/AppBar';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
 import * as React from 'react';
-import HomepageLogin from './HomePageLogin'
+import { BrowserRouter as Switch, Route } from "react-router-dom";
+import { Box, styled, Link, List, ListItem, ListItemAvatar, ListItemText, Avatar } from '@mui/material';
+import MuiToolbar from '@mui/material/Toolbar';
+import MuiAppBar from '@mui/material/AppBar';
+import HomepageLogin from './HomePageLogin';
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Toolbar = styled(MuiToolbar)(({ theme }) => ({
   height: 64,
@@ -26,7 +25,31 @@ const rightLink = {
 };
 
 const Lobby = () => {
+  // como usar el useSelector para traer datos del store de redux
+  // const { data } = useSelector(data => data);
+  
+  // Para probar
+  let robotID = "10";
+  let matchID = "2";
+  let listUsersJoin = [{user:"juan", robot:"rb1", avatar:"avatar", creador_partida: "si"}, {user:"juan 2", robot:"rb2", avatar:"avatar 2", creador_partida: "no"}]
+
   const nameUser = JSON.parse(localStorage.getItem("user")).userlogin;
+  
+  const ListUserJoin = () => {
+    return (
+      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        {listUsersJoin.map((elem) => 
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar alt="User avatar" src="#" />
+            </ListItemAvatar>
+            <ListItemText primary={elem.user} secondary={elem.robot} />
+          </ListItem>
+        )}
+      </List>
+    );
+  }
+
   return (
     <div>
       <AppBar position="fixed">
@@ -73,11 +96,7 @@ const Lobby = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      <div>
-        Aca iria la lista de usuarios conectados
-        Y en caso de finalizar la partida
-        Indicar que finalizo
-      </div>
+      <ListUserJoin/>
       <Switch> 
             <Route exact path="/home" component={HomepageLogin} />
           {/* <Route path="/user/crearPartida" component={Partida} /> */}
