@@ -1,7 +1,7 @@
-import { Button, Box, Modal } from '@mui/material';
+import { Button, Box, Modal, MenuItem, InputLabel, FormControl } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useHistory } from "react-router-dom";
 import { useState } from 'react';
-import { modifyDataUserJoin, modifyDataMatchJoin, modifyDataRobotJoin } from '../../store/joinMatch/actions';
 import {connect} from 'react-redux';
 
 const InputModal = () => {
@@ -11,12 +11,15 @@ const InputModal = () => {
     const history = useHistory();
   
     const handleRouteLobby = () =>{
-        history.push("/lobby");
+        let state = {
+            matchID: 2,
+            robotID: 3
+        }
+        history.push("/lobby", state);
     }
 
     const onChangeRobotID = (e) => {
         setInputRobotID(e.target.value)
-        modifyDataRobotJoin(inputRobotID);
     };
 
     const checkInput = (input) => {
@@ -26,7 +29,6 @@ const InputModal = () => {
     const handleOpen = () => setOpen(true);
     const handleCloseToLobby = () => {
         if(checkInput(inputRobotID)) {
-            console.log(inputRobotID);
             setOpen(false);
             handleRouteLobby();
         } else {
@@ -82,11 +84,8 @@ const UnirsePartida = (props)  => {
     const handleRouteLobby = () =>{
         history.push("/lobby");
     }
-    
+
     const handleStateMatch = (state) => {
-        console.log("state ", state);
-        console.log("matchID ", props.matchID);
-        modifyDataMatchJoin(props.matchID);
         if("join" === state)
             return true;
         else
@@ -105,4 +104,4 @@ const UnirsePartida = (props)  => {
     );
 }
 
-export default connect(null, {modifyDataUserJoin, modifyDataMatchJoin, modifyDataRobotJoin})(UnirsePartida);
+export default UnirsePartida;

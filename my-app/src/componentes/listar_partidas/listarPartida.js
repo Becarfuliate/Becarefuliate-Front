@@ -50,7 +50,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function ListarPartida() {
   const lista = ListaDePartidasDelUsuario();
-  console.log(lista);
+  // console.log(lista);
   // lista.forEach((v) => console.log(encodeURI(v.password)));
   return (
   <div>
