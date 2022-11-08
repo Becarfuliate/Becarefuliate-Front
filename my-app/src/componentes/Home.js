@@ -1,5 +1,4 @@
 import React from 'react';
-import BasicModal from './BasicModal';
 
 const styleimg = {
   display: "block",
