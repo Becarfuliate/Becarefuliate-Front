@@ -1,15 +1,5 @@
 import API from "./api";
 
-const getToken = () => {
-    let storage = localStorage.getItem('user');
-    if (storage) {
-      let user = JSON.parse(localStorage.getItem('user'));
-      return "token=" + user.token;
-    } else {
-      return "token=";
-    }
-};
-
 const handleresponse = (code, response) => {
     let listRobots = [];
     switch (code) {
@@ -38,4 +28,4 @@ const exportServiceListarRobots = {
     serviceListRobots
 };
 
-export default exportServiceListarRobots;
+export default {serviceListRobots, getToken};
