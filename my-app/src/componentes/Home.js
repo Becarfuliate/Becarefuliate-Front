@@ -12,8 +12,7 @@ const styleimg = {
 function Home () {
   return (
       <div>
-        <img src='./homepage.png' alt="avatar-robot" style={styleimg} />        
-        <BasicModal message={"Mensahe re piola"}/>
+        <img src='./homepage.png' alt="avatar-robot" style={styleimg} />
       </div>
   );
 }
