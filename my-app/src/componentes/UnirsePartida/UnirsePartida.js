@@ -3,6 +3,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useHistory } from "react-router-dom";
 import { useState } from 'react';
 import {connect} from 'react-redux';
+import { useState } from 'react';
 
 const InputModal = () => {
     const [open, setOpen] = useState(false);
@@ -91,17 +92,15 @@ const UnirsePartida = (props)  => {
         else
             return false;
     };
-
-    return (
-            (handleStateMatch(stateMatch)) ?
-                <InputModal>
-                    {stateMatch}
-                </InputModal>
-                :
-                <Button onClick={handleRouteLobby}>
-                    {stateMatch}
-                </Button>
-    );
+    
+    if(handleStateMatch(stateMatch)) 
+        return (
+            <InputModal> {stateMatch} </InputModal>
+        );
+    else 
+        return (
+            <Button onClick={handleRouteLobby}> {stateMatch} </Button>
+        );
 }
 
 export default UnirsePartida;
