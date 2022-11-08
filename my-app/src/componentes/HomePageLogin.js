@@ -1,5 +1,5 @@
 import { BrowserRouter as Switch, Route } from "react-router-dom";
-import ListarPartida from './listar_partidas/listarPartida';
+import ListarPartida from './ListarPartida/ListarPartida';
 import crearSimulacion from "./Simulacion/crearSimulacion";
 import simulacion from "./Simulacion/Simulacion";
 import AgregarRobot from "./AgregarRobot/AgregarRobot";

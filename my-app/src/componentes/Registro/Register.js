@@ -20,7 +20,8 @@ function Register({sendDataUser, modifyDataName, modifyDataPassword, modifyDataE
         <input type="button" onClick={() => sendDataUser()} value= 'Registrar' name= 'Register'/>
       </form>
     </div>
-  </div>);
+  </div>
+  );
 }
 
 export default connect(null, {sendDataUser, modifyDataName, modifyDataPassword, modifyDataEmail})(Register);
