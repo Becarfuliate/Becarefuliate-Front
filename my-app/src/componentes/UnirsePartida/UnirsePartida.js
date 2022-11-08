@@ -1,9 +1,46 @@
-import { Button, Box, Modal, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Button, Box, Modal, MenuItem, InputLabel, FormControl, List } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useHistory } from "react-router-dom";
 import { useState } from 'react';
-import {connect} from 'react-redux';
-import { useState } from 'react';
+import { fontWeight } from '@mui/system';
+
+const SelectRobot = () => {
+
+    const [age, setAge] = useState('');
+    
+    const handleChange = (e) => {
+        setAge(e.target.value);
+        console.log(age)
+    };
+
+
+    const [ll, setLL] = useState([{e:'3', v:'3r'}, {e:'4', v:'3r'}]);
+
+    return (
+        <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Seleccione su Robot</InputLabel>
+        <Select
+            sx={{
+                background: 'white',
+                color: 'black',
+            }}
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={age}
+            label="Robot"
+            onChange={handleChange}
+        >
+            {
+                ll.map((a, b) => (
+                    <MenuItem key={b} value={a.e}>{a.v}</MenuItem>
+                ))
+            }
+                {/* <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem> */}
+        </Select>
+        </FormControl>
+    );
+};
 
 const InputModal = () => {
     const [open, setOpen] = useState(false);
@@ -45,7 +82,6 @@ const InputModal = () => {
         <Button onClick={handleOpen}>Open modal</Button>
         <Modal
             open={open}
-            // onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
@@ -64,8 +100,9 @@ const InputModal = () => {
                 value={inputRobotID}
                 onChange={onChangeRobotID}
             />
+            <SelectRobot />
             <Button variant="contained" onClick={handleCloseToLobby}>
-                Si has ingresado el ID del robot te dejo ir al Lobby
+                Si has seleccionado a tu robot te dejo ir al Lobby
             </Button>
             <Button variant="contained" onClick={handleClose}>
                 Cerrar Modal
