@@ -1,5 +1,5 @@
 import { BrowserRouter as Switch, Route } from "react-router-dom";
-import ListarPartida from './listar_partidas/listarPartida';
+import ListarPartida from './ListarPartida/ListarPartida';
 import crearSimulacion from "./Simulacion/crearSimulacion";
 import simulacion from "./Simulacion/Simulacion";
 import AgregarRobot from "./AgregarRobot/AgregarRobot";
@@ -12,6 +12,7 @@ import Partida from "./Partida/Partida";
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import * as React from 'react';
+
 const Toolbar = styled(MuiToolbar)(({ theme }) => ({
   height: 64,
   [theme.breakpoints.up('sm')]: {
