@@ -1,8 +1,8 @@
+import { sendDataUserJoin, modifyDataUserJoin, modifyDataMatchJoin, modifyDataRobotJoin } from '../../store/joinMatch/actions';
 import { Button, Box, Modal } from '@mui/material';
 import { useHistory } from "react-router-dom";
-import { useState } from 'react';
-import { modifyDataUserJoin, modifyDataMatchJoin, modifyDataRobotJoin } from '../../store/joinMatch/actions';
 import {connect} from 'react-redux';
+import { useState } from 'react';
 
 const InputModal = () => {
     const [open, setOpen] = useState(false);
@@ -84,25 +84,19 @@ const UnirsePartida = (props)  => {
     }
     
     const handleStateMatch = (state) => {
-        console.log("state ", state);
-        console.log("matchID ", props.matchID);
         modifyDataMatchJoin(props.matchID);
-        if("join" === state)
-            return true;
-        else
-            return false;
-    };
 
-    return (
-            (handleStateMatch(stateMatch)) ?
-                <InputModal>
-                    {stateMatch}
-                </InputModal>
-                :
-                <Button onClick={handleRouteLobby}>
-                    {stateMatch}
-                </Button>
-    );
+        return ("join" === state)? true : false;
+    };
+    
+    if(handleStateMatch(stateMatch)) 
+        return (
+            <InputModal> {stateMatch} </InputModal>
+        );
+    else 
+        return (
+            <Button onClick={handleRouteLobby}> {stateMatch} </Button>
+        );
 }
 
 export default connect(null, {modifyDataUserJoin, modifyDataMatchJoin, modifyDataRobotJoin})(UnirsePartida);

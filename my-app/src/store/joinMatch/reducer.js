@@ -4,6 +4,10 @@ const defaultDataJoinMatch = {
     "robotID": ""
 };
 
+function iniciarPartida(dataJoinMatch, callback){
+    return true;
+}
+
 function reducer(dataJoinMatch = defaultDataJoinMatch, action){
     const  dataJoinMatchChange = ({attribute, value}) => {
         return { 
@@ -18,6 +22,8 @@ function reducer(dataJoinMatch = defaultDataJoinMatch, action){
         return dataJoinMatchChange({attribute:'matchID', value: action.data});
     else if (action.type === 'MODIFY_DATA_ROBOT_JOIN')
         return dataJoinMatchChange({attribute:'robotID', value: action.data});
+    else if (action.type === 'SEND_DATA_JOIN')
+        return iniciarPartida(dataJoinMatch, action.data); //Acá me mandas los datos y la función callback.
 
     return dataJoinMatch;
 }
