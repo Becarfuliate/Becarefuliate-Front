@@ -23,8 +23,6 @@ function verifyPromise(promise, callback, varCallBack){
 function verifyDataRobot(dataRobot){
     if (dataRobot.name === "")
         return {state: 'ERROR', data: "Campo del Nombre del Robot Vacio, escriba algo"};
-    if (dataRobot.avatar === null)
-        return {state: 'ERROR', data: "Ingrese una imagen a su robot"};
     if (dataRobot.config === null)
         return {state: 'ERROR', data: "Archivo vacio, no es aceptable"};
     if (!isPythonFile(dataRobot.config))

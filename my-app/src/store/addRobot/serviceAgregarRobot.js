@@ -1,6 +1,7 @@
 import exportServiceLogin from '../../componentes/Servicios/serviceLogin';
 import verifyDataRobot from './verifyDataRobot';
 import axios from 'axios';
+import imgDefaultAvatar from './avatar-robot-default.png';
 
 const handleResponse = (code, respuesta) => {
     switch (code) {
@@ -30,7 +31,12 @@ const handleResponse = (code, respuesta) => {
 const filesRobot = (filePy, fileImg) => {
     let files = new FormData();
     files.append('config', filePy);
-    files.append('avatar', fileImg);
+    let fileDefaultImg = new File([imgDefaultAvatar], { type: "image/png"});
+    // console.log(fileDefaultImg);
+    if(null === fileImg)
+        files.append('avatar', fileDefaultImg);
+    else
+        files.append('avatar', fileImg);
     return files;
 };
 
