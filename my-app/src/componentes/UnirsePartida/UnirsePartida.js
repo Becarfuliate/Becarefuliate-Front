@@ -1,20 +1,22 @@
-import { Button, Box, Modal, MenuItem, InputLabel, FormControl, List } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Button, Box, Modal, MenuItem, InputLabel, FormControl } from '@mui/material';
+import Select from '@mui/material/Select';
 import { useHistory } from "react-router-dom";
-import { useState } from 'react';
-import { fontWeight } from '@mui/system';
+import { useState, useEffect } from 'react';
+import exportServiceListarRobots from '../Servicios/serviceListarRobots'
 
 const SelectRobot = () => {
 
-    const [age, setAge] = useState('');
+    const [listRobots, setListRobots] = useState([]);
+    const [selectedRobotID, setSelectedRobotID] = useState('');
     
     const handleChange = (e) => {
-        setAge(e.target.value);
-        console.log(age)
+        setSelectedRobotID(e.target.value);
+        console.log(selectedRobotID)
     };
 
-
-    const [ll, setLL] = useState([{e:'3', v:'3r'}, {e:'4', v:'3r'}]);
+    useEffect(() => {
+        exportServiceListarRobots.serviceListRobots().then(listRobots => setListRobots(listRobots));
+    }, []);
 
     return (
         <FormControl fullWidth>
@@ -26,17 +28,22 @@ const SelectRobot = () => {
             }}
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={age}
+            value={selectedRobotID}
             label="Robot"
             onChange={handleChange}
         >
             {
-                ll.map((a, b) => (
-                    <MenuItem key={b} value={a.e}>{a.v}</MenuItem>
-                ))
+                (Array.isArray(listRobots) && listRobots.length) ?
+                listRobots.map((elem, index) =>
+                    <MenuItem key={index} value={elem.id}>
+                        <em>{elem.name}</em>
+                    </MenuItem>
+                )
+                :
+                <MenuItem value="">
+                    <em>Debe agregar robots para poder combatir</em>
+                </MenuItem>
             }
-                {/* <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem> */}
         </Select>
         </FormControl>
     );
