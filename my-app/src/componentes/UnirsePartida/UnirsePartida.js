@@ -1,13 +1,12 @@
-import { Button, Box, Modal, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Button, Box, Modal, MenuItem, InputLabel, FormControl, TextField } from '@mui/material';
 import Select from '@mui/material/Select';
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import exportServiceListarRobots from '../Servicios/serviceListarRobots'
 
-const SelectRobot = () => {
+const SelectRobot = ({selectedRobotID, setSelectedRobotID}) => {
 
     const [listRobots, setListRobots] = useState([]);
-    const [selectedRobotID, setSelectedRobotID] = useState('');
     
     const handleChange = (e) => {
         setSelectedRobotID(e.target.value);
@@ -16,7 +15,7 @@ const SelectRobot = () => {
 
     useEffect(() => {
         exportServiceListarRobots.serviceListRobots().then(listRobots => setListRobots(listRobots));
-    }, []);
+    }, [setListRobots]);
 
     return (
         <FormControl fullWidth>
@@ -49,37 +48,46 @@ const SelectRobot = () => {
     );
 };
 
-const InputModal = () => {
+const InputModal = (props) => {
     const [open, setOpen] = useState(false);
-    const [inputRobotID, setInputRobotID] = useState("");
+    const [selectedRobotID, setSelectedRobotID] = useState('');
+    const [passMatch, setPassMatch] = useState("");
     
     const history = useHistory();
   
+    // pasaje a Lobby con un estado
     const handleRouteLobby = () =>{
         let state = {
-            matchID: 2,
-            robotID: 3
+            matchID: props.matchID,
+            robotID: selectedRobotID
         }
         history.push("/lobby", state);
     }
 
-    const onChangeRobotID = (e) => {
-        setInputRobotID(e.target.value)
+    // en caso de que la partida requiera contraseña
+    // solo se mostrara si la partida requiere contraseña
+    let passRequired = true; // esto seria un prop que viene de listar partidas
+    const onChangePasswordMatch = (e) => {
+      setPassMatch(e.target.value)
     };
 
-    const checkInput = (input) => {
-        return !isNaN(input) && (/[0-9]/.test(input));
-    };
+    // se envia peticion de join si es aceptado se lo pasa al Lobby
+    // y deberia activarse el Websoscket dentro del Lobby
+    const checkJoinAccepted = () => {
+        return true;
+    }
 
     const handleOpen = () => setOpen(true);
+
+    // al elegir un robot y (de ser necesario un password match)
     const handleCloseToLobby = () => {
-        if(checkInput(inputRobotID)) {
+        if(checkJoinAccepted()) {
             setOpen(false);
             handleRouteLobby();
-        } else {
-            alert("Escriba el ID de su Robot combatiente");
         }
     }
+
+    // sino solo cerrar el modal
     const handleClose = () => {
         setOpen(false);
     }
@@ -100,14 +108,27 @@ const InputModal = () => {
                 noValidate
                 autoComplete="off"
             >
-            <input
-                type="number"
-                name="robot ID"
-                placeholder="Escriba el ID del Robot"
-                value={inputRobotID}
-                onChange={onChangeRobotID}
+
+            {passRequired && 
+                <TextField
+                    sx={{
+                        background: 'white',
+                        color: 'black',
+                    }}
+                    required
+                    id="standard-password-input"
+                    label="Password Match"
+                    type="password"
+                    autoComplete="current-password"
+                    variant="standard"
+                    value = {passMatch}
+                    onChange = {onChangePasswordMatch}
+                />
+            }
+            <SelectRobot 
+                selectedRobotID = {selectedRobotID}
+                setSelectedRobotID = {setSelectedRobotID}
             />
-            <SelectRobot />
             <Button variant="contained" onClick={handleCloseToLobby}>
                 Si has seleccionado a tu robot te dejo ir al Lobby
             </Button>
@@ -139,7 +160,9 @@ const UnirsePartida = (props)  => {
     
     if(handleStateMatch(stateMatch)) 
         return (
-            <InputModal> {stateMatch} </InputModal>
+            <InputModal matchID={props.matchID}> 
+                {stateMatch}
+            </InputModal>
         );
     else 
         return (
