@@ -1,9 +1,8 @@
 import { BrowserRouter as Switch, Route } from "react-router-dom";
 import ListarPartida from './ListarPartida/ListarPartida';
 import crearSimulacion from "./Simulacion/crearSimulacion";
-import simulacion from "./Simulacion/Simulacion";
 import AgregarRobot from "./AgregarRobot/AgregarRobot";
-import objListarRobots from './ListarRobots/ListarRobots';
+import ListarRobots from './ListarRobots/ListarRobots';
 import MuiToolbar from '@mui/material/Toolbar';
 import { useHistory } from "react-router-dom";
 import { styled } from '@mui/material/styles';
@@ -106,7 +105,7 @@ function HomepageLogin() {
           <Route path="/listarPartidas" component={ListarPartida} />
           <Route path="/signOff" component={SignOff} />
           <Route path="/subirRobot" component={AgregarRobot} />
-          <Route path="/listarRobot" component={objListarRobots.ListarRobots} />
+          <Route path="/listarRobot" component={ListarRobots} />
       </Switch>   
     </div>
   )

@@ -129,13 +129,7 @@ const UserRobotCreate = () => {
                     </div>
                     <div id="input-codigo-robot">
                         <h2>Subir codigo python del Robot</h2>
-                        <input
-                            className="input-file-file"
-                            type="file"
-                            multiple={ false }
-                            accept=".py"
-                            onChange={onChangeFile}
-                        >
+                        <input className="input-file-file" type="file" multiple={ false } accept=".py" onChange={onChangeFile} >
                         </input>
                     </div>
                     <div id='robot-submit'>
