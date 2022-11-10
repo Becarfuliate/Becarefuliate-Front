@@ -28,13 +28,21 @@ const handleResponse = (code, respuesta) => {
     }
 };
 
+const imagen = document.createElement("img");
+imagen.src = './homepage.png';
+const fileblob = new Blob([imagen], {type: "image/png"})
+const filefetch = new File( [fileblob], './homepage.png', {type: "image/png"})
 const filesRobot = (filePy, fileImg) => {
+    console.log("archivo ", filePy)
     let files = new FormData();
     files.append('config', filePy);
-    let fileDefaultImg = new File([imgDefaultAvatar], { type: "image/png"});
+
+    // let fileDefaultImg = new File([imagen], { type: "image/png"});
     // console.log(fileDefaultImg);
+    console.log("imagen", filefetch);
+    
     if(null === fileImg)
-        files.append('avatar', fileDefaultImg);
+        files.append('avatar', filefetch);
     else
         files.append('avatar', fileImg);
     return files;

@@ -31,8 +31,5 @@ const UserRobotCreate = ({sendDataRobot, modifyName, modifyAvatar, modifyConfig}
     );
 }
 
-function m(a){
-    console.log(a);
-}
 
-export default connect(m, {sendDataRobot, modifyName, modifyAvatar, modifyConfig})(UserRobotCreate);
+export default connect(null, {sendDataRobot, modifyName, modifyAvatar, modifyConfig})(UserRobotCreate);
