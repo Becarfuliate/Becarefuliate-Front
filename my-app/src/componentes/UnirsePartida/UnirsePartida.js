@@ -10,7 +10,6 @@ const SelectRobot = ({selectedRobotID, setSelectedRobotID}) => {
     
     const handleChange = (e) => {
         setSelectedRobotID(e.target.value);
-        console.log(selectedRobotID)
     };
 
     useEffect(() => {
@@ -33,9 +32,9 @@ const SelectRobot = ({selectedRobotID, setSelectedRobotID}) => {
         >
             {
                 (Array.isArray(listRobots) && listRobots.length) ?
-                listRobots.map((elem, index) =>
-                    <MenuItem key={index} value={elem.id}>
-                        <em>{elem.name}</em>
+                listRobots.map((robot, index) =>
+                    <MenuItem key={index} value={robot.id}>
+                        <em>{robot.name}</em>
                     </MenuItem>
                 )
                 :
@@ -77,13 +76,21 @@ const InputModal = (props) => {
         return true;
     }
 
-    const handleOpen = () => setOpen(true);
+    let state_match_finalized = false;
+    const handleOpen = (match_finalized) => {
+        if(!match_finalized)
+            setOpen(true);
+    }
 
     // al elegir un robot y (de ser necesario un password match)
     const handleCloseToLobby = () => {
-        if(checkJoinAccepted()) {
-            setOpen(false);
-            handleRouteLobby();
+        if('' !== selectedRobotID) {
+            if(checkJoinAccepted()) {
+                setOpen(false);
+                handleRouteLobby();
+            }
+        } else {
+            alert("Quiere Unirse ?, seleccione un Robot");
         }
     }
 
@@ -94,7 +101,9 @@ const InputModal = (props) => {
 
     return (
         <div>
-        <Button onClick={handleOpen}>Open modal</Button>
+        <Button onClick={() => handleOpen(state_match_finalized)}>
+            {props.stateMatch}
+        </Button>
         <Modal
             open={open}
             aria-labelledby="modal-modal-title"
@@ -145,29 +154,13 @@ const InputModal = (props) => {
 const UnirsePartida = (props)  => {
     
     const history = useHistory();
-    const [stateMatch, setStateMatch] = useState("join");
-  
-    const handleRouteLobby = () =>{
-        history.push("/lobby");
-    }
-
-    const handleStateMatch = (state) => {
-        if("join" === state)
-            return true;
-        else
-            return false;
-    };
+    // Cambia el state match si espera jugadores o espera inicio
+    // o ver resultados o finalizo
+    const [stateMatch, setStateMatch] = useState("Unirse");
     
-    if(handleStateMatch(stateMatch)) 
-        return (
-            <InputModal matchID={props.matchID}> 
-                {stateMatch}
-            </InputModal>
-        );
-    else 
-        return (
-            <Button onClick={handleRouteLobby}> {stateMatch} </Button>
-        );
+    return (
+        <InputModal matchID={props.matchID} stateMatch={stateMatch}/>
+    );
 }
 
 export default UnirsePartida;

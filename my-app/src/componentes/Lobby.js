@@ -32,8 +32,6 @@ const Lobby = () => {
   let l = useLocation();
   console.log(l.state)
   // Para probar
-  let robotID = "10";
-  let matchID = "2";
   let listUsersJoin = [{user:"juan", robot:"rb1", avatar:"avatar", creador_partida: "si"}, {user:"juan 2", robot:"rb2", avatar:"avatar 2", creador_partida: "no"}]
 
   const nameUser = JSON.parse(localStorage.getItem("user")).userlogin;
