@@ -154,11 +154,11 @@ const Items = () => {
   );
 }
 
-function SignOff(){
+function SignOff() {
   const history = useHistory();
   localStorage.removeItem("user");
   history.push("/");
-  window.location.reload()
+  window.location.reload();
 }
 
 export default HomepageLogin;
