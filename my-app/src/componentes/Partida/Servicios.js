@@ -6,7 +6,7 @@ const defaultdataPartida = {
   max_players: "",
   password: "",
   n_matchs: "",
-  n_rounds_match: ""
+  n_rounds_matchs: ""
 }
 
 async function servicioPartida(postData) {
@@ -40,7 +40,6 @@ function handleSubmit(dataPartida) {
     user_creator: user.userlogin,
     token: user.token,
   };
-  console.log("postData", postData);
   servicioPartida(postData);
 }
 

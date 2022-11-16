@@ -1,32 +1,15 @@
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import {getDataGamesUser} from '../../store/Partidas/actions';
 import TableContainer from '@mui/material/TableContainer';
+import React, { useState, useEffect } from "react";
 import TableBody from '@mui/material/TableBody';
 import TableHead from '@mui/material/TableHead';
 import { styled } from '@mui/material/styles';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
-import React, { useState } from "react";
-import axios from "axios";
 import UnirsePatida from '../UnirsePartida/UnirsePartida';
-
-const baseURL = "http://127.0.0.1:8000";
-
-async function servicioListarPartida(token) {
-  return await axios
-    .get(baseURL + "/matchs?token=" + token)
-    .then((response) => response.data)
-    .catch((e) => []);
-}
-
-function ListaDePartidasDelUsuario(){
-  const tkn = JSON.parse(localStorage.getItem("user")).token;
-  const [lista, setLista] = useState([]); 
-
-  servicioListarPartida(tkn).then((e) => setLista(e));
-
-  return lista;
-}
+import {connect} from 'react-redux';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,10 +31,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-function ListarPartida() {
-  const lista = ListaDePartidasDelUsuario();
-  // console.log(lista);
-  // lista.forEach((v) => console.log(encodeURI(v.password)));
+function ListarPartida({getDataGamesUser}) {
+  const [listPartidas, setListPartidas] = useState([]);
+  
+  useEffect(() => {
+    getDataGamesUser(setListPartidas);
+  }, [getDataGamesUser]);
+  
   return (
   <div>
     <TableContainer component={Paper}>
@@ -67,7 +53,7 @@ function ListarPartida() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {lista.map((row) => (
+          {listPartidas.map((row) => (
             <StyledTableRow user={row.id} key={row.id}>
               <StyledTableCell component="th" scope="row">
                 {row.name}
@@ -88,4 +74,4 @@ function ListarPartida() {
   );
 }
 
-export default ListarPartida;
+export default connect(null, {getDataGamesUser})(ListarPartida);
