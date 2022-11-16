@@ -1,7 +1,7 @@
 import { Button, Box, Modal, MenuItem, InputLabel, FormControl, TextField } from '@mui/material';
 import Select from '@mui/material/Select';
 import { useHistory } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import exportServiceListarRobots from '../Servicios/serviceListarRobots'
 
 const SelectRobot = ({selectedRobotID, setSelectedRobotID}) => {
@@ -51,37 +51,60 @@ const InputModal = (props) => {
     const [open, setOpen] = useState(false);
     const [selectedRobotID, setSelectedRobotID] = useState('');
     const [passMatch, setPassMatch] = useState("");
+    const [socket, setSocket] = useState(undefined);
+
+    let user = localStorage.getItem('user')
+    const [dataSocket, setDataSocket] = useState({
+        matchId: props.matchID,
+        robotId: 0,
+        tkn: user.token
+    })
+  
+    
+    
     
     const history = useHistory();
-  
+    
     // pasaje a Lobby con un estado
     const handleRouteLobby = () =>{
+
+        let updatedValue = {};
+        updatedValue = {"robotId":selectedRobotID};
+        setDataSocket(obj => ({
+              ...obj,
+              ...updatedValue
+        }));
+
         let state = {
             matchID: props.matchID,
-            robotID: selectedRobotID
+            robotID: selectedRobotID,
+            // socket: socket
         }
         history.push("/lobby", state);
     }
-
+    
     // en caso de que la partida requiera contraseña
     // solo se mostrara si la partida requiere contraseña
     let passRequired = true; // esto seria un prop que viene de listar partidas
     const onChangePasswordMatch = (e) => {
-      setPassMatch(e.target.value)
+        setPassMatch(e.target.value)
     };
-
+    
     // se envia peticion de join si es aceptado se lo pasa al Lobby
     // y deberia activarse el Websoscket dentro del Lobby
     const checkJoinAccepted = () => {
+        // const socket = new WebSocket('ws://localhost:8080/ws/match/2/Lichi/1');
+        // setSocket(socket);
+        // console.log(socket.onmessage);
         return true;
     }
-
+    
     let state_match_finalized = false;
     const handleOpen = (match_finalized) => {
         if(!match_finalized)
-            setOpen(true);
+        setOpen(true);
     }
-
+    
     // al elegir un robot y (de ser necesario un password match)
     const handleCloseToLobby = () => {
         if('' !== selectedRobotID) {
@@ -93,11 +116,39 @@ const InputModal = (props) => {
             alert("Quiere Unirse ?, seleccione un Robot");
         }
     }
-
+    
     // sino solo cerrar el modal
     const handleClose = () => {
         setOpen(false);
     }
+    
+    //////////////////////
+        const [websocketConnected, setWebsocketConnected] = useState("no conectado");
+        const ws = useRef(null);
+        useEffect(() => {
+            const socket = new WebSocket(`ws://localhost:8000/ws/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
+            socket.onopen = () => {
+                console.log("openned")
+            }
+            socket.onclose = () => {
+                console.log("close")
+            }
+            socket.onmessage = (e) => {
+                console.log("got message: ", e.data)
+            }
+            socket.onerror = (e) => {
+                console.log("error socket: ", e)
+            }
+    
+            ws.current = socket;
+            return () => {
+                console.log("cerre la tienda")
+                socket.close()
+            };
+            //la linea de abajo quita el warning React Hook useEffect has missing dependencies:
+               // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [setDataSocket]);
+    //////////////////////
 
     return (
         <div>
@@ -152,6 +203,7 @@ const InputModal = (props) => {
 
 
 const UnirsePartida = (props)  => {
+
     
     const history = useHistory();
     // Cambia el state match si espera jugadores o espera inicio

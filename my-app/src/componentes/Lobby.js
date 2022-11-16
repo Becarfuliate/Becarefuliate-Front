@@ -30,13 +30,20 @@ const Lobby = () => {
   // como usar el useSelector para traer datos del store de redux
   // const { data } = useSelector(data => data);
   let l = useLocation();
-  console.log(l.state)
+  // const [state, setState] = useState(undefined);
+  // console.log("l.state", l.state)
+  // setState(l.state)
+  // console.log("state:", state)
   // Para probar
   let listUsersJoin = [{user:"juan", robot:"rb1", avatar:"avatar", creador_partida: "si"}, {user:"juan 2", robot:"rb2", avatar:"avatar 2", creador_partida: "no"}]
 
   const nameUser = JSON.parse(localStorage.getItem("user")).userlogin;
 
-  
+  const handleOutMatch = () => {
+    console.log("Intento Salir")
+    console.log("l.state.socket", l.state.socket)
+  }
+
   const ListUserJoin = () => {
     return (
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -84,7 +91,8 @@ const Lobby = () => {
             <Link
               variant="button"
               underline="none"
-              href="#"
+              href="/home"
+              onClick={handleOutMatch}
               sx={rightLink} >
               {'Abandonar partida'}
             </Link>
