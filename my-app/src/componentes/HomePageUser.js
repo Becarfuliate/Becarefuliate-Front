@@ -3,7 +3,7 @@ import { Toolbar, AppBar, Link, Box} from "@mui/material"
 
 // Routes
 import Home from "./Home";
-import Registro from "./Registro/Register";
+import Registro from "./registro/Register";
 import Login from "./Login/Login";
 
 function HomePageUser() {
