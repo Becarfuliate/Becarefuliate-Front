@@ -47,15 +47,14 @@ const SelectRobot = ({selectedRobotID, setSelectedRobotID}) => {
     );
 };
 
-const WebsocketConnect = ({socketConnect, dataSocket}) => {
+const WebsocketConnect = ({socketConnect, dataSocket, usersJoin, addUserJoin, removeUserJoin, isUserJoinAdded}) => {
     //////////////////////
     console.log("Entre al Websocket", socketConnect)
-    console.log(dataSocket)
+    // console.log(dataSocket)
     const ws = useRef(null);
-    useEffect(() => {
-        // const socket = new WebSocket(`ws://localhost:8000/ws/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
 
-        const socket = new WebSocket(`ws://localhost:8000/ws/match/2/Lichi/1`);
+    useEffect(() => {
+        const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
 
         socket.onopen = () => {
             console.log("openned")
@@ -65,6 +64,27 @@ const WebsocketConnect = ({socketConnect, dataSocket}) => {
         }
         socket.onmessage = (e) => {
             console.log("got message: ", e.data)
+            // e.data es de tipo string pues es un JSON
+            if(e.data) {
+                let objResponse = JSON.parse(e.data)
+                if(objResponse.join) {
+                    let user = objResponse.join.split(":")[0];
+                    let robot = objResponse.join.split(":")[1];
+                    if(!isUserJoinAdded(dataSocket.matchId, user, robot, usersJoin)) {
+                        addUserJoin(dataSocket.matchId, user, robot)
+                    }
+                    console.log("agregado")
+                } else if(objResponse.leave) {
+                    let user = objResponse.leave.split(":")[0];
+                    let robot = objResponse.leave.split(":")[1];
+                    if(isUserJoinAdded(dataSocket.matchId, user, robot, usersJoin)) {
+                        removeUserJoin(dataSocket.matchId, user, robot, usersJoin)
+                    }
+                    console.log("removido")
+                } else {
+                    console.log(e.data)
+                }
+            }
         }
         socket.onerror = (e) => {
             console.log("error socket: ", e)
@@ -89,6 +109,10 @@ const InputModal = (props) => {
     const [passMatch, setPassMatch] = useState("");
     const [socketConnect, setSocketConnect] = useState(false);
 
+    // const [userJoin, setUserJoin] = useState('');
+    // const [robotJoin, setRobotJoin] = useState('');
+    const [usersJoin, setUsersJoin] = useState([]); // array vacio
+
     let user = JSON.parse(localStorage.getItem('user'));
     const [dataSocket, setDataSocket] = useState({
         matchId: props.matchID,
@@ -96,22 +120,35 @@ const InputModal = (props) => {
         tkn: user.token
     })
 
+    // filtramos por el idMatch los correspondientes usuarios unidos
+    // de esa partida, tambien servira para el borrado
+    const addUserJoin = (idJoinMatch, userName, robotName) => {
+        setUsersJoin([
+            ...usersJoin,
+            {
+                matchId : idJoinMatch,
+                name : userName,
+                robot : robotName
+            }
+        ]);
+    };
+
+    const removeUserJoin = (idJoinMatch, userName, robotName, listUsersJoin) => {
+        let filtredArray = listUsersJoin.filter(elem => elem.matchID !== idJoinMatch && elem.name !== userName && elem.robot !== robotName)
+        setUsersJoin(filtredArray)
+    }
+
+    const isUserJoinAdded = (idJoinMatch, userName, robotName, listUsersJoin) => {
+        return (listUsersJoin.reduce(elem => elem.matchId === idJoinMatch && elem.name === userName && elem.robotName === robotName, ""))
+    };
+
     const history = useHistory();
     
     // pasaje a Lobby con un estado
     const handleRouteLobby = () =>{
 
-        // let updatedValue = {};
-        // updatedValue = {"robotId":selectedRobotID};
-        // setDataSocket(obj => ({
-        //       ...obj,
-        //       ...updatedValue
-        // }));
-
         let state = {
-            matchID: props.matchID,
-            robotID: selectedRobotID,
-            // socket: socket
+            listUsersJoin: usersJoin
         }
         history.push("/lobby", state);
     }
@@ -126,7 +163,7 @@ const InputModal = (props) => {
     // se envia peticion de join si es aceptado se lo pasa al Lobby
     // y deberia activarse el Websoscket dentro del Lobby
     const checkJoinAccepted = () => {
-        return true;
+        return socketConnect;
     }
     
     let state_match_finalized = false;
@@ -153,6 +190,8 @@ const InputModal = (props) => {
     // al elegir un robot y (de ser necesario un password match)
     const handleCloseToLobby = () => {
             if(checkJoinAccepted()) {
+                if(socketConnect)
+                    setSocketConnect(false)
                 setOpen(false);
                 handleRouteLobby();
             }
@@ -209,10 +248,17 @@ const InputModal = (props) => {
                 <WebsocketConnect
                     dataSocket = {dataSocket}
                     socketConnect = {socketConnect}
+                    usersJoin = {usersJoin}
+                    addUserJoin = {addUserJoin}
+                    removeUserJoin = {removeUserJoin}
+                    isUserJoinAdded = {isUserJoinAdded}
                 />
             }
             <Button variant="contained" onClick={handleJoinMatch}>
-                Si has seleccionado a tu robot te dejo ir al Lobby
+                Si has seleccionado a tu robot puedes Unirte
+            </Button>
+            <Button variant="contained" onClick={handleCloseToLobby}>
+                Si te has unido, tienes permitido ir al Lobby
             </Button>
             <Button variant="contained" onClick={handleClose}>
                 Cerrar Modal
