@@ -30,7 +30,6 @@ const UserRobotCreate = () => {
     };
     
     const isFileNotEmpty = (file) => {
-        console.log(file);
         return(0 !== file.size && file !== null);
     };
     
@@ -60,7 +59,6 @@ const UserRobotCreate = () => {
     // + el nombre del robot es igual al nombre de la clase principal del robot
 
     const validateRobot = (file, name) => {
-        console.log("validando")
         let robotValid = false;
         if(isFileNotEmpty(fileRobot)) {
             if(isPythonFile(fileRobot)) {

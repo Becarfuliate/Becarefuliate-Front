@@ -4,7 +4,7 @@ import swal from "sweetalert";
 
 async function loadDataUser(dataRegisterUser){
   const baseURL = 'http://localhost:8000/register';
-  //console.log(dataRegisterUser);
+  
   if(verifyDataUser(dataRegisterUser)) 
     return await axios.post(baseURL, dataRegisterUser)
       .then( () =>  {

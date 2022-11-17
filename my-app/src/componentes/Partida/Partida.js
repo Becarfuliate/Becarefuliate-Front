@@ -6,7 +6,6 @@ function CrearPartida() {
   const [lectura, setLectura] = useState(true);
 
   const handleChange = (evt) => {
-    console.log(state)
     setState({ ...state, [evt.target.name]: evt.target.value });
   };
 
