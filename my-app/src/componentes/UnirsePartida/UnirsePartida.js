@@ -47,33 +47,66 @@ const SelectRobot = ({selectedRobotID, setSelectedRobotID}) => {
     );
 };
 
+const WebsocketConnect = ({socketConnect, dataSocket}) => {
+    //////////////////////
+    console.log("Entre al Websocket", socketConnect)
+    console.log(dataSocket)
+    const ws = useRef(null);
+    useEffect(() => {
+        // const socket = new WebSocket(`ws://localhost:8000/ws/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
+
+        const socket = new WebSocket(`ws://localhost:8000/ws/match/2/Lichi/1`);
+
+        socket.onopen = () => {
+            console.log("openned")
+        }
+        socket.onclose = () => {
+            console.log("close")
+        }
+        socket.onmessage = (e) => {
+            console.log("got message: ", e.data)
+        }
+        socket.onerror = (e) => {
+            console.log("error socket: ", e)
+        }
+
+        ws.current = socket;
+        return () => {
+            //Esto pasa si te sales del componente Unirse Partida
+            console.log("cerre la tienda")
+            socket.close()
+        };
+        //la linea de abajo quita el warning React Hook useEffect has missing dependencies:
+           // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    // setSocketConnect(false);
+//////////////////////
+}
+
 const InputModal = (props) => {
     const [open, setOpen] = useState(false);
     const [selectedRobotID, setSelectedRobotID] = useState('');
     const [passMatch, setPassMatch] = useState("");
-    const [socket, setSocket] = useState(undefined);
+    const [socketConnect, setSocketConnect] = useState(false);
 
-    let user = localStorage.getItem('user')
+    let user = JSON.parse(localStorage.getItem('user'));
     const [dataSocket, setDataSocket] = useState({
         matchId: props.matchID,
-        robotId: 0,
+        robotId: selectedRobotID,
         tkn: user.token
     })
-  
-    
-    
-    
+
     const history = useHistory();
     
     // pasaje a Lobby con un estado
     const handleRouteLobby = () =>{
 
-        let updatedValue = {};
-        updatedValue = {"robotId":selectedRobotID};
-        setDataSocket(obj => ({
-              ...obj,
-              ...updatedValue
-        }));
+        // let updatedValue = {};
+        // updatedValue = {"robotId":selectedRobotID};
+        // setDataSocket(obj => ({
+        //       ...obj,
+        //       ...updatedValue
+        // }));
 
         let state = {
             matchID: props.matchID,
@@ -93,9 +126,6 @@ const InputModal = (props) => {
     // se envia peticion de join si es aceptado se lo pasa al Lobby
     // y deberia activarse el Websoscket dentro del Lobby
     const checkJoinAccepted = () => {
-        // const socket = new WebSocket('ws://localhost:8080/ws/match/2/Lichi/1');
-        // setSocket(socket);
-        // console.log(socket.onmessage);
         return true;
     }
     
@@ -105,16 +135,27 @@ const InputModal = (props) => {
         setOpen(true);
     }
     
+    const handleJoinMatch = () => {
+        if('' !== selectedRobotID) {
+            let updatedValue = {};
+            updatedValue = {"robotId":selectedRobotID};
+            setDataSocket(obj => ({
+                ...obj,
+                ...updatedValue
+            }));
+            setSocketConnect(true);
+        } else {
+            alert("Quiere Unirse ?, seleccione un Robot");
+        }
+        // console.log(socketConnect)
+    }
+
     // al elegir un robot y (de ser necesario un password match)
     const handleCloseToLobby = () => {
-        if('' !== selectedRobotID) {
             if(checkJoinAccepted()) {
                 setOpen(false);
                 handleRouteLobby();
             }
-        } else {
-            alert("Quiere Unirse ?, seleccione un Robot");
-        }
     }
     
     // sino solo cerrar el modal
@@ -122,33 +163,7 @@ const InputModal = (props) => {
         setOpen(false);
     }
     
-    //////////////////////
-        const [websocketConnected, setWebsocketConnected] = useState("no conectado");
-        const ws = useRef(null);
-        useEffect(() => {
-            const socket = new WebSocket(`ws://localhost:8000/ws/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
-            socket.onopen = () => {
-                console.log("openned")
-            }
-            socket.onclose = () => {
-                console.log("close")
-            }
-            socket.onmessage = (e) => {
-                console.log("got message: ", e.data)
-            }
-            socket.onerror = (e) => {
-                console.log("error socket: ", e)
-            }
-    
-            ws.current = socket;
-            return () => {
-                console.log("cerre la tienda")
-                socket.close()
-            };
-            //la linea de abajo quita el warning React Hook useEffect has missing dependencies:
-               // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [setDataSocket]);
-    //////////////////////
+
 
     return (
         <div>
@@ -189,7 +204,14 @@ const InputModal = (props) => {
                 selectedRobotID = {selectedRobotID}
                 setSelectedRobotID = {setSelectedRobotID}
             />
-            <Button variant="contained" onClick={handleCloseToLobby}>
+            {
+                socketConnect &&
+                <WebsocketConnect
+                    dataSocket = {dataSocket}
+                    socketConnect = {socketConnect}
+                />
+            }
+            <Button variant="contained" onClick={handleJoinMatch}>
                 Si has seleccionado a tu robot te dejo ir al Lobby
             </Button>
             <Button variant="contained" onClick={handleClose}>
