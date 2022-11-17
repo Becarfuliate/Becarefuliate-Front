@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import exportServiceRobot from "../Servicios/serviceAgregarRobot";
+import swal from "sweetalert";
 
 const UserRobotCreate = () => {
     // El nombre del robot no puede ser el mismo que alguno que ya halla subido
@@ -22,12 +23,15 @@ const UserRobotCreate = () => {
 
     const onChangeFile = (e) => {
         let file = e.target; // Esto nunca debe ser null
-        if(!file) return; // Esto impide trabajar con un null
+        if(!file) {
+            return;
+        } // Esto impide trabajar con un null
         setFileRobot(e.target.files[0]);
     };
     
     const isFileNotEmpty = (file) => {
-        return(0 !== file.size);
+        console.log(file);
+        return(0 !== file.size && file !== null);
     };
     
     const isPythonFile = (file) => {
@@ -56,6 +60,7 @@ const UserRobotCreate = () => {
     // + el nombre del robot es igual al nombre de la clase principal del robot
 
     const validateRobot = (file, name) => {
+        console.log("validando")
         let robotValid = false;
         if(isFileNotEmpty(fileRobot)) {
             if(isPythonFile(fileRobot)) {
@@ -63,19 +68,35 @@ const UserRobotCreate = () => {
                     nameRobotInFile(fileRobot, nameRobot)
                     .then(isRstPositive => {
                         if(!isRstPositive) {
-                            alert("El nombre del robot debe ser igual al nombre de la clase principal del archivo del robot, no es aceptable")
+                            swal({
+                                text: 'El nombre del robot debe ser igual al nombre de la clase principal del archivo del robot.',
+                                icon: 'warning',
+                                timer: '3500'
+                            });
                         }
                         setFileRobotValidate(isRstPositive);
                     })
                 } else {
-                    alert("El nombre del archivo debe ser igual al nombre del robot, no es aceptable");
+                    swal({
+                        text: 'El nombre del archivo debe ser igual al nombre del robot.',
+                        icon: 'warning',
+                        timer: '2500'
+                    });
                 }
             } else {
-                alert("No es un archivo python, no es aceptable")
+                swal({
+                    text: 'No es un archivo python, no es aceptable.',
+                    icon: 'warning',
+                    timer: '2500'
+                });
             }
         }
         else {
-            alert("Archivo vacio, no es aceptable")
+            swal({
+                text: 'Archivo vacío, no es aceptable.',
+                icon: 'warning',
+                timer: '1800'
+            });
         }
         return robotValid;
     };
@@ -83,13 +104,21 @@ const UserRobotCreate = () => {
     const handleRobot = (e) => {
         e.preventDefault();
         if("" === nameRobot) {
-            alert("Campo del Nombre del Robot Vacio, escriba algo");
+            swal({
+                text: 'Campo del Nombre del Robot Vacio, escriba algo.',
+                icon: 'warning',
+                timer: '2500'
+            });
         } else {
             if(!fileRobot) return;
             validateRobot(fileRobot, nameRobot);
             if(fileRobotValidate) {
                 if(null === imgAvatar) {
-                    alert("Ingrese una imagen a su robot");
+                    swal({
+                        text: 'Ingrese una imagen a su robot.',
+                        icon: 'warning',
+                        timer: '1800'
+                    });
                     return;
                 }
                 exportServiceRobot.serviceUploadRobot(fileRobot, imgAvatar, nameRobot);

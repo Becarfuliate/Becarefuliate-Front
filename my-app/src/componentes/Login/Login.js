@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import exportServiceLogin from '../Servicios/serviceLogin';
 import validator from 'validator';
 import { useHistory } from 'react-router-dom';
+import swal from "sweetalert";
 
 const UserLogin = () => {
     const [userlogin, setUserlogin] = useState("");
@@ -24,8 +25,13 @@ const UserLogin = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        if("" === userlogin || "" === password)
-            alert("algunos campos estan vacios, escriba algo")
+        if("" === userlogin || "" === password) {
+            swal({
+                text: 'Algunos campos estan vacíos, escriba algo.',
+                icon: 'warning',
+                timer: '1800'
+            });
+        }
         else {
             Loguearse(validator.isEmail(userlogin), userlogin, password);
             setUserlogin("");

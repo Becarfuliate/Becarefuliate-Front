@@ -1,4 +1,6 @@
 import axios from "axios";
+import swal from "sweetalert";
+
 const baseURL = "http://127.0.0.1:8000";
 
 const defaultdataPartida = {
@@ -13,17 +15,24 @@ async function servicioPartida(postData) {
   await axios
     .post(baseURL + "/match/add", postData)
     .then(function (response) {
-      console.log(response.status);
+      swal({
+        text: 'Partida creada.',
+        icon: 'success',
+        timer: '1800'
+      });
     })
     .catch(function (error) {
       if (error.response.status === 409) {
-        alert(error.response.data.detail);
+        swal({
+          text: error.response.data.detail,
+          icon: 'error'
+        });
       }
       if (error.response.status === 422) {
-        alert(error.response.data.detail[0].msg);
-      }
-      if (error.response) {
-        console.log(`Returned with error: ${error.response.status}`);
+        swal({
+          text: error.response.data.detail[0].msg,
+          icon: 'error'
+        });
       }
     });
 }
