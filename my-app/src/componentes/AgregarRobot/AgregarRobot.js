@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 const UserRobotCreate = ({sendDataRobot, modifyName, modifyAvatar, modifyConfig}) => {
     return (
         <div id="create-robot">
-            <div>
                 <h1>Create Robot</h1>
                 <form id="form-robot">
                     <div id="input-nombre-robot">
@@ -26,7 +25,6 @@ const UserRobotCreate = ({sendDataRobot, modifyName, modifyAvatar, modifyConfig}
                         <input type="button" onClick={() => sendDataRobot()} value="Submit" className='input-submit'/>
                     </div>
                 </form>
-            </div>
         </div>
     );
 }

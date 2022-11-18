@@ -1,70 +1,36 @@
 import exportServiceLogin from '../../componentes/Servicios/serviceLogin';
 import verifyDataRobot from './verifyDataRobot';
 import axios from 'axios';
-import imgDefaultAvatar from './avatar-robot-default.png';
+
+const baseURL = 'http://localhost:8000';
+const endpoint = '/upload/robot';
 
 const handleResponse = (code, respuesta) => {
-    switch (code) {
-        case 200:
-            alert(respuesta.msg);
-            break;
-        case 409:
-            alert(respuesta.detail);
-            break;
-        case 400:
-            alert(respuesta.detail);
-            exportServiceLogin.serviceLogOut();
-            break;
-        case 404:
-            alert(respuesta.detail);
-            exportServiceLogin.serviceLogOut();
-            break;
-        case 422:
-            alert(respuesta.detail);
-            break;    
-        default:
-            alert("Error No Contemplado, " + respuesta);
-            break;
-    }
+    if(code === 200) alert(respuesta.msg);
+    else if(code === 409 || code === 400 || code === 404 || code === 422) alert(respuesta.detail);
+    else alert("Error No Contemplado, " + respuesta);
+
+    if(code === 400 || code === 404) exportServiceLogin.serviceLogOut();
+
 };
 
-const imagen = document.createElement("img");
-imagen.src = './homepage.png';
-const fileblob = new Blob([imagen], {type: "image/png"})
-const filefetch = new File( [fileblob], './homepage.png', {type: "image/png"})
-const filesRobot = (filePy, fileImg) => {
-    console.log("archivo ", filePy)
-    let files = new FormData();
-    files.append('config', filePy);
-
-    // let fileDefaultImg = new File([imagen], { type: "image/png"});
-    // console.log(fileDefaultImg);
-    console.log("imagen", filefetch);
-    
-    if(null === fileImg)
-        files.append('avatar', filefetch);
-    else
-        files.append('avatar', fileImg);
+const filesRobot = (dataRobot) => {
+    const files = new FormData();
+    files.append('config', dataRobot.config);
+    files.append('avatar', dataRobot.avatar);
     return files;
 };
 
 const paramsData = (name) => {
-    let user = JSON.parse(localStorage.getItem('user'));
-    if(user && user.token) {
-        return {
-            params: {
-                name: name,
-                tkn: user.token,
-                username: user.userlogin
-            }
-        }
-    } else {
-        return {
-            params: {
-                name: name,
-                tkn: "",
-                username: ""
-            }
+    const user = JSON.parse(localStorage.getItem('user'));
+    const token = (user)? user.token : '';
+    const userLogin = (user)? user.userlogin : '';
+
+    return {
+        params: {
+            name: name,
+            tkn: token,
+            username: userLogin
         }
     }
 };
@@ -79,11 +45,9 @@ const headers = () => {
 };
 
 const serviceUploadRobot = async (dataRobot) => {
-    console.log(dataRobot);
     const resultsVerifyDataRobot = verifyDataRobot(dataRobot);
     if (resultsVerifyDataRobot.state === 'OK')
-        await axios.post('http://localhost:8000/upload/robot', filesRobot(dataRobot.config, dataRobot.avatar), 
-                        paramsData(dataRobot.name) ,headers())
+        await axios.post(baseURL + endpoint, filesRobot(dataRobot), paramsData(dataRobot), headers())
         .then(respuesta => handleResponse(respuesta.status, respuesta.data))
         .catch((error) => handleResponse(error.response.status, error.response.data));
     else
