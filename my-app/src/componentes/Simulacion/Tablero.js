@@ -61,17 +61,17 @@ function Tablero({rondas}) {
         rondas[rondaActual-1].forEach((robot) => {
             if (robot.vida > 0) {
                 vivos.push(
-                    <li key={robot.nombre}>
+                    <div>
                         {` "${robot.nombre}"`}
-                    </li>
+                    </div>
                 );
             }
         });
         //Añadir Mensaje de Supervivientes
         output.push(
-            <li key={rondaActual} className="supervivientes">
+            <div>
                 {vivos}
-            </li>
+            </div>
         );
     }
 
