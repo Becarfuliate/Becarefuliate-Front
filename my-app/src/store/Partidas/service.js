@@ -17,7 +17,7 @@ function getNameUser(){
 async function servicioListarGames(token, callback) {
     return await axios.get(baseURL + "/matchs?token=" + token)
       .then((response) => callback(response.data))
-      .catch((error) => callback([]));
+      .catch((_) => callback([]));
 }
 
 async function servicioPartida(postData) {
