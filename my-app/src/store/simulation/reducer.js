@@ -1,11 +1,11 @@
-import {runSimulation} from './service';
+import {runSimulation, getUser, getToken} from './service';
 import {modifyIdRobots, removeIdRobot, modifyRounds} from './auxDataSimulation';
 
 const defaultDataSimulation = {
     id_robot: "",
     n_rounds_simulations: 0,
-    user_creator: "",
-    token: ""
+    user_creator: getUser(),
+    token: getToken()
 };
 
 function reducer(dataSimulation = defaultDataSimulation, action){
