@@ -11,6 +11,9 @@ import Table from '@mui/material/Table';
 import UnirsePatida from '../UnirsePartida/UnirsePartida';
 import {connect} from 'react-redux';
 
+import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
+
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -38,6 +41,7 @@ function ListarPartida({getDataGamesUser}) {
     getDataGamesUser(setListPartidas);
   }, [getDataGamesUser]);
   
+  let user = JSON.parse(localStorage.getItem('user'));
   return (
   <div>
     <TableContainer component={Paper}>
@@ -63,8 +67,21 @@ function ListarPartida({getDataGamesUser}) {
               <StyledTableCell align="right">{row.n_matchs}</StyledTableCell>
               <StyledTableCell align="right">{row.n_rounds_matchs}</StyledTableCell>
               <StyledTableCell>
-                <UnirsePatida matchID={row.id}/>
+                <UnirsePatida 
+                  matchID={row.id}
+                  maxPlayers={row.max_players}
+                  minPlayers={row.min_players}
+                  nameMatch={row.name}
+                  nameCreatorMatch={row.user_creator}
+                />
               </StyledTableCell>
+              { user.userlogin === row.user_creator &&
+                <StyledTableCell>
+                  <SvgIcon >
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                  </SvgIcon>
+                </StyledTableCell>
+              }
             </StyledTableRow>
           ))}
         </TableBody>
