@@ -13,7 +13,6 @@ function getNameUser(){
     else return "";
 }
 
-
 async function servicioListarGames(token, callback) {
     return await axios.get(baseURL + "/matchs?token=" + token)
       .then((response) => callback(response.data))
@@ -21,20 +20,13 @@ async function servicioListarGames(token, callback) {
 }
 
 async function servicioPartida(postData) {
-    await axios.post(baseURL + "/match/add", postData)
-      .then((response) => {
-        console.log(response.status);
+    await axios.post(baseURL + "/match/add", postData).then((_) => {
+        alert("Partida creada");
+        //Acá redirecciona a unirse a partida
       })
       .catch((error) => {
-        if (error.response.status === 409) {
-          alert(error.response.data.detail);
-        }
-        if (error.response.status === 422) {
-          alert(error.response.data.detail[0].msg);
-        }
-        if (error.response) {
-          console.log(`Returned with error: ${error.response.status}`);
-        }
+        if (error.response.status === 409) alert(error.response.data.detail);
+        else if (error.response.status === 422) alert(error.response.data.detail[0].msg);
       });
   }
 
