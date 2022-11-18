@@ -8,7 +8,6 @@ import ListItem from '@mui/material/ListItem';
 import Checkbox from '@mui/material/Checkbox';
 import { useHistory } from 'react-router-dom';
 import List from '@mui/material/List';
-import Simulacion from './Simulacion';
 import {connect} from 'react-redux';
 
 function CheckRobots({addRobot, removeRobot}){
