@@ -41,7 +41,7 @@ const UserLogin = () => {
 
     const history = useHistory();
     React.useEffect(() => {
-        if(localStorage.getItem("user")) history.push('/');
+        if(localStorage.getItem("user")) history.push('/home');
     }, [localStorage]);
 
     return (

@@ -13,13 +13,14 @@ function HomePageUser() {
         <Toolbar sx={{ justifyContent: 'space-between', backgroundColor: "#3f51b5"}}>
           <Box sx={{ flex: 1 }} />
           <Link
-            variant="button"
+            variant="text"
             underline="none"
+            text-transform="none"
             color="inherit"
             href="/"
             sx={{ fontSize: 24 }}
           >
-            {'pyRobots'}
+            {'PyRobots'}
           </Link>
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
             <Link
