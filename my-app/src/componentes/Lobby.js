@@ -39,30 +39,30 @@ const rightLink = {
 //       // socket.onclose = () => {
 //       //     console.log("close")
 //       // }
-//       socket.onmessage = (e) => {
-//           console.log("got message: ", e.data)
-//           // e.data es de tipo string pues es un JSON
-//           if(e.data) {
-//               let objResponse = JSON.parse(e.data)
-//               if(objResponse.join) {
-//                   let user = objResponse.join.split(":")[0];
-//                   let robot = objResponse.join.split(":")[1];
-//                   if(!isUserJoinAdded(dataSocket.matchId, user, robot, usersJoin)) {
-//                       addUserJoin(dataSocket.matchId, user, robot)
-//                   }
-//                   console.log("agregado")
-//               } else if(objResponse.leave) {
-//                   let user = objResponse.leave.split(":")[0];
-//                   let robot = objResponse.leave.split(":")[1];
-//                   if(isUserJoinAdded(dataSocket.matchId, user, robot, usersJoin)) {
-//                       removeUserJoin(dataSocket.matchId, user, robot, usersJoin)
-//                   }
-//                   console.log("removido")
-//               } else {
-//                   console.log(e.data)
-//               }
-//           }
-//       }
+      // socket.onmessage = (e) => {
+      //     console.log("got message: ", e.data)
+      //     // e.data es de tipo string pues es un JSON
+      //     if(e.data) {
+      //         let objResponse = JSON.parse(e.data)
+      //         if(objResponse.join) {
+      //             let user = objResponse.join.split(":")[0];
+      //             let robot = objResponse.join.split(":")[1];
+      //             if(!isUserJoinAdded(dataSocket.matchId, user, robot, usersJoin)) {
+      //                 addUserJoin(dataSocket.matchId, user, robot)
+      //             }
+      //             console.log("agregado")
+      //         } else if(objResponse.leave) {
+      //             let user = objResponse.leave.split(":")[0];
+      //             let robot = objResponse.leave.split(":")[1];
+      //             if(isUserJoinAdded(dataSocket.matchId, user, robot, usersJoin)) {
+      //                 removeUserJoin(dataSocket.matchId, user, robot, usersJoin)
+      //             }
+      //             console.log("removido")
+      //         } else {
+      //             console.log(e.data)
+      //         }
+      //     }
+      // }
 //       socket.onerror = (e) => {
 //           console.log("error socket: ", e)
 //       }
@@ -82,10 +82,9 @@ const rightLink = {
 // Si es el usuario no se puede unir por algun motivo del back se lo patea afuera
 // ,o sea, si te quieres unir pasas al Lobby por un momento hasta que sucesa 2 cosas: o te patea afuera o te quedas adentro y puedes ver quienes estan jugando
 const Lobby = () => {
-  const [socketConnect, setSocketConnect] = useState(false);
+  const [socketDisconnect, setSocketDisconnect] = useState(false);
   const [usersJoin, setUsersJoin] = useState([]); // array vacio
-  
-
+  const [usersJoinChange, setUsersJoinChange] = useState(false);
   //elementos traidos como un objeto de UnirsePartida
   // matchID: props.matchID,
   // maxPlayers: props.maxPlayers,
@@ -95,66 +94,175 @@ const Lobby = () => {
   // stateMatch: props.stateMatch,
   // passMatch: passMatch
   let locationOfState = useLocation();
-  let objectState = locationOfState.state;
-
+  const objectState = useRef(locationOfState.state);
+  
   let user = JSON.parse(localStorage.getItem('user'));
   const nameUser = user.userlogin;
+
+  //Funcion que filtra de todos las partidas con usuarios unidos a los que
+  //se necesitan de la partida actual en la que me encuentro
   
-  // const [dataSocket, setDataSocket] = useState({
-  //     matchId: props.matchID,
-  //     robotId: selectedRobotID,
-  //     tkn: user.token
-  // })
+  const dataSocket = useRef({
+      matchId: objectState.matchID,
+      robotId: objectState.robotID,
+      tkn: user.token
+  });
+  console.log(dataSocket)
 
-
+  // Construccion del socket y comunicacion establecida
+  const ws = useRef(null);
+  const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
+  ws.current = socket;
 
   const handleOutMatch = () => {
-    console.log("Intento Salir")
+    setSocketDisconnect(true);
+    console.log("Se abandono la Partida, socketDisconnect", socketDisconnect)
   }
 
+  const handleInitMatch = () => {
+    console.log("Aqui poner la logica del iniciar")
+  };
 
-  // filtramos por el idMatch los correspondientes usuarios unidos
-  // de esa partida, tambien servira para el borrado
-  // const addUserJoin = (idJoinMatch, userName, robotName) => {
-  //     setUsersJoin([
-  //         ...usersJoin,
-  //         {
-  //             matchId : idJoinMatch,
-  //             name : userName,
-  //             robot : robotName
-  //         }
-  //     ]);
-  // };
+  const handleOutToHome = () => {
+    console.log("Volviendo a Home, socketDisconnect", socketDisconnect)
+  }
 
-  // const removeUserJoin = (idJoinMatch, userName, robotName, listUsersJoin) => {
-  //     let filtredArray = listUsersJoin.filter(elem => elem.matchID !== idJoinMatch && elem.name !== userName && elem.robot !== robotName)
-  //     setUsersJoin(filtredArray)
-  // }
+  useEffect(() => {
 
-  // const isUserJoinAdded = (idJoinMatch, userName, robotName, listUsersJoin) => {
-  //     return (listUsersJoin.reduce(elem => elem.matchId === idJoinMatch && elem.name === userName && elem.robotName === robotName, ""))
-  // };
+    const isUserJoinAdded = (idJoinMatch, userName, robotName,
+      listUsersJoin) => {
+        return (listUsersJoin.reduce(elem => elem.matchId === idJoinMatch && elem.name === userName && elem.robotName === robotName, ""))
+    };
 
-  // const handleJoinMatch = () => {
-  //   if('' !== selectedRobotID) {
-  //       let updatedValue = {};
-  //       updatedValue = {"robotId":selectedRobotID};
-  //       setDataSocket(obj => ({
-  //           ...obj,
-  //           ...updatedValue
-  //       }));
-  //       setSocketConnect(true);
-  //   } else {
-  //       alert("Quiere Unirse ?, seleccione un Robot");
-  //   }
-  // }
+    //Almacenamiento de los usuarios que se van uniendo
+    const addUserJoin = (idJoinMatch, userName, robotName) => {
+      let usersJoinLocalStorage = [];
+      if(localStorage.getItem('usersJoin'))
+        usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
+      if(Array.isArray(usersJoinLocalStorage) && usersJoinLocalStorage.length) {
+          if(!isUserJoinAdded(idJoinMatch, userName, robotName, usersJoinLocalStorage)) {
+            usersJoinLocalStorage.push({
+              matchId : idJoinMatch,
+              name : userName,
+              robot : robotName,
+            });
+            localStorage.setItem('usersJoin',
+            JSON.stringify(usersJoinLocalStorage));
+          }
+      } else {
+          localStorage.setItem('usersJoin', JSON.stringify([{
+            matchId : idJoinMatch,
+            name : userName,
+            robot : robotName,
+          }]));
+      }
+    }
 
-  let list = []
+    const removeUserJoin = (idJoinMatch, userName, robotName) => {
+        let usersJoinLocalStorage = [];
+        if(localStorage.getItem('usersJoin')) {
+          usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
+          if(Array.isArray(usersJoinLocalStorage)
+          && usersJoinLocalStorage.length) {
+            if(isUserJoinAdded(idJoinMatch, userName, robotName, usersJoinLocalStorage)) {
+              let filtredArray = usersJoinLocalStorage.filter(elem => elem.matchId !== idJoinMatch && elem.name !== userName && elem.robot !== robotName)
+              localStorage.setItem('usersJoin',
+              JSON.stringify(filtredArray));
+            }
+          }
+        }
+    }
+
+    const handleMessageJoin = (message) => {
+        let user = message.split(":")[0];
+        let robot = message.split(":")[1];
+        addUserJoin(objectState.matchID, user, robot)
+        console.log("agregado")
+    }
+  
+    const handleMessageLeave = (message) => {
+        let user = message.split(":")[0];
+        let robot = message.split(":")[1];
+        removeUserJoin(objectState.matchID, user, robot)
+        console.log("removido")
+    }
+    const listenMessage = () => {
+      //usamos onopen para esta seguro que hay una conexion que esta escuchando
+      //el msj que vamos a enviar
+      ws.current.onopen = () => {
+          console.log("openned, escuchando respuestas del back")
+          ws.current.onmessage = (e) => {
+            console.log("got message: ", e.data)
+            if(e.data) {
+              let objResponse = JSON.parse(e.data)
+              if(objResponse.join) {
+                handleMessageJoin(objResponse.join);
+              } else if(objResponse.leave) {
+                handleMessageLeave(objResponse.leave);
+              } else {
+                console.log(e.data)
+              }
+            }
+          }
+      }
+    };
+    const sendLeaveMatch = () => {
+      //usamos onopen para esta seguro que hay una conexion que esta escuchando
+      //el msj que vamos a enviar
+      ws.current.onopen = () => {
+          console.log("openned, envio peticion de dejar match")
+          ws.current.send(JSON.stringify({"connection": "close"}));
+          // Innecesario pues estoy reciviendo mensajes en listen
+          // ws.current.onmessage = (e) => {
+          //   console.log("got message: ", e.data)
+          //   if(e.data) {
+          //     handleMessageLeave(e.data);
+          //   }
+          // }
+      }
+    };
+    // Escuchando Respuestas del Back
+    listenMessage();
+    // Esto se ejecuta cuando salgo del componente Lobby
+    if(socketDisconnect) {
+      sendLeaveMatch();
+      ws.current.close();
+    }
+    return () => {
+        //Esto pasa si te sales del componente Unirse Partida
+        console.log("cerre la tienda", socketDisconnect)
+        // Problema aqui es que cuando quiero que otro usuario se una
+        // en vez de join es un Cerrado
+        // ws.current.close();
+    };
+  }, [socketDisconnect])
+
+  useEffect(() => {
+
+    const filtredUsersJoinOfMatch = (idJoinMatch, listUsersJoin) => {
+        let filtredArray = listUsersJoin.filter(elem => elem.matchId === idJoinMatch)
+        return filtredArray;
+    }
+
+    let usersJoinLocalStorage = [];
+    if(localStorage.getItem('usersJoin')) {
+      usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
+      if(Array.isArray(usersJoinLocalStorage) && usersJoinLocalStorage.length) {
+        setUsersJoin(filtredUsersJoinOfMatch(objectState.matchID, usersJoinLocalStorage));
+        setUsersJoinChange(false);
+      }
+    }
+    
+    return () => {
+      setUsersJoinChange(false);
+    }
+  }, [usersJoinChange])
+
   const ListUserJoin = () => {
     return (
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        {(Array.isArray(list) && list.length) &&
-        list.map((elem, index) => 
+        {(Array.isArray(usersJoin) && usersJoin.length) &&
+        usersJoin.map((elem, index) => 
           <ListItem key={index}>
             <ListItemAvatar>
               <Avatar alt="User avatar" src="#" />
@@ -185,6 +293,7 @@ const Lobby = () => {
               variant="button"
               underline="none"
               href="/home"
+              onClick={handleOutToHome}
               sx={rightLink} >
               {'Volver a Home'}
             </Link>
@@ -193,12 +302,12 @@ const Lobby = () => {
               underline="none"
               href="#"
               sx={rightLink} >
-              {'Nombre de partida'}
+              {objectState.nameMatch}
             </Link>
             <Link
               variant="button"
               underline="none"
-              href="/home"
+              href="#"
               onClick={handleOutMatch}
               sx={rightLink} >
               {'Abandonar partida'}
@@ -207,6 +316,7 @@ const Lobby = () => {
               variant="button"
               underline="none"
               href="#"
+              onClick={handleInitMatch}
               sx={rightLink} >
               {'Iniciar Partida'}
             </Link>

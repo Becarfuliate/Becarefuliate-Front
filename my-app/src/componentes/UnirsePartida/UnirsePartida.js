@@ -65,7 +65,8 @@ const InputModal = (props) => {
             nameMatch: props.nameMatch,
             nameCreatorMatch: props.nameCreatorMatch,
             stateMatch: props.stateMatch,
-            passMatch: passMatch
+            passMatch: passMatch,
+            robotID: selectedRobotID
         }
         history.push("/lobby", state.current);
     }
