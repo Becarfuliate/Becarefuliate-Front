@@ -1,4 +1,3 @@
-import { Construction } from "@mui/icons-material";
 import "./RobotEnJuego.css";
 
 //The Robot size is 21x21px but it is scaled as 55%.
