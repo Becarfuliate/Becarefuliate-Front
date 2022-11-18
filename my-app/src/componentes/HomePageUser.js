@@ -16,10 +16,11 @@ function HomePageUser() {
             variant="button"
             underline="none"
             color="inherit"
+            textTransform="none"
             href="/"
             sx={{ fontSize: 24 }}
           >
-            {'pyRobots'}
+            {'PyRobots'}
           </Link>
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
             <Link
