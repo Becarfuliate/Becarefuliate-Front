@@ -21,7 +21,7 @@
     color: red;
 }
 
-.supervivientes li {
+.supervivientes div {
     position: relative;
     left: 15%;
     color: black;
