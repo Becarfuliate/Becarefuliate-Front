@@ -1,4 +1,4 @@
-import swal from "sweetalert";
+
 
 function verifyId_robots(dataSimulation){
     const totalRobots = dataSimulation.id_robot.split(',').length - 1;
@@ -14,23 +14,12 @@ function verifyRounds(dataSimulation){
 }
 
 function verifyDataSimulation(dataSimulation){
-    if(!verifyId_robots(dataSimulation)){
-        swal({
-            text: 'Los robots elegidos deben ser más que 2 o menos que 4.',
-            icon: 'warning',
-            timer: '2500'
-        });
-        return false;
-    }
-    if(!verifyRounds(dataSimulation)){
-        swal({
-            text: 'Cantidad de rondas debe estar entre 1 a 10000.',
-            icon: 'warning',
-            timer: '2500'
-        });
-        return false;
-    }
-    return true
+    if(!verifyId_robots(dataSimulation))
+        return {state: 'ERROR', data: 'Los robots elegidos deben ser más que 2 o menos que 4.'};
+    if(!verifyRounds(dataSimulation))
+        return {state: 'ERROR', data: 'Cantidad de rondas debe estar entre 1 a 10000.'};
+    
+    return {state: 'OK', data: ''}
 }
 
 export default verifyDataSimulation;
