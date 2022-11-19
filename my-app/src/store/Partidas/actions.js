@@ -8,7 +8,7 @@ const getDataGamesUser = (callback) => {
 const sendDataGame = () => {
     return {
         type: "SEND_DATA_GAME",
-        data: "send the user data to register"
+        data: ""
     }
 };
 
