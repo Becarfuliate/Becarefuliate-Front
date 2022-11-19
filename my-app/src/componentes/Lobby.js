@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter as Switch, Route } from "react-router-dom";
-import { Box, styled, Link, List, ListItem, ListItemAvatar, ListItemText, Avatar } from '@mui/material';
+import { Box, styled, Link, List, ListItem, ListItemAvatar, ListItemText, Avatar, Button, TextField } from '@mui/material';
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiAppBar from '@mui/material/AppBar';
 import HomepageLogin from './HomePageLogin';
@@ -97,6 +97,7 @@ const Lobby = () => {
   const history = useHistory();
   let locationOfState = useLocation();
   let objectState = locationOfState.state;
+  console.log(objectState)
   
   let user = JSON.parse(localStorage.getItem('user'));
   const nameUser = user.userlogin;
@@ -121,6 +122,7 @@ const Lobby = () => {
   
   const handleOutToHome = () => {
     console.log("Volviendo a Home, socketDisconnect", socketDisconnect)
+    setGoHome(true)
   }
   
   // Construccion del socket y comunicacion establecida
@@ -131,8 +133,10 @@ const Lobby = () => {
   }
   
   useEffect(() => {
-    const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
-    ws.current = socket;
+    if(!socketDisconnect) {
+      const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
+      ws.current = socket;
+    }
     
     const isUserJoinAdded = (idJoinMatch, userName, robotName,
       listUsersJoin) => {
@@ -222,21 +226,14 @@ const Lobby = () => {
       ws.current.onopen = () => {
           console.log("openned, envio peticion de dejar match")
           ws.current.send(JSON.stringify({"connection": "close"}));
-          // Innecesario pues estoy reciviendo mensajes en listen
-          // ws.current.onmessage = (e) => {
-          //   console.log("got message: ", e.data)
-          //   if(e.data) {
-          //     handleMessageLeave(e.data);
-          //   }
-          // }
       }
     };
     // Escuchando Respuestas del Back
     listenMessage();
     // Esto se ejecuta cuando salgo del componente Lobby
     if(socketDisconnect) {
+      console.log("Pase para mandar al Back que me voy")
       sendLeaveMatch();
-      ws.current.close();
     }
     return () => {
         //Esto pasa si te sales del componente Unirse Partida
@@ -298,56 +295,40 @@ const Lobby = () => {
             {nameUser}
           </Link>
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-            <Link
+            <Button
               color="inherit"
               variant="button"
               underline="none"
-              href="/home"
               onClick={handleOutToHome}
               sx={rightLink} >
               {'Volver a Home'}
-            </Link>
-            <Link
+            </Button>
+            <Button
               variant="button"
               underline="none"
-              href="#"
               sx={rightLink} >
               {objectState.nameMatch}
-            </Link>
-            <Link
+            </Button>
+            <Button
               variant="button"
               underline="none"
-              href="#"
               onClick={handleOutMatch}
               sx={rightLink} >
               {'Abandonar partida'}
-            </Link>
-            <Link
+            </Button>
+            <Button
               variant="button"
               underline="none"
-              href="#"
               onClick={handleInitMatch}
               sx={rightLink} >
               {'Iniciar Partida'}
-            </Link>
+            </Button>
           </Box>
         </Toolbar>
       </AppBar>
       <ListUserJoin/>
-      {/* {
-        socketConnect &&
-        <WebsocketConnect
-            dataSocket = {dataSocket}
-            socketConnect = {socketConnect}
-            usersJoin = {usersJoin}
-            addUserJoin = {addUserJoin}
-            removeUserJoin = {removeUserJoin}
-            isUserJoinAdded = {isUserJoinAdded}
-        />
-      } */}
       <Switch> 
             <Route exact path="/home" component={HomepageLogin} />
-          {/* <Route path="/user/crearPartida" component={Partida} /> */}
       </Switch>
     </div>
   )
