@@ -61,7 +61,7 @@ function Tablero({rondas}) {
         rondas[rondaActual-1].forEach((robot) => {
             if (robot.vida > 0) {
                 vivos.push(
-                    <div>
+                    <div key={robot.nombre}>
                         {` "${robot.nombre}"`}
                     </div>
                 );
@@ -69,7 +69,7 @@ function Tablero({rondas}) {
         });
         //Añadir Mensaje de Supervivientes
         output.push(
-            <div>
+            <div key={rondaActual} className="supervivientes">
                 {vivos}
             </div>
         );
