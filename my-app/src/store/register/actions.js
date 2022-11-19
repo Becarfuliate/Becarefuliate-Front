@@ -26,4 +26,11 @@ const modifyDataEmail = (email) => {
     }
 };
 
-export {sendDataUser, modifyDataName, modifyDataPassword, modifyDataEmail};
+const modifyDataAvatar = (avatar) => {
+    return {
+        type: "MODIFY_DATA_AVATAR",
+        data: avatar
+    }
+};
+
+export {sendDataUser, modifyDataName, modifyDataPassword, modifyDataEmail, modifyDataAvatar};

@@ -2,11 +2,28 @@ import { verifyDataUser } from './dataUser';
 import axios from 'axios';
 import swal from "sweetalert";
 
+function params(dataRegister){
+  return {
+    params: {
+      username: dataRegister.username,
+      password: dataRegister.password,
+      email: dataRegister.email
+    }
+  }
+}
+
+function body(dataRegister){
+  const files = new FormData();
+  files.append('avatar', dataRegister.avatar);
+  
+  return files;
+}
+
 async function loadDataUser(dataRegisterUser){
   const baseURL = 'http://localhost:8000/register';
   
   if(verifyDataUser(dataRegisterUser)) 
-    return await axios.post(baseURL, dataRegisterUser)
+    return await axios.post(baseURL, params(dataRegisterUser), body(dataRegisterUser))
       .then( () =>  {
         swal({
           text: 'Se envió el mail de confirmación.',

@@ -2,12 +2,16 @@ import axios from "axios";
 
 const baseURL = "http://127.0.0.1:8000";
 
+const user = JSON.parse(localStorage.getItem("user"));
+
 function getToken(){
-    return JSON.parse(localStorage.getItem("user")).token;
+    if(user) return user.token;
+    else return "";
 }
 
 function getUser(){
-    return JSON.parse(localStorage.getItem("user")).userlogin;
+    if(user) return user.userlogin;
+    else return "";
 }
 
 async function runSimulation(dataSimulation, callback){ 
