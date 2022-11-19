@@ -5,10 +5,10 @@ const getDataGamesUser = (callback) => {
     }
 };
 
-const sendDataGame = () => {
+const sendDataGame = (callback) => {
     return {
         type: "SEND_DATA_GAME",
-        data: ""
+        data: callback
     }
 };
 
