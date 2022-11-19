@@ -4,7 +4,7 @@ import { Box, styled, Link, List, ListItem, ListItemAvatar, ListItemText, Avatar
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiAppBar from '@mui/material/AppBar';
 import HomepageLogin from './HomePageLogin';
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { useEffect, useState, useRef } from 'react';
 
 const Toolbar = styled(MuiToolbar)(({ theme }) => ({
@@ -85,6 +85,7 @@ const Lobby = () => {
   const [socketDisconnect, setSocketDisconnect] = useState(false);
   const [usersJoin, setUsersJoin] = useState([]); // array vacio
   const [usersJoinChange, setUsersJoinChange] = useState(false);
+  const [goHome, setGoHome] = useState(false);
   //elementos traidos como un objeto de UnirsePartida
   // matchID: props.matchID,
   // maxPlayers: props.maxPlayers,
@@ -93,8 +94,9 @@ const Lobby = () => {
   // nameCreatorMatch: props.nameCreatorMatch,
   // stateMatch: props.stateMatch,
   // passMatch: passMatch
+  const history = useHistory();
   let locationOfState = useLocation();
-  const objectState = useRef(locationOfState.state);
+  let objectState = locationOfState.state;
   
   let user = JSON.parse(localStorage.getItem('user'));
   const nameUser = user.userlogin;
@@ -102,33 +104,36 @@ const Lobby = () => {
   //Funcion que filtra de todos las partidas con usuarios unidos a los que
   //se necesitan de la partida actual en la que me encuentro
   
-  const dataSocket = useRef({
+  const [dataSocket, setDataSocket] = useState({
       matchId: objectState.matchID,
       robotId: objectState.robotID,
       tkn: user.token
-  });
-  console.log(dataSocket)
-
-  // Construccion del socket y comunicacion establecida
-  const ws = useRef(null);
-  const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
-  ws.current = socket;
-
+  })
+  
   const handleOutMatch = () => {
     setSocketDisconnect(true);
     console.log("Se abandono la Partida, socketDisconnect", socketDisconnect)
   }
-
+  
   const handleInitMatch = () => {
     console.log("Aqui poner la logica del iniciar")
   };
-
+  
   const handleOutToHome = () => {
     console.log("Volviendo a Home, socketDisconnect", socketDisconnect)
   }
-
+  
+  // Construccion del socket y comunicacion establecida
+  const ws = useRef(null);
+  
+  if(goHome) {
+    history.push("/home");
+  }
+  
   useEffect(() => {
-
+    const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
+    ws.current = socket;
+    
     const isUserJoinAdded = (idJoinMatch, userName, robotName,
       listUsersJoin) => {
         return (listUsersJoin.reduce(elem => elem.matchId === idJoinMatch && elem.name === userName && elem.robotName === robotName, ""))
@@ -174,16 +179,18 @@ const Lobby = () => {
     }
 
     const handleMessageJoin = (message) => {
+        console.log(message)
         let user = message.split(":")[0];
         let robot = message.split(":")[1];
-        addUserJoin(objectState.matchID, user, robot)
+        addUserJoin(dataSocket.matchId, user, robot)
         console.log("agregado")
     }
   
     const handleMessageLeave = (message) => {
+        console.log(message)
         let user = message.split(":")[0];
         let robot = message.split(":")[1];
-        removeUserJoin(objectState.matchID, user, robot)
+        removeUserJoin(dataSocket.matchId, user, robot)
         console.log("removido")
     }
     const listenMessage = () => {
@@ -197,10 +204,13 @@ const Lobby = () => {
               let objResponse = JSON.parse(e.data)
               if(objResponse.join) {
                 handleMessageJoin(objResponse.join);
+                setUsersJoinChange(true);
               } else if(objResponse.leave) {
                 handleMessageLeave(objResponse.leave);
+                setUsersJoinChange(true);
               } else {
-                console.log(e.data)
+                alert(JSON.parse(e.data).status);
+                setGoHome(true);
               }
             }
           }
@@ -233,9 +243,9 @@ const Lobby = () => {
         console.log("cerre la tienda", socketDisconnect)
         // Problema aqui es que cuando quiero que otro usuario se una
         // en vez de join es un Cerrado
-        // ws.current.close();
+        ws.current.close();
     };
-  }, [socketDisconnect])
+  }, [socketDisconnect, dataSocket])
 
   useEffect(() => {
 
@@ -248,7 +258,7 @@ const Lobby = () => {
     if(localStorage.getItem('usersJoin')) {
       usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
       if(Array.isArray(usersJoinLocalStorage) && usersJoinLocalStorage.length) {
-        setUsersJoin(filtredUsersJoinOfMatch(objectState.matchID, usersJoinLocalStorage));
+        setUsersJoin(filtredUsersJoinOfMatch(dataSocket.matchId, usersJoinLocalStorage));
         setUsersJoinChange(false);
       }
     }
@@ -256,7 +266,7 @@ const Lobby = () => {
     return () => {
       setUsersJoinChange(false);
     }
-  }, [usersJoinChange])
+  }, [usersJoinChange, dataSocket])
 
   const ListUserJoin = () => {
     return (
