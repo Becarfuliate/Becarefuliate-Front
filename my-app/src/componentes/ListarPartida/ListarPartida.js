@@ -8,7 +8,11 @@ import { styled } from '@mui/material/styles';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
+import UnirsePatida from '../UnirsePartida/UnirsePartida';
 import {connect} from 'react-redux';
+
+import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,6 +41,7 @@ function ListarPartida({getDataGamesUser}) {
     getDataGamesUser(setListPartidas);
   }, [getDataGamesUser]);
   
+  let user = JSON.parse(localStorage.getItem('user'));
   return (
   <div>
     <TableContainer component={Paper}>
@@ -48,6 +53,7 @@ function ListarPartida({getDataGamesUser}) {
             <StyledTableCell align="right">min_players</StyledTableCell>
             <StyledTableCell align="right">n_matchs</StyledTableCell>
             <StyledTableCell align="right">n_rounds_matchs</StyledTableCell>
+            <StyledTableCell align="right">Estado/Accion de la Partida</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -60,6 +66,22 @@ function ListarPartida({getDataGamesUser}) {
               <StyledTableCell align="right">{row.min_players}</StyledTableCell>
               <StyledTableCell align="right">{row.n_matchs}</StyledTableCell>
               <StyledTableCell align="right">{row.n_rounds_matchs}</StyledTableCell>
+              <StyledTableCell>
+                <UnirsePatida 
+                  matchID={row.id}
+                  maxPlayers={row.max_players}
+                  minPlayers={row.min_players}
+                  nameMatch={row.name}
+                  nameCreatorMatch={row.user_creator}
+                />
+              </StyledTableCell>
+              { user.userlogin === row.user_creator &&
+                <StyledTableCell>
+                  <SvgIcon >
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                  </SvgIcon>
+                </StyledTableCell>
+              }
             </StyledTableRow>
           ))}
         </TableBody>

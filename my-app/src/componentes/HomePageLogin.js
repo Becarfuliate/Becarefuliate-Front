@@ -10,6 +10,7 @@ import ListarPartida from "./ListarPartida/ListarPartida";
 import Partida from "./Partida/Partida";
 import objListarRobots from "./ListarRobots/ListarRobots";
 import AgregarRobot from "./AgregarRobot/AgregarRobot";
+import Lobby from "./Lobby";
 
 const theme = createTheme({
   palette: {
@@ -38,6 +39,7 @@ function HomepageLogin() {
         <Route path="/listarRobot" component={objListarRobots.ListarRobots} />
         <Route path="/subirRobot" component={AgregarRobot} />
         <Route path="/signOff" component={SignOff} />
+        <Route exact path="/lobby" component={Lobby} />
       </Switch>
     </div>
   );
