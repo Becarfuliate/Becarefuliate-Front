@@ -6,7 +6,7 @@ import MuiToolbar from '@mui/material/Toolbar';
 import MuiAppBar from '@mui/material/AppBar';
 import HomepageLogin from './HomePageLogin';
 import * as React from 'react';
-import initMatch from './iniciarPartida/iniciarPartida';
+import {iniciarPartida} from './iniciarPartida/iniciarPartida';
 
 const Toolbar = styled(MuiToolbar)(({ theme }) => ({
   height: 64,
@@ -66,7 +66,7 @@ const Lobby = () => {
   
   const handleInitMatch = () => {
     console.log("Aqui poner la logica del iniciar");
-    initMatch({id_match: dataSocket.matchId, name_user: nameUser}).then( response => setStartMatchResponse(response));
+    iniciarPartida({id_match: dataSocket.matchId, name_user: nameUser}).then( response => setStartMatchResponse(response));
     if(startMatchResponse.state === 'OK') setResultMatchResponse(startMatchResponse.data);
     else console.log(startMatchResponse.data);
   };
