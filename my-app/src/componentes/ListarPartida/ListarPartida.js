@@ -11,7 +11,7 @@ import Table from '@mui/material/Table';
 import UnirsePatida from '../UnirsePartida/UnirsePartida';
 import {connect} from 'react-redux';
 
-import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
+import SvgIcon from '@mui/material/SvgIcon';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

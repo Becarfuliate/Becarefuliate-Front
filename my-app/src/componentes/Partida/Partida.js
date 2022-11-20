@@ -1,33 +1,38 @@
 import {sendDataGame, modifyDataNameGame, modifyDataPasswordGame, 
         modifyDataRoundsGame, modifyDataGamesGame, modifyDataMaxPlayersGame} from '../../store/Partidas/actions';
+import UnirsePatida from '../UnirsePartida/UnirsePartida';
 import {connect} from 'react-redux';
 import { useState } from 'react';
-import UnirsePatida from '../UnirsePartida/UnirsePartida';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import { styled } from '@mui/material/styles';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
+function ViewJoinMatch({dataMatch}){
+  console.log(dataMatch);
+  if(dataMatch.id_match !== "") 
+    return (<UnirsePatida 
+              matchID={dataMatch.id_match}
+              maxPlayers={dataMatch.max_players}
+              minPlayers={dataMatch.min_players}
+              nameMatch={dataMatch.name}
+              nameCreatorMatch={dataMatch.user_creator}
+            />);
+  else 
+    return <div></div>;
+}
 
+function clean(valCurrent, id_match){
+  if (id_match !== "") return "";
+  else return valCurrent;
+}
 
 function CrearPartida({sendDataGame, modifyDataNameGame, modifyDataPasswordGame, 
-                      modifyDataRoundsGame, modifyDataGamesGame, modifyDataMaxPlayersGame}) {
+                      modifyDataRoundsGame, modifyDataGamesGame, modifyDataMaxPlayersGame}) {  
+  const [dataMatch, getDataMatch] = useState({id_match: ""});                 
   
-  const [dataMatch, getDataMatch] = useState({id_match: ""});
-
   return (
     <div className="login-page">
       <div className="form">
         <form className="register-form">
           <input type="text" name="name" placeholder="Nombre de partida" 
-          onChange={(e) => modifyDataNameGame(e.target.value)} required />
+          onChange={(e) => {modifyDataNameGame(e.target.value)}} required />
 
           <input type="number" name="max_players" placeholder="Maximo de jugadores" 
           onChange={(e) => modifyDataMaxPlayersGame(e.target.value)} required/>
@@ -44,20 +49,7 @@ function CrearPartida({sendDataGame, modifyDataNameGame, modifyDataPasswordGame,
           <input type="button" value="Submit" onClick={() => sendDataGame(getDataMatch)}/>
         </form>
         </div>
-        <div>
-        { 
-        (dataMatch.id_match !== "")?
-          <UnirsePatida 
-              matchID={dataMatch.id_match}
-              maxPlayers={dataMatch.max_players}
-              minPlayers={dataMatch.min_players}
-              nameMatch={dataMatch.name}
-              nameCreatorMatch={dataMatch.user_creator}
-            />
-        :
-        <div></div>
-        }
-        </div>
+        <ViewJoinMatch dataMatch= {dataMatch}/>
     </div>
   );
 }
