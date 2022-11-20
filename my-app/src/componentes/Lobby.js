@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { BrowserRouter as Switch, Route } from "react-router-dom";
 import { Box, styled, Link, List, ListItem, ListItemAvatar, ListItemText, Avatar, Button, Typography } from '@mui/material';
+import { BrowserRouter as Switch, Route } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
+import { useEffect, useState, useRef } from 'react';
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiAppBar from '@mui/material/AppBar';
 import HomepageLogin from './HomePageLogin';
-import { useLocation, useHistory } from "react-router-dom";
-import { useEffect, useState, useRef } from 'react';
+import * as React from 'react';
+import initMatch from './iniciarPartida/iniciarPartida';
 
 const Toolbar = styled(MuiToolbar)(({ theme }) => ({
   height: 64,
@@ -46,7 +47,8 @@ const Lobby = () => {
   
   let user = JSON.parse(localStorage.getItem('user'));
   const nameUser = user.userlogin;
-
+  const [startMatchResponse, setStartMatchResponse] = useState({});
+  const [resultMatchResponse, setResultMatchResponse] = useState({});
   //Funcion que filtra de todos las partidas con usuarios unidos a los que
   //se necesitan de la partida actual en la que me encuentro
   
@@ -63,7 +65,10 @@ const Lobby = () => {
   }
   
   const handleInitMatch = () => {
-    console.log("Aqui poner la logica del iniciar")
+    console.log("Aqui poner la logica del iniciar");
+    initMatch({id_match: dataSocket.matchId, name_user: nameUser}).then( response => setStartMatchResponse(response));
+    if(startMatchResponse.state === 'OK') setResultMatchResponse(startMatchResponse.data);
+    else console.log(startMatchResponse.data);
   };
   
   const handleOutToHome = () => {
