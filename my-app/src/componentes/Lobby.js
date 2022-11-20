@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter as Switch, Route } from "react-router-dom";
-import { Box, styled, Link, List, ListItem, ListItemAvatar, ListItemText, Avatar, Button, TextField } from '@mui/material';
+import { Box, styled, Link, List, ListItem, ListItemAvatar, ListItemText, Avatar, Button, Typography } from '@mui/material';
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiAppBar from '@mui/material/AppBar';
 import HomepageLogin from './HomePageLogin';
@@ -24,61 +24,6 @@ const rightLink = {
   ml: 3,
 };
 
-// const WebsocketConnect = ({socketConnect, dataSocket, usersJoin, addUserJoin, removeUserJoin, isUserJoinAdded}) => {
-//   //////////////////////
-//   console.log("Entre al Websocket", socketConnect)
-//   // console.log(dataSocket)
-//   const ws = useRef(null);
-//   const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
-//   ws.current = socket;
-  
-//   useEffect(() => {
-//       socket.onopen = () => {
-//           console.log("openned")
-//       }
-//       // socket.onclose = () => {
-//       //     console.log("close")
-//       // }
-      // socket.onmessage = (e) => {
-      //     console.log("got message: ", e.data)
-      //     // e.data es de tipo string pues es un JSON
-      //     if(e.data) {
-      //         let objResponse = JSON.parse(e.data)
-      //         if(objResponse.join) {
-      //             let user = objResponse.join.split(":")[0];
-      //             let robot = objResponse.join.split(":")[1];
-      //             if(!isUserJoinAdded(dataSocket.matchId, user, robot, usersJoin)) {
-      //                 addUserJoin(dataSocket.matchId, user, robot)
-      //             }
-      //             console.log("agregado")
-      //         } else if(objResponse.leave) {
-      //             let user = objResponse.leave.split(":")[0];
-      //             let robot = objResponse.leave.split(":")[1];
-      //             if(isUserJoinAdded(dataSocket.matchId, user, robot, usersJoin)) {
-      //                 removeUserJoin(dataSocket.matchId, user, robot, usersJoin)
-      //             }
-      //             console.log("removido")
-      //         } else {
-      //             console.log(e.data)
-      //         }
-      //     }
-      // }
-//       socket.onerror = (e) => {
-//           console.log("error socket: ", e)
-//       }
-
-//       // return () => {
-//       //     //Esto pasa si te sales del componente Unirse Partida
-//       //     console.log("cerre la tienda")
-//       //     socket.close()
-//       // };
-//       //la linea de abajo quita el warning React Hook useEffect has missing dependencies:
-//          // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, []);
-//   // setSocketConnect(false);
-// //////////////////////
-// }
-
 // Si es el usuario no se puede unir por algun motivo del back se lo patea afuera
 // ,o sea, si te quieres unir pasas al Lobby por un momento hasta que sucesa 2 cosas: o te patea afuera o te quedas adentro y puedes ver quienes estan jugando
 const Lobby = () => {
@@ -86,18 +31,18 @@ const Lobby = () => {
   const [usersJoin, setUsersJoin] = useState([]); // array vacio
   const [usersJoinChange, setUsersJoinChange] = useState(false);
   const [goHome, setGoHome] = useState(false);
+  const [stateOfMatch, setStateOfMatch] = useState("Esperando Jugadores");
   //elementos traidos como un objeto de UnirsePartida
   // matchID: props.matchID,
   // maxPlayers: props.maxPlayers,
   // minPlayers: props.minPlayers,
   // nameMatch: props.nameMatch,
   // nameCreatorMatch: props.nameCreatorMatch,
-  // stateMatch: props.stateMatch,
   // passMatch: passMatch
   const history = useHistory();
   let locationOfState = useLocation();
   let objectState = locationOfState.state;
-  console.log(objectState)
+  // console.log(objectState)
   
   let user = JSON.parse(localStorage.getItem('user'));
   const nameUser = user.userlogin;
@@ -108,7 +53,8 @@ const Lobby = () => {
   const [dataSocket, setDataSocket] = useState({
       matchId: objectState.matchID,
       robotId: objectState.robotID,
-      tkn: user.token
+      tkn: user.token,
+      minPlayersNeeded: objectState.minPlayers
   })
   
   const handleOutMatch = () => {
@@ -125,29 +71,39 @@ const Lobby = () => {
     setGoHome(true)
   }
   
-  // Construccion del socket y comunicacion establecida
-  const ws = useRef(null);
-  
   if(goHome) {
     history.push("/home");
   }
-  
+
+  // Construccion del socket y comunicacion establecida
+  const ws = useRef(null);
   useEffect(() => {
-    if(!socketDisconnect) {
-      const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
-      ws.current = socket;
-    }
+    const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
+    ws.current = socket;
+  }, [dataSocket])
+  // if(!socketDisconnect) {
+    // }    
+    
+  useEffect(() => {
     
     const isUserJoinAdded = (idJoinMatch, userName, robotName,
       listUsersJoin) => {
-        return (listUsersJoin.reduce(elem => elem.matchId === idJoinMatch && elem.name === userName && elem.robotName === robotName, ""))
+        let result = false;
+        console.log(listUsersJoin)
+        let value = listUsersJoin.findIndex(elem => elem.matchId === idJoinMatch && elem.name === userName && elem.robot === robotName)
+        console.log(-1 !== value)
+        if(-1 !== value)
+          result = true;
+        return result;
     };
 
     //Almacenamiento de los usuarios que se van uniendo
     const addUserJoin = (idJoinMatch, userName, robotName) => {
+
       let usersJoinLocalStorage = [];
-      if(localStorage.getItem('usersJoin'))
+      if(localStorage.getItem('usersJoin')) {
         usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
+      }
       if(Array.isArray(usersJoinLocalStorage) && usersJoinLocalStorage.length) {
           if(!isUserJoinAdded(idJoinMatch, userName, robotName, usersJoinLocalStorage)) {
             usersJoinLocalStorage.push({
@@ -184,9 +140,13 @@ const Lobby = () => {
 
     const handleMessageJoin = (message) => {
         console.log(message)
-        let user = message.split(":")[0];
-        let robot = message.split(":")[1];
-        addUserJoin(dataSocket.matchId, user, robot)
+        // "join":"usuario:robot, usuario:robot"
+        let listMessage = message.split(",")
+        for(let element of listMessage) {
+          let user = element.split(":")[0];
+          let robot = element.split(":")[1];
+          addUserJoin(dataSocket.matchId, user, robot)
+        }
         console.log("agregado")
     }
   
@@ -214,6 +174,7 @@ const Lobby = () => {
                 setUsersJoinChange(true);
               } else {
                 alert(JSON.parse(e.data).status);
+                ws.current.close();/////////////////////////cierro socket
                 setGoHome(true);
               }
             }
@@ -260,10 +221,41 @@ const Lobby = () => {
       }
     }
     
+    
     return () => {
       setUsersJoinChange(false);
     }
   }, [usersJoinChange, dataSocket])
+  
+  useEffect(() => {
+    if(socketDisconnect) {
+      setStateOfMatch("Unirse");
+    } else {
+      if(usersJoin.length && usersJoin.length === dataSocket.minPlayersNeeded) {
+        setStateOfMatch("Esperando Inicio");
+      }
+    }
+  }, [socketDisconnect, usersJoin, dataSocket])
+
+  useEffect(() => {
+    //Actualizar LocalStorage de la partida sobre su estado
+    if(localStorage.getItem('stateMatchs')) {
+        let listStateMatchs = JSON.parse(localStorage.getItem('stateMatchs'));
+        let listUpdateStateMatchs = listStateMatchs.filter(element =>
+                                        element.matchId !== dataSocket.matchId);
+        listUpdateStateMatchs.push({
+          matchId: dataSocket.matchId,
+          state: stateOfMatch
+        });
+        localStorage.setItem('stateMatchs',
+        JSON.stringify(listUpdateStateMatchs));     
+    } else {
+        localStorage.setItem('stateMatchs',JSON.stringify([{
+          matchId: dataSocket.matchId,
+          state: stateOfMatch
+        }]));
+    }
+  }, [stateOfMatch, dataSocket])
 
   const ListUserJoin = () => {
     return (
@@ -286,14 +278,25 @@ const Lobby = () => {
       <AppBar position="fixed">
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Box sx={{ flex: 0 }} />
-          <Link
+          <Button
             variant="h6"
             underline="none"
             color="inherit"
-            href="/"
             sx={{ fontSize: 24}} >
             {nameUser}
-          </Link>
+          </Button>
+          {
+           socketDisconnect &&
+              <Button
+                color="inherit"
+                variant="button"
+                underline="none"
+                onClick={handleOutToHome}
+                sx={rightLink} >
+                {'Volver a Home'}
+              </Button>
+          }
+          {!socketDisconnect &&           
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
             <Button
               color="inherit"
@@ -308,6 +311,7 @@ const Lobby = () => {
               underline="none"
               sx={rightLink} >
               {objectState.nameMatch}
+              Estado: {stateOfMatch}
             </Button>
             <Button
               variant="button"
@@ -324,8 +328,12 @@ const Lobby = () => {
               {'Iniciar Partida'}
             </Button>
           </Box>
+          }
         </Toolbar>
       </AppBar>
+      <Typography variant="h3" component="h4">
+        {stateOfMatch}
+      </Typography>
       <ListUserJoin/>
       <Switch> 
             <Route exact path="/home" component={HomepageLogin} />

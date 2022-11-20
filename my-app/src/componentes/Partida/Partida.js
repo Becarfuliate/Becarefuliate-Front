@@ -18,11 +18,6 @@ function ViewJoinMatch({dataMatch}){
     return <div></div>;
 }
 
-function clean(valCurrent, id_match){
-  if (id_match !== "") return "";
-  else return valCurrent;
-}
-
 function CrearPartida({sendDataGame, modifyDataNameGame, modifyDataPasswordGame, 
                       modifyDataRoundsGame, modifyDataGamesGame, modifyDataMaxPlayersGame}) {  
   const [dataMatch, getDataMatch] = useState({id_match: ""});                 

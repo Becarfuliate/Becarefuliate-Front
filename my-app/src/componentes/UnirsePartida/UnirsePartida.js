@@ -64,7 +64,6 @@ const InputModal = (props) => {
             minPlayers: props.minPlayers,
             nameMatch: props.nameMatch,
             nameCreatorMatch: props.nameCreatorMatch,
-            stateMatch: props.stateMatch,
             passMatch: passMatch,
             robotID: selectedRobotID
         }
@@ -78,9 +77,8 @@ const InputModal = (props) => {
         setPassMatch(e.target.value)
     };
     
-    let state_match_finalized = false;
-    const handleOpen = (match_finalized) => {
-        if(!match_finalized)
+    const handleOpen = () => {
+        if("Finalizada" !== props.stateMatch)
             setOpen(true);
     }
 
@@ -101,7 +99,7 @@ const InputModal = (props) => {
 
     return (
         <div>
-        <Button onClick={() => handleOpen(state_match_finalized)}>
+        <Button onClick={handleOpen}>
             {props.stateMatch}
         </Button>
         <Modal
@@ -156,9 +154,24 @@ const UnirsePartida = (props)  => {
     // Cambia el state match si espera jugadores o espera inicio
     // o ver resultados o finalizo
     const [stateMatch, setStateMatch] = useState("Unirse");
+    useEffect(() => {
+        if(localStorage.getItem('stateMatchs')) {
+            let listStateMatchs = JSON.parse(localStorage.getItem('stateMatchs'));
+            let listOfOneStateMatch = listStateMatchs.filter(element =>
+                                            element.matchId === props.matchID);
+            if(listOfOneStateMatch.length) {
+                let objStateMatch = listOfOneStateMatch[0];
+                setStateMatch(objStateMatch.state)
+            }
+        }
+    }, [props.matchID])
 
     // Si tengo los datos en el localStorage me fijo si el usuario
     // esta unido entonces cambio a Esperando Jugadores o Listo para Iniciar
+    
+    // En el caso de ver Resultados si esta en ese estado se podria entrar
+    // no en el Modal sino en algo que muestre los resultados
+
     return (
         <InputModal 
             matchID={props.matchID}
