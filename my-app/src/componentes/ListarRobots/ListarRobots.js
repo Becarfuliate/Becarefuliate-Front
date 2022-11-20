@@ -4,30 +4,31 @@ import exportServiceListarRobots from '../Servicios/serviceListarRobots';
 
 const Loading = () => {
     return (
-        <div id='content-list-robots-loading'>
-            <h5 className='loading-robots'>
-                Loading Robots
-                <span className='spinner-show'></span>
+        <div id='robots-loading'>
+            <h5 className='message'>
+                Loading Robots...
             </h5>
+            <div className="spinner"></div>
         </div>
     );
 };
 
+const imgRobot = "./robot.png"
+
+//<p> Tiempo promedio de vida: {robot.avg_divfe_time}</p>
+
 const Listing = (props) => {
     const listResults = props.robots.map((robot, index) =>
-            <li key={index} data-testid="robot-name">
-                <div className='block-robot'>
-                    <p><strong> ID:</strong> {robot.id}</p>
-                    <p><strong> Nombre:</strong>{robot.name}</p>
-                    <p><strong> Avatar:</strong>{robot.avatar}</p>
-                    <p><strong> Partidas Jugadas:</strong>{robot.matchs_pleyed}</p>
-                    <p><strong> Partidas Ganadas:</strong>{robot.matchs_won}</p>
-                    <p><strong> Tiempo promedio de vida:</strong>{robot.avg_life_time}</p>
-                </div>
-            </li>
+            <div className='block-robot' key={index} data-testid="robot-name">
+                <img src={imgRobot} alt=""></img>
+                <p className="RobotName"> Nombre: {robot.name} </p>
+                <p className="RobotId"> ID: {robot.id} </p>
+                <p> Partidas Jugadas: {robot.matchs_pleyed} </p>
+                <p> Partidas Ganadas: {robot.matchs_won} </p>
+            </div>
         )
     return (
-        <ul id='list-robots'>{listResults}</ul>
+        <div id="robot-list"> {listResults} </div>
     );
 };
 
