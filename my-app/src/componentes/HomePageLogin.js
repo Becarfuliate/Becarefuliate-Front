@@ -10,7 +10,7 @@ import crearSimulacion from "./Simulacion/crearSimulacion";
 import Simulacion from "./Simulacion/Simulacion";
 import ListarPartida from "./ListarPartida/ListarPartida";
 import Partida from "./Partida/Partida";
-import objListarRobots from "./ListarRobots/ListarRobots";
+import ListarRobots from "./ListarRobots/ListarRobots";
 import AgregarRobot from "./AgregarRobot/AgregarRobot";
 
 const theme = createTheme({
@@ -39,7 +39,7 @@ function HomepageLogin() {
         <Route path="/simulacion" component={Simulacion} />
         <Route path="/listarPartidas" component={ListarPartida} />
         <Route path="/crearPartida" component={Partida} />
-        <Route path="/listarRobot" component={objListarRobots.ListarRobots} />
+        <Route path="/listarRobot" component={ListarRobots} />
         <Route path="/subirRobot" component={AgregarRobot} />
         <Route path="/signOff" component={SignOff} />
       </Switch>
