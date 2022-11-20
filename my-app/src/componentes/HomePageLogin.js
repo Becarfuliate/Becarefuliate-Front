@@ -159,6 +159,9 @@ const Items = () => {
 function SignOff() {
   const history = useHistory();
   localStorage.removeItem("user");
+  localStorage.removeItem("stateMatchs");
+  localStorage.removeItem("usersJoin");
+  localStorage.removeItem("robotsMatchs");
   history.push("/");
   window.location.reload();
 }

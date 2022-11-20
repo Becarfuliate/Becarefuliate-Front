@@ -65,10 +65,10 @@ const Lobby = () => {
   }
   
   const handleInitMatch = () => {
+    debugger;
     console.log("Aqui poner la logica del iniciar");
     iniciarPartida({id_match: dataSocket.matchId, name_user: nameUser}).then( response => setStartMatchResponse(response));
-    if(startMatchResponse.state === 'OK') setResultMatchResponse(startMatchResponse.data);
-    else console.log(startMatchResponse.data);
+    console.log(startMatchResponse);
   };
   
   const handleOutToHome = () => {

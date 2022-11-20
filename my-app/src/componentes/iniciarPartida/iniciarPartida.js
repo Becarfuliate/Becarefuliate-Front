@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://127.0.0.1:8000";
-const endpoint = "/match/run";
+const baseURL = "http://127.0.0.1:8000/match/run";
 
 const defaultDataPartida = {
     id_match: 0,
@@ -9,9 +8,15 @@ const defaultDataPartida = {
 };
 
 async function iniciarPartida(dataPartida){
-    return await axios.post(baseURL + endpoint, dataPartida)
-        .then((response) => { return {state: 'OK', data: response.data} })
-        .catch((err) => { return {state: 'ERROR', data: err.detail} });
+    console.log("iniciar", dataPartida)
+    return await axios.post(baseURL + `?id_match=${dataPartida.id_match}&name_user=${dataPartida.name_user}`)
+        .then((response) => { 
+            console.log("resultados", response)
+            return {state: 'OK', data: response.data} 
+        })
+        .catch((err) => { 
+            console.log("error", err)
+            return {state: 'ERROR', data: err.detail} });
 }
 
 export {iniciarPartida, defaultDataPartida};
