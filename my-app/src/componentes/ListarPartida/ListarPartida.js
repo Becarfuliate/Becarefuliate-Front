@@ -42,6 +42,15 @@ function ListarPartida({getDataGamesUser}) {
   }, [getDataGamesUser]);
   
   let user = JSON.parse(localStorage.getItem('user'));
+  //Funcion para saber si se logueo con email o username, asi saber
+  //de cual partidas es el creador
+  const isCreatorOfMatch = (user, dataOfuserMatch) => {
+    //dataOfuserMatch, nameCreatorMatch: "loco:ivanpereyra6654@gmail.com"
+    let username = dataOfuserMatch.split(":")[0];
+    let email = dataOfuserMatch.split(":")[1];
+    return (user === username || user === email);
+  }
+
   return (
   <div>
     <TableContainer component={Paper}>
@@ -75,7 +84,7 @@ function ListarPartida({getDataGamesUser}) {
                   nameCreatorMatch={row.user_creator}
                 />
               </StyledTableCell>
-              { user.userlogin === row.user_creator &&
+              { isCreatorOfMatch(user.userlogin, row.user_creator) &&
                 <StyledTableCell>
                   <SvgIcon >
                     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />

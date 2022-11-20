@@ -18,7 +18,8 @@ const SelectRobot = ({selectedRobotID, setSelectedRobotID}) => {
 
     return (
         <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Seleccione su Robot</InputLabel>
+        <InputLabel id="demo-simple-select-label">Seleccione su Robot
+        </InputLabel>
         <Select
             sx={{
                 background: 'white',
@@ -50,29 +51,63 @@ const SelectRobot = ({selectedRobotID, setSelectedRobotID}) => {
 const InputModal = (props) => {
     const [open, setOpen] = useState(false);
     const [selectedRobotID, setSelectedRobotID] = useState('');
+    const [passRequired, setPassRequired] = useState(true);
     const [passMatch, setPassMatch] = useState("");
+    const [joined, setJoined] = useState(false);
     const state = useRef({});
 
     const history = useHistory();
+
+    // vemos el estado para directamente darle la opcion de ir al Lobby
+    useEffect(() => {
+        if("Esperando Inicio" === props.stateMatch || 
+        "Esperando Jugadores" === props.stateMatch) {
+            setJoined(true);
+            //Si ya te has unido no es necesario volver a pedir un password
+            setPassRequired(false);
+        }
+    }, [props.stateMatch])
     
     // pasaje a Lobby con un estado
     const handleRouteLobby = () =>{
-        console.log(props)
-        state.current = {
-            matchID: props.matchID,
-            maxPlayers: props.maxPlayers,
-            minPlayers: props.minPlayers,
-            nameMatch: props.nameMatch,
-            nameCreatorMatch: props.nameCreatorMatch,
-            passMatch: passMatch,
-            robotID: selectedRobotID
+        if(joined) {
+            // No se pasa el robotId pues no se deberia volver a seleccionar
+            let listRobotsMatchs = 
+                JSON.parse(localStorage.getItem('robotsMatchs'));
+            let listOneElement = listRobotsMatchs.filter(elem =>
+                elem.matchId === props.matchID)
+            let OnerobotID = listOneElement[0].robotId;
+            console.log("Mas de un elemento, esto no deberia pasar, ", listOneElement.length)
+            state.current = {
+                matchID: props.matchID,
+                maxPlayers: props.maxPlayers,
+                minPlayers: props.minPlayers,
+                nameMatch: props.nameMatch,
+                nameCreatorMatch: props.nameCreatorMatch,
+                passMatch: passMatch,
+                stateMatch: props.stateMatch,
+                robotID: OnerobotID,
+                joined: true
+            }
+        } else {
+            state.current = {
+                matchID: props.matchID,
+                maxPlayers: props.maxPlayers,
+                minPlayers: props.minPlayers,
+                nameMatch: props.nameMatch,
+                nameCreatorMatch: props.nameCreatorMatch,
+                passMatch: passMatch,
+                stateMatch: props.stateMatch,
+                robotID: selectedRobotID,
+                joined: false
+            }
         }
+        console.log(state.current)
         history.push("/lobby", state.current);
     }
     
     // en caso de que la partida requiera contraseña
     // solo se mostrara si la partida requiere contraseña
-    let passRequired = true; // esto seria un prop que viene de listar partidas
     const onChangePasswordMatch = (e) => {
         setPassMatch(e.target.value)
     };
@@ -84,7 +119,7 @@ const InputModal = (props) => {
 
     // al elegir un robot y (de ser necesario un password match)
     const handleCloseToLobby = () => {
-        if('' !== selectedRobotID) {
+        if('' !== selectedRobotID || joined) {
             setOpen(false);
             handleRouteLobby();
         } else {
@@ -115,29 +150,38 @@ const InputModal = (props) => {
                 noValidate
                 autoComplete="off"
             >
-
             {passRequired && 
                 <TextField
-                    sx={{
-                        background: 'white',
-                        color: 'black',
-                    }}
-                    required
-                    id="standard-password-input"
-                    label="Password Match"
-                    type="password"
-                    autoComplete="current-password"
-                    variant="standard"
-                    value = {passMatch}
-                    onChange = {onChangePasswordMatch}
+                sx={{
+                    background: 'white',
+                    color: 'black',
+                }}
+                required
+                id="standard-password-input"
+                label="Password Match"
+                type="password"
+                autoComplete="current-password"
+                variant="standard"
+                value = {passMatch}
+                onChange = {onChangePasswordMatch}
                 />
             }
-            <SelectRobot 
-                selectedRobotID = {selectedRobotID}
-                setSelectedRobotID = {setSelectedRobotID}
-            />
+            {
+                !joined &&
+                <SelectRobot 
+                    selectedRobotID = {selectedRobotID}
+                    setSelectedRobotID = {setSelectedRobotID}
+                />
+            }
+            {
+
+            }
             <Button variant="contained" onClick={handleCloseToLobby}>
-                Si has seleccionado a tu robot puedes ir al Lobby
+                {
+                    joined ? 
+                    'Ir al Lobby':
+                    'Si has seleccionado a tu robot puedes ir al Lobby'
+                }
             </Button>
             <Button variant="contained" onClick={handleClose}>
                 Cerrar

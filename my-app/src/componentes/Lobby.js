@@ -32,31 +32,27 @@ const Lobby = () => {
   const [usersJoinChange, setUsersJoinChange] = useState(false);
   const [goHome, setGoHome] = useState(false);
   const [stateOfMatch, setStateOfMatch] = useState("Esperando Jugadores");
-  //elementos traidos como un objeto de UnirsePartida
-  // matchID: props.matchID,
-  // maxPlayers: props.maxPlayers,
-  // minPlayers: props.minPlayers,
-  // nameMatch: props.nameMatch,
-  // nameCreatorMatch: props.nameCreatorMatch,
-  // passMatch: passMatch
+
   const history = useHistory();
   let locationOfState = useLocation();
   let objectState = locationOfState.state;
   // console.log(objectState)
   
   let user = JSON.parse(localStorage.getItem('user'));
-  const nameUser = user.userlogin;
+  const nameUser = user.userlogin; // vital para no agregar robots repetidos
 
   //Funcion que filtra de todos las partidas con usuarios unidos a los que
   //se necesitan de la partida actual en la que me encuentro
   
+  //data Soket no es buen nombre pero no me dio tiempo a poner uno mas acorde
   const [dataSocket, setDataSocket] = useState({
       matchId: objectState.matchID,
       robotId: objectState.robotID,
       tkn: user.token,
-      minPlayersNeeded: objectState.minPlayers
+      minPlayersNeeded: objectState.minPlayers,
+      joined: objectState.joined
   })
-  
+
   const handleOutMatch = () => {
     setSocketDisconnect(true);
     console.log("Se abandono la Partida, socketDisconnect", socketDisconnect)
@@ -85,7 +81,47 @@ const Lobby = () => {
     // }    
     
   useEffect(() => {
-    
+
+    const addRobotMatchInLocalStorage = (matchID, robotID, user) => {
+      //Actualizar LocalStorage de los robots en la partida solo sobre el usuario
+      //Debe estar dentro de un condicional que aseguro que no se repite valores
+      // user son usuarios unidos
+      //Problema de un espacio, que hace false la igualdad, ej.:"k" !== " k"
+      // lo soluciona el trim que esta en el user del que proviene el parametro
+      if(user === nameUser) {
+        if(localStorage.getItem('robotsMatchs')) {
+          console.log("agregado si ya hay mas de uno")
+          let listRobotsMatchs = JSON.parse(localStorage.getItem('robotsMatchs'));
+          listRobotsMatchs.push({
+            matchId: matchID,
+            robotId: robotID,
+            user: user
+          });
+          localStorage.setItem('robotsMatchs',
+          JSON.stringify(listRobotsMatchs));     
+        } else {
+          console.log("agregado primera vez")
+          localStorage.setItem('robotsMatchs',JSON.stringify([{
+            matchId: matchID,
+            robotId: robotID,
+            user:user
+          }]));
+        }
+      }
+    }
+  
+    const removeRobotMatchInLocalStorage = (matchID) => {
+      //Actualizar LocalStorage de los robots en la partida
+      //Debe estar dentro de un condicional que aseguro que no se repite valores
+      if(localStorage.getItem('robotsMatchs')) {
+        let listRobotsMatchs = JSON.parse(localStorage.getItem('robotsMatchs'));
+        let filtredRobotsMatchs = listRobotsMatchs.filter(elem =>
+                                      elem.matchId !== matchID)
+        localStorage.setItem('robotsMatchs',
+        JSON.stringify(filtredRobotsMatchs));
+      }
+    }
+
     const isUserJoinAdded = (idJoinMatch, userName, robotName,
       listUsersJoin) => {
         let result = false;
@@ -113,6 +149,8 @@ const Lobby = () => {
             });
             localStorage.setItem('usersJoin',
             JSON.stringify(usersJoinLocalStorage));
+            //Sobre robot en la partida del usuario
+            addRobotMatchInLocalStorage(idJoinMatch, dataSocket.robotId, userName);
           }
       } else {
           localStorage.setItem('usersJoin', JSON.stringify([{
@@ -120,6 +158,7 @@ const Lobby = () => {
             name : userName,
             robot : robotName,
           }]));
+          addRobotMatchInLocalStorage(idJoinMatch, dataSocket.robotId, userName);
       }
     }
 
@@ -133,6 +172,7 @@ const Lobby = () => {
               let filtredArray = usersJoinLocalStorage.filter(elem => elem.matchId !== idJoinMatch && elem.name !== userName && elem.robot !== robotName)
               localStorage.setItem('usersJoin',
               JSON.stringify(filtredArray));
+              removeRobotMatchInLocalStorage(idJoinMatch);
             }
           }
         }
@@ -145,7 +185,7 @@ const Lobby = () => {
         for(let element of listMessage) {
           let user = element.split(":")[0];
           let robot = element.split(":")[1];
-          addUserJoin(dataSocket.matchId, user, robot)
+          addUserJoin(dataSocket.matchId, user.trim(), robot.trim())
         }
         console.log("agregado")
     }
@@ -154,9 +194,10 @@ const Lobby = () => {
         console.log(message)
         let user = message.split(":")[0];
         let robot = message.split(":")[1];
-        removeUserJoin(dataSocket.matchId, user, robot)
+        removeUserJoin(dataSocket.matchId, user.trim(), robot.trim())
         console.log("removido")
     }
+
     const listenMessage = () => {
       //usamos onopen para esta seguro que hay una conexion que esta escuchando
       //el msj que vamos a enviar
@@ -174,6 +215,11 @@ const Lobby = () => {
                 setUsersJoinChange(true);
               } else {
                 alert(JSON.parse(e.data).status);
+                //Cerrada - loco:default1 => estoy unido a la partida
+                // esto pasa pues al salir del componente el socket se cierra
+                // y al volver a conectarse salta esto, si eres el creador
+                // de la partida sino sale esto
+                // Cerrada - El usuario ya esta en la partida
                 ws.current.close();/////////////////////////cierro socket
                 setGoHome(true);
               }
@@ -203,7 +249,7 @@ const Lobby = () => {
         // en vez de join es un Cerrado
         ws.current.close();
     };
-  }, [socketDisconnect, dataSocket])
+  }, [socketDisconnect, dataSocket, nameUser])
 
   useEffect(() => {
 
@@ -219,8 +265,7 @@ const Lobby = () => {
         setUsersJoin(filtredUsersJoinOfMatch(dataSocket.matchId, usersJoinLocalStorage));
         setUsersJoinChange(false);
       }
-    }
-    
+    } 
     
     return () => {
       setUsersJoinChange(false);
