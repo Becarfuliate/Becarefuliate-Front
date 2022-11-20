@@ -1,5 +1,6 @@
 import API from './api';
 import exportServiceLogin from '../Servicios/serviceLogin';
+import swal from "sweetalert";
 
 // guardamos el nombre del robot pues esta sera unico en el back
 // y el back tendra almacenado el avatar y el archivo del mismo
@@ -18,24 +19,48 @@ const handleResponse = (code, respuesta, nameRobot) => {
     switch (code) {
         case 200:
             addRobotinStorage(nameRobot);
-            alert(respuesta.msg);
+            swal({
+                text: respuesta.msg,
+                icon: 'success',
+                timer: '1800'
+            });
             break;
         case 409:
-            alert(respuesta.detail);
+            swal({
+                text: respuesta.detail,
+                icon: 'error',
+                timer: '2500'
+            });
             break;
         case 400:
-            alert(respuesta.detail);
+            swal({
+                text: respuesta.detail,
+                icon: 'error',
+                timer: '2500'
+            });
             exportServiceLogin.serviceLogOut();
             break;
         case 404:
-            alert(respuesta.detail);
+            swal({
+                text: respuesta.detail,
+                icon: 'error',
+                timer: '2500'
+            });
             exportServiceLogin.serviceLogOut();
             break;
         case 422:
-            alert(respuesta.detail);
+            swal({
+                text: respuesta.detail,
+                icon: 'error',
+                timer: '2500'
+            });
             break;    
         default:
-            alert("Error No Contemplado, " + respuesta);
+            swal({
+                text: 'Error.',
+                icon: 'error',
+                timer: '1800'
+            });
             break;
     }
 };

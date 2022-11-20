@@ -1,12 +1,23 @@
-import {getDataRobotsUser} from '../../store/robots/actions';
 import React, {useEffect, useState} from "react";
-import {connect} from 'react-redux';
 import './ListarRobots.css';
+import exportServiceListarRobots from '../Servicios/serviceListarRobots';
 
-function Listing(listRobots){
-    const listResults = listRobots.robots.map((robot, index) =>
+const Loading = () => {
+    return (
+        <div id='content-list-robots-loading'>
+            <h5 className='loading-robots'>
+                Loading Robots
+                <span className='spinner-show'></span>
+            </h5>
+        </div>
+    );
+};
+
+const Listing = (props) => {
+    const listResults = props.robots.map((robot, index) =>
             <li key={index} data-testid="robot-name">
                 <div className='block-robot'>
+                    <p><strong> ID:</strong> {robot.id}</p>
                     <p><strong> Nombre:</strong>{robot.name}</p>
                     <p><strong> Avatar:</strong>{robot.avatar}</p>
                     <p><strong> Partidas Jugadas:</strong>{robot.matchs_pleyed}</p>
@@ -15,19 +26,41 @@ function Listing(listRobots){
                 </div>
             </li>
         )
-    return ( <ul id='list-robots'>{listResults}</ul> );
+    return (
+        <ul id='list-robots'>{listResults}</ul>
+    );
 };
 
-function ListarRobots({getDataRobotsUser}){
+const UserRobots = () => {
+
     const [listRobots, setListRobots] = useState([]);
-    const [responseDataRobot, useResponseDataRobot] = useState(false);
-
     useEffect(() => {
-        if(responseDataRobot) setListRobots(JSON.parse(localStorage.getItem('robotListUser')));
-        else getDataRobotsUser(useResponseDataRobot); 
-    }, [responseDataRobot]);
+        exportServiceListarRobots.serviceListRobots().then(listRobots => setListRobots(listRobots));
+    }, [setListRobots]);
 
-    return (<div id='content-list-robots'><Listing robots={listRobots}/></div>);
+    return (
+        <div id='content-list-robots'>
+                {
+                (Array.isArray(listRobots) && listRobots.length) ?
+                    <Listing robots={listRobots}/>
+                :
+                    <Loading />
+                }
+        </div>
+    );
 };
 
-export default connect(null, {getDataRobotsUser})(ListarRobots);
+const ListarRobots = () => {
+    return (
+        <div>
+            <UserRobots />
+        </div>
+    );
+};
+
+const objListarRobots = {
+    ListarRobots,
+    Listing
+}
+
+export default objListarRobots;
