@@ -28,7 +28,6 @@ const rightLink = {
 // ,o sea, si te quieres unir pasas al Lobby por un momento hasta que sucesa 2 cosas: o te patea afuera o te quedas adentro y puedes ver quienes estan jugando
 const Lobby = () => {
   const [stateOfMatch, setStateOfMatch] = useState("Esperando Jugadores");
-  const [closeConnectSocket, setCloseConnectSocket] = useState(false);
   const [socketDisconnect, setSocketDisconnect] = useState(false);
   const [usersJoin, setUsersJoin] = useState([]); // array vacio
   const [usersJoinChange, setUsersJoinChange] = useState(false);
@@ -41,9 +40,7 @@ const Lobby = () => {
   
   let user = JSON.parse(localStorage.getItem('user'));
   const nameUser = user.userlogin; // vital para no agregar robots repetidos
-useEffect(() => {
-  console.log("valor de socketDisconect:", socketDisconnect)
-}, [socketDisconnect])
+
   //Funcion que filtra de todos las partidas con usuarios unidos a los que
   //se necesitan de la partida actual en la que me encuentro
   
@@ -53,12 +50,17 @@ useEffect(() => {
       robotId: objectState.robotID,
       tkn: user.token,
       minPlayersNeeded: objectState.minPlayers,
-      joined: objectState.joined
+      joined: objectState.joined,
+      nameCreatorMatch: objectState.nameCreatorMatch
   })
-
-
   
-  
+  const isCreatorOfMatch = (user, dataOfuserMatch) => {
+    //dataOfuserMatch, nameCreatorMatch: "loco:ivanpereyra6654@gmail.com"
+    let username = dataOfuserMatch.split(":")[0];
+    let email = dataOfuserMatch.split(":")[1];
+    return (user === username || user === email);
+  }
+
   // Construccion del socket y comunicacion establecida
   const ws = useRef(null);
   useEffect(() => {
@@ -352,13 +354,15 @@ const handleOutToHome = () => {
               {objectState.nameMatch}
               Estado: {stateOfMatch}
             </Button>
-            <Button
-              variant="button"
-              underline="none"
-              onClick={handleOutMatch}
-              sx={rightLink} >
-              {'Abandonar partida'}
-            </Button>
+            {!isCreatorOfMatch(nameUser , dataSocket.nameCreatorMatch) &&
+              <Button
+                variant="button"
+                underline="none"
+                onClick={handleOutMatch}
+                sx={rightLink} >
+                  {'Abandonar Partida'}
+              </Button>
+            }
             <Button
               variant="button"
               underline="none"
