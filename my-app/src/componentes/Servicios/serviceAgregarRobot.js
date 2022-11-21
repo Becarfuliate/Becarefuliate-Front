@@ -1,4 +1,4 @@
-import API from './api';
+import axios from 'axios';
 import exportServiceLogin from '../Servicios/serviceLogin';
 import swal from "sweetalert";
 
