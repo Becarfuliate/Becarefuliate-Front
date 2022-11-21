@@ -53,16 +53,14 @@ const paramsData = (name) => {
         return {
             params: {
                 name: name,
-                tkn: user.token,
-                username: user.userlogin
+                tkn: user.token
             }
         }
     } else {
         return {
             params: {
                 name: name,
-                tkn: "",
-                username: ""
+                tkn: ""
             }
         }
     }

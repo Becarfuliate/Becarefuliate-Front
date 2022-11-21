@@ -49,14 +49,14 @@ const SelectRobot = ({selectedRobotID, setSelectedRobotID}) => {
 };
 
 const InputModal = (props) => {
-    const [open, setOpen] = useState(false);
     const [selectedRobotID, setSelectedRobotID] = useState('');
     const [passRequired, setPassRequired] = useState(true);
     const [passMatch, setPassMatch] = useState("");
     const [joined, setJoined] = useState(false);
+    const [open, setOpen] = useState(false);
+    const history = useHistory();
     const state = useRef({});
 
-    const history = useHistory();
 
     // vemos el estado para directamente darle la opcion de ir al Lobby
     useEffect(() => {
@@ -72,36 +72,25 @@ const InputModal = (props) => {
     const handleRouteLobby = () =>{
         if(joined) {
             // No se pasa el robotId pues no se deberia volver a seleccionar
-            let listRobotsMatchs = 
+            const listRobotsMatchs = 
                 JSON.parse(localStorage.getItem('robotsMatchs'));
-            let listOneElement = listRobotsMatchs.filter(elem =>
+            const listOneElement = listRobotsMatchs.filter(elem =>
                 elem.matchId === props.matchID)
-            let OnerobotID = listOneElement[0].robotId;
-            console.log("Mas de un elemento, esto no deberia pasar, ", listOneElement.length)
-            state.current = {
-                matchID: props.matchID,
-                maxPlayers: props.maxPlayers,
-                minPlayers: props.minPlayers,
-                nameMatch: props.nameMatch,
-                nameCreatorMatch: props.nameCreatorMatch,
+            const OnerobotID = listOneElement[0].robotId;
+            state.current = { ...props, 
+                robotID: OnerobotID, 
                 passMatch: passMatch,
-                stateMatch: props.stateMatch,
-                robotID: OnerobotID,
                 joined: true
             }
         } else {
             state.current = {
-                matchID: props.matchID,
-                maxPlayers: props.maxPlayers,
-                minPlayers: props.minPlayers,
-                nameMatch: props.nameMatch,
-                nameCreatorMatch: props.nameCreatorMatch,
+                ...props,
                 passMatch: passMatch,
-                stateMatch: props.stateMatch,
                 robotID: selectedRobotID,
                 joined: false
             }
         }
+        
         console.log(state.current)
         history.push("/lobby", state.current);
     }
