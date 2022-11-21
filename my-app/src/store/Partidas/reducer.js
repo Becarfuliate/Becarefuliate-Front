@@ -18,7 +18,6 @@ function reducer(dataGame = defaultDataUser, action){
             [atrib]: data
         }
     };
-    
     if (action.type === 'GET_DATA_GAMES_USER') servicioListarGames(dataGame.token, action.data);
     else if (action.type === 'SEND_DATA_GAME') servicioPartida(dataGame, action.data); 
     else if (action.type === 'MODIFY_DATA_NAME_GAME') return dataGameChange("name", action.data);

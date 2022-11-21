@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { BrowserRouter as Switch, Route } from "react-router-dom";
 import { Box, styled, Link, List, ListItem, ListItemAvatar, ListItemText, Avatar, Button, Typography } from '@mui/material';
+import { BrowserRouter as Switch, Route } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
+import { useEffect, useState, useRef } from 'react';
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiAppBar from '@mui/material/AppBar';
 import HomepageLogin from './HomePageLogin';
-import { useLocation, useHistory } from "react-router-dom";
-import { useEffect, useState, useRef } from 'react';
+import * as React from 'react';
+import {iniciarPartida} from './iniciarPartida/iniciarPartida';
 
 const Toolbar = styled(MuiToolbar)(({ theme }) => ({
   height: 64,
@@ -31,28 +32,46 @@ const Lobby = () => {
   const [socketDisconnect, setSocketDisconnect] = useState(false);
   const [usersJoin, setUsersJoin] = useState([]); // array vacio
   const [usersJoinChange, setUsersJoinChange] = useState(false);
-  const [goHome, setGoHome] = useState(false);
-
-  const history = useHistory();
+  // const [goHome, setGoHome] = useState(false);
+  //elementos traidos como un objeto de UnirsePartida
+  // matchID: props.matchID,
+  // maxPlayers: props.maxPlayers,
+  // minPlayers: props.minPlayers,
+  // nameMatch: props.nameMatch,
+  // nameCreatorMatch: props.nameCreatorMatch,
+  // passMatch: passMatch
+  // const history = useHistory();
   let locationOfState = useLocation();
   let objectState = locationOfState.state;
   // console.log(objectState)
   
   let user = JSON.parse(localStorage.getItem('user'));
-  const nameUser = user.userlogin; // vital para no agregar robots repetidos
-
+  const nameUser = user.userlogin;
+  const [startMatchResponse, setStartMatchResponse] = useState({});
+  const [resultMatchResponse, setResultMatchResponse] = useState({});
   //Funcion que filtra de todos las partidas con usuarios unidos a los que
   //se necesitan de la partida actual en la que me encuentro
   
-  //data Soket no es buen nombre pero no me dio tiempo a poner uno mas acorde
   const [dataSocket, setDataSocket] = useState({
-      matchId: objectState.matchID,
-      robotId: objectState.robotID,
-      tkn: user.token,
-      minPlayersNeeded: objectState.minPlayers,
-      joined: objectState.joined,
-      nameCreatorMatch: objectState.nameCreatorMatch
+    matchId: objectState.matchID,
+    robotId: objectState.robotID,
+    tkn: user.token,
+    minPlayersNeeded: objectState.minPlayers,
+    joined: objectState.joined,
+    nameCreatorMatch: objectState.nameCreatorMatch
   })
+  
+  const handleOutMatch = () => {
+    setSocketDisconnect(true);
+    console.log("Se abandono la Partida, socketDisconnect", socketDisconnect)
+  }
+  
+  const handleInitMatch = () => {
+    // debugger;
+    console.log("Aqui poner la logica del iniciar");
+    iniciarPartida({id_match: dataSocket.matchId, name_user: nameUser}).then( response => setStartMatchResponse(response));
+    console.log(startMatchResponse);
+  };
   
   const isCreatorOfMatch = (user, dataOfuserMatch) => {
     //dataOfuserMatch, nameCreatorMatch: "loco:ivanpereyra6654@gmail.com"
@@ -121,7 +140,6 @@ const Lobby = () => {
           result = true;
         return result;
     };
-
     //Almacenamiento de los usuarios que se van uniendo
     const addUserJoin = (idJoinMatch, userName, robotName) => {
 
@@ -154,145 +172,141 @@ const Lobby = () => {
 
 
     const removeUserJoin = (idJoinMatch, userName, robotName) => {
-        let usersJoinLocalStorage = [];
-        if(localStorage.getItem('usersJoin')) {
-          usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
-          if(Array.isArray(usersJoinLocalStorage)
-          && usersJoinLocalStorage.length) {
-            if(isUserJoinAdded(idJoinMatch, userName, robotName, usersJoinLocalStorage)) {
-              console.log("usuarios unidos:", usersJoinLocalStorage);
-              console.log(idJoinMatch, userName, robotName);
-              // elem.matchId === idJoinMatch && elem.name === userName && elem.robot === robotName
-              let filtredArray = usersJoinLocalStorage.filter(elem => elem.matchId !== idJoinMatch || elem.name !== userName || elem.robot !== robotName)
-              localStorage.setItem('usersJoin',
-              JSON.stringify(filtredArray));
-              removeRobotMatchInLocalStorage(idJoinMatch);
+      let usersJoinLocalStorage = [];
+      if(localStorage.getItem('usersJoin')) {
+        usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
+        if(Array.isArray(usersJoinLocalStorage)
+        && usersJoinLocalStorage.length) {
+          if(isUserJoinAdded(idJoinMatch, userName, robotName, usersJoinLocalStorage)) {
+            console.log("usuarios unidos:", usersJoinLocalStorage);
+            console.log(idJoinMatch, userName, robotName);
+            // elem.matchId === idJoinMatch && elem.name === userName && elem.robot === robotName
+            let filtredArray = usersJoinLocalStorage.filter(elem => elem.matchId !== idJoinMatch || elem.name !== userName || elem.robot !== robotName)
+            localStorage.setItem('usersJoin',
+            JSON.stringify(filtredArray));
+            removeRobotMatchInLocalStorage(idJoinMatch);
 
-              console.log("usuarios removidos ", filtredArray)
-            }
+            console.log("usuarios removidos ", filtredArray)
           }
         }
-    }
-
-    const handleMessageJoin = (message) => {
-        console.log(message)
-        // "join":"usuario:robot, usuario:robot"
-        let listMessage = message.split(",")
-        for(let element of listMessage) {
-          let user = element.split(":")[0];
-          let robot = element.split(":")[1];
-          addUserJoin(dataSocket.matchId, user.trim(), robot.trim())
-        }
-        console.log("agregado")
-    }
-  
-    const handleMessageLeave = (message) => {
-        console.log(message)
-        let user = message.split(":")[0];
-        let robot = message.split(":")[1];
-        removeUserJoin(dataSocket.matchId, user.trim(), robot.trim())
-        console.log("removido")
-    }
-
-      //usamos onopen para esta seguro que hay una conexion que esta escuchando
-      //el msj que vamos a enviar
-      ws.current.onopen = () => {
-          console.log("openned, escuchando respuestas del back")
-          ws.current.onmessage = (e) => {
-            console.log("got message: ", e.data)
-            if(e.data) {
-              let objResponse = JSON.parse(e.data)
-              if(objResponse.join) {
-                handleMessageJoin(objResponse.join);
-                setUsersJoinChange(true);
-              } else if(objResponse.leave) {
-                handleMessageLeave(objResponse.leave);
-                setUsersJoinChange(true);
-              } else {
-                alert(JSON.parse(e.data).status);
-                //Cerrada - loco:default1 => estoy unido a la partida
-                // esto pasa pues al salir del componente el socket se cierra
-                // y al volver a conectarse salta esto, si eres el creador
-                // de la partida sino sale esto
-                // Cerrada - El usuario ya esta en la partida
-                ws.current.close();/////////////////////////cierro socket
-                setGoHome(true);
-              }
-            }
-          }
       }
+  }
+
+  const handleMessageJoin = (message) => {
+    console.log(message)
+    // "join":"usuario:robot, usuario:robot"
+    let listMessage = message.split(",")
+    for(let element of listMessage) {
+      let user = element.split(":")[0];
+      let robot = element.split(":")[1];
+      addUserJoin(dataSocket.matchId, user.trim(), robot.trim())
+    }
+    console.log("agregado")
+  }
+
+  const handleMessageLeave = (message) => {
+      console.log(message)
+      let user = message.split(":")[0];
+      let robot = message.split(":")[1];
+      removeUserJoin(dataSocket.matchId, user.trim(), robot.trim())
+      console.log("removido")
+  }
+    //usamos onopen para esta seguro que hay una conexion que esta escuchando
+    //el msj que vamos a enviar
+  ws.current.onopen = () => {
+      console.log("openned, escuchando respuestas del back")
+      ws.current.onmessage = (e) => {
+        console.log("got message: ", e.data)
+        if(e.data) {
+          let objResponse = JSON.parse(e.data)
+          if(objResponse.join) {
+            handleMessageJoin(objResponse.join);
+            setUsersJoinChange(true);
+          } else if(objResponse.leave) {
+            handleMessageLeave(objResponse.leave);
+            setUsersJoinChange(true);
+          } else {
+            alert(JSON.parse(e.data).status);
+            //Cerrada - loco:default1 => estoy unido a la partida
+            // esto pasa pues al salir del componente el socket se cierra
+            // y al volver a conectarse salta esto, si eres el creador
+            // de la partida sino sale esto
+            // Cerrada - El usuario ya esta en la partida
+            // ws.current.close();/////////////////////////cierro socket
+            // setGoHome(true);
+          }
+        }
+      }
+    }
 
 
   }, [socketDisconnect, dataSocket, nameUser])
 
+useEffect(() => {
+              // Me da info si se cerro la conexion del websocket
+              ws.current.onclose = (event) =>
+              {
+                  alert('Onclose called' + JSON.stringify(event, Object.getOwnPropertyNames(event)));
+                  alert('code is' + event.code);
+                  alert('reason is ' + event.reason);
+                  alert('wasClean  is' + event.wasClean);
+              }
+}, [])
+
 ////////////////////////////////////////////////////////////////////////////////
-  useEffect(() => {
+useEffect(() => {
 
-    const filtredUsersJoinOfMatch = (idJoinMatch, listUsersJoin) => {
-        let filtredArray = listUsersJoin.filter(elem => elem.matchId === idJoinMatch)
-        return filtredArray;
-    }
+  const filtredUsersJoinOfMatch = (idJoinMatch, listUsersJoin) => {
+      let filtredArray = listUsersJoin.filter(elem => elem.matchId === idJoinMatch)
+      return filtredArray;
+  }
 
-    let usersJoinLocalStorage = [];
-    if(localStorage.getItem('usersJoin')) {
-      usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
-      if(Array.isArray(usersJoinLocalStorage) && usersJoinLocalStorage.length) {
-        setUsersJoin(filtredUsersJoinOfMatch(dataSocket.matchId, usersJoinLocalStorage));
-        setUsersJoinChange(false);
-      }
-    } 
-    
-    return () => {
+  let usersJoinLocalStorage = [];
+  if(localStorage.getItem('usersJoin')) {
+    usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
+    if(Array.isArray(usersJoinLocalStorage) && usersJoinLocalStorage.length) {
+      setUsersJoin(filtredUsersJoinOfMatch(dataSocket.matchId, usersJoinLocalStorage));
       setUsersJoinChange(false);
     }
-  }, [usersJoinChange, dataSocket])
+  } 
+  
+  return () => {
+    setUsersJoinChange(false);
+  }
+}, [usersJoinChange, dataSocket])
 //////////////////////////////////////////////////////////////////////////////  
-  useEffect(() => {
-    if(socketDisconnect) {
-      setStateOfMatch("Unirse");
-    } else {
-      if(usersJoin.length && usersJoin.length === dataSocket.minPlayersNeeded) {
-        setStateOfMatch("Esperando Inicio");
-      }
+useEffect(() => {
+  if(socketDisconnect) {
+    setStateOfMatch("Unirse");
+  } else {
+    if(usersJoin.length && usersJoin.length === dataSocket.minPlayersNeeded) {
+      setStateOfMatch("Esperando Inicio");
     }
-  }, [socketDisconnect, usersJoin, dataSocket])
+  }
+}, [socketDisconnect, usersJoin, dataSocket])
 ////////////////////////////////////////////////////////////////////////////////
-  useEffect(() => {
-    //Actualizar LocalStorage de la partida sobre su estado
-    if(localStorage.getItem('stateMatchs')) {
-        let listStateMatchs = JSON.parse(localStorage.getItem('stateMatchs'));
-        let listUpdateStateMatchs = listStateMatchs.filter(element =>
-                                        element.matchId !== dataSocket.matchId);
-        listUpdateStateMatchs.push({
-          matchId: dataSocket.matchId,
-          state: stateOfMatch
-        });
-        localStorage.setItem('stateMatchs',
-        JSON.stringify(listUpdateStateMatchs));     
-    } else {
-        localStorage.setItem('stateMatchs',JSON.stringify([{
-          matchId: dataSocket.matchId,
-          state: stateOfMatch
-        }]));
-    }
-  }, [stateOfMatch, dataSocket])
+useEffect(() => {
+  //Actualizar LocalStorage de la partida sobre su estado
+  if(localStorage.getItem('stateMatchs')) {
+      let listStateMatchs = JSON.parse(localStorage.getItem('stateMatchs'));
+      let listUpdateStateMatchs = listStateMatchs.filter(element =>
+                                      element.matchId !== dataSocket.matchId);
+      listUpdateStateMatchs.push({
+        matchId: dataSocket.matchId,
+        state: stateOfMatch
+      });
+      localStorage.setItem('stateMatchs',
+      JSON.stringify(listUpdateStateMatchs));     
+  } else {
+      localStorage.setItem('stateMatchs',JSON.stringify([{
+        matchId: dataSocket.matchId,
+        state: stateOfMatch
+      }]));
+  }
+}, [stateOfMatch, dataSocket])
 ////////////////////////////////////////////////////////////////////////////////
 
-const handleOutMatch = () => {
-  console.log("openned, envio peticion de dejar match")
-  ws.current.send(JSON.stringify({"connection": "close"}));
-  setSocketDisconnect(true);
-  // console.log("Se abandono la Partida, socketDisconnect", socketDisconnect);
-}
 
-const handleInitMatch = () => {
-  console.log("Aqui poner la logica del iniciar")
-};
-
-const handleOutToHome = () => {
-  console.log("Volviendo a Home, socketDisconnect")
-  setGoHome(true)
-}
 
   const ListUserJoin = () => {
     return (

@@ -8,6 +8,7 @@ async function runSimulation(dataSimulation, callback){
         dataSimulation.id_robot = dataSimulation.id_robot.substring(1);
         dataSimulation.user_creator = JSON.parse(localStorage.getItem("user")).userlogin;
         dataSimulation.token = JSON.parse(localStorage.getItem("user")).token;
+        
         return await axios.post(baseURL + "/simulation/add", dataSimulation)
         .then((response) => {
             localStorage.setItem("simulacion", JSON.stringify(response.data));
