@@ -29,21 +29,21 @@ const modifyDataPasswordGame = (password) => {
 const modifyDataRoundsGame = (rounds) => {
     return {
         type: "MODIFY_DATA_ROUNDS_GAME",
-        data: parseInt(rounds, 32)
+        data: parseInt(rounds)
     }
 };
 
 const modifyDataMaxPlayersGame = (players) => {
     return {
         type: "MODIFY_DATA_MAX_PLAYERS_GAME",
-        data: parseInt(players, 32)
+        data: parseInt(players)
     }
 };
 
 const modifyDataGamesGame = (game) => {
     return {
         type: "MODIFY_DATA_GAME_GAME",
-        data: parseInt(game, 32)
+        data: parseInt(game)
     }
 };
 
