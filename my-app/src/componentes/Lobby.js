@@ -32,6 +32,7 @@ const Lobby = () => {
   const [socketDisconnect, setSocketDisconnect] = useState(false);
   const [usersJoin, setUsersJoin] = useState([]); // array vacio
   const [usersJoinChange, setUsersJoinChange] = useState(false);
+  const [initFinalized, setInitFinalized] = useState(false);
   // const [goHome, setGoHome] = useState(false);
   //elementos traidos como un objeto de UnirsePartida
   // matchID: props.matchID,
@@ -69,7 +70,7 @@ const Lobby = () => {
   const handleInitMatch = () => {
     // debugger;
     console.log("Aqui poner la logica del iniciar");
-    iniciarPartida({id_match: dataSocket.matchId, name_user: nameUser}).then( response => setStartMatchResponse(response));
+    iniciarPartida({id_match: dataSocket.matchId, token: user.token}).then( response => setStartMatchResponse(response));
     console.log(startMatchResponse);
   };
   
@@ -84,6 +85,7 @@ const Lobby = () => {
   const ws = useRef(null);
   useEffect(() => {
     const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
+    console.log("socket: ", socket)
     ws.current = socket;
   }, [dataSocket])
 
