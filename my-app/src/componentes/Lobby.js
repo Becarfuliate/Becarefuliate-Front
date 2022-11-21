@@ -363,13 +363,15 @@ const handleOutToHome = () => {
                   {'Abandonar Partida'}
               </Button>
             }
-            <Button
-              variant="button"
-              underline="none"
-              onClick={handleInitMatch}
-              sx={rightLink} >
-              {'Iniciar Partida'}
-            </Button>
+            {isCreatorOfMatch(nameUser , dataSocket.nameCreatorMatch) &&
+              <Button
+                variant="button"
+                underline="none"
+                onClick={handleInitMatch}
+                sx={rightLink} >
+                {'Iniciar Partida'}
+              </Button>
+            }
           </Box>
           }
         </Toolbar>
