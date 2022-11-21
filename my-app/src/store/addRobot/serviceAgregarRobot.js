@@ -7,9 +7,8 @@ const endpoint = '/upload/robot';
 
 const handleResponse = (code, respuesta) => {
     if(code === 200) alert(respuesta.msg);
-    else if(code === 409 || code === 400 || code === 404 || code === 422) alert(respuesta.detail);
-    else alert("Error No Contemplado, " + respuesta);
-
+    else alert("Error en los datos");
+    
     if(code === 400 || code === 404) exportServiceLogin.serviceLogOut();
 
 };
@@ -27,27 +26,23 @@ const paramsData = (name) => {
     const userLogin = (user)? user.userlogin : '';
 
     return {
-        params: {
             name: name,
             tkn: token,
             username: userLogin
-        }
     }
 };
 
 const headers = () => {
     return {
-        headers: {
             'Accept': 'application/json',
             'Content-Type': 'multipart/form-data'
-        }
     }
 };
 
 const serviceUploadRobot = async (dataRobot) => {
     const resultsVerifyDataRobot = verifyDataRobot(dataRobot);
     if (resultsVerifyDataRobot.state === 'OK')
-        await axios.post(baseURL + endpoint, filesRobot(dataRobot), paramsData(dataRobot), headers())
+        await axios.post(baseURL + endpoint, paramsData(dataRobot.name), filesRobot(dataRobot), headers())
         .then(respuesta => handleResponse(respuesta.status, respuesta.data))
         .catch((error) => handleResponse(error.response.status, error.response.data));
     else
