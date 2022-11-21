@@ -32,7 +32,6 @@ const Listing = (props) => {
 };
 
 const UserRobots = () => {
-
     const [listRobots, setListRobots] = useState([]);
     useEffect(() => {
         exportServiceListarRobots.serviceListRobots().then(listRobots => setListRobots(listRobots));
