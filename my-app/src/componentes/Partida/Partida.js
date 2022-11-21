@@ -16,7 +16,7 @@ function CrearPartida() {
           <input type="text" name="name" placeholder="Nombre de partida" 
           onChange={handleChange} required />
 
-          <input type="number" name="max_players" placeholder="Maximo de jugadores" 
+          <input type="number" name="max_players" placeholder="Cantidad de jugadores" 
           onChange={handleChange} required/>
 
           <button type="button" onClick={() => setLectura(!lectura)}> Privado </button>
@@ -26,7 +26,7 @@ function CrearPartida() {
           <input type="number" name="n_matchs" placeholder="Cantidad de juegos" 
           onChange={handleChange} required />
           
-          <input type="number" name="n_rounds_match" placeholder="Maximo de rondas" 
+          <input type="number" name="n_rounds_match" placeholder="Cantidad de rondas" 
           onChange={handleChange} required />
 
           <input type="button" value="Submit" onClick={(event) => handleSubmit(state)}/>

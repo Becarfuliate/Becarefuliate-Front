@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import Partida from "../Partida.js";
+import Partida from "../Partida/Partida.js";
 
 describe("Partida", () => {
   it("renders appropriately", () => {
     render(<Partida />);
-    expect(screen.getByText(/Nombre/i)).toBeInTheDocument();
+    expect(screen.getByText(/Privado/i)).toBeInTheDocument();
   });
 });

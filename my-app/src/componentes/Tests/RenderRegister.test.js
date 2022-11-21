@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
-import Registro from '../Register';
+import Registro from '../Registro/Register';
 import { Provider } from "react-redux";
-import store from '../../../store/index';
+import store from '../../store/index';
 
 test('Renderización de Regitro', () => {
   const component = render( 

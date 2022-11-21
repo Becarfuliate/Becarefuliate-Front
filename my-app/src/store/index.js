@@ -1,10 +1,16 @@
 import {createStore, combineReducers} from 'redux';
-import reducerReg from './register/reducer';
-import reducerRobot from './addRobot/reducer';
+import reducerSimulation from './simulation/reducer';
+import reducerRegister from './register/reducer';
+import reducerListRobots from './robots/reducer';
+import reducerListGames from './Partidas/reducer';
+import reducerAddRobot from './addRobot/reducer';
 
 const reducers = combineReducers({
-        reducerReg,
-        reducerRobot
+        reducerSimulation,
+        reducerRegister,
+        reducerListRobots,
+        reducerListGames,
+        reducerAddRobot
 });
 
 const store =  createStore(

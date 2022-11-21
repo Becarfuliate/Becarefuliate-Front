@@ -1,10 +1,17 @@
 import React from 'react';
-import './home.css';
+
+const styleimg = {
+  display: "block",
+  justifyContent: "center",
+  alignItems: "center",
+  margin: "auto",
+  width: "500px",
+}
 
 function Home () {
   return (
       <div>
-          <img src='./homepage.png' alt="avatar-robot" className='img-homepage' />
+        <img src='./homepage.png' alt="avatar-robot" style={styleimg} />
       </div>
   );
 }
