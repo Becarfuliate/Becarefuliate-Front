@@ -1,1 +1,0 @@
-export { default as AgregarRobot } from './AgregarRobot';

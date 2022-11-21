@@ -1,4 +1,5 @@
 import API from "./api";
+import swal from "sweetalert";
 
 const getToken = () => {
     let storage = localStorage.getItem('user');
@@ -17,10 +18,18 @@ const handleresponse = (code, response) => {
             listRobots = response;
             break;
         case 500:
-            alert(response.detail);
+            swal({
+                text: response.detail,
+                icon: 'error',
+                timer: '2500'
+            });
             break;
         default:
-            alert("Error No Contemplado, " + response)
+            swal({
+                text: 'Error.',
+                icon: 'error',
+                timer: '1800'
+            });
             break;
     }
     return listRobots;

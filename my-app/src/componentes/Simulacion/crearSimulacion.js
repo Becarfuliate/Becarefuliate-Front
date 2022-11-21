@@ -8,7 +8,6 @@ import ListItem from '@mui/material/ListItem';
 import Checkbox from '@mui/material/Checkbox';
 import { useHistory } from 'react-router-dom';
 import List from '@mui/material/List';
-import Simulacion from './Simulacion';
 import {connect} from 'react-redux';
 
 function CheckRobots({addRobot, removeRobot}){
@@ -68,15 +67,14 @@ function PageSimulation({sendDataSimulation, modifyDataRound, addRobot, removeRo
   const [sendData, setSendData] = useState(false);  
   const history = useHistory();
   useEffect(() => {
-    if (sendData) history.push('/user/crearSimulacion');
+    if (sendData) history.push('/simulacion');
   }, [sendData, history]);
 
-  if(!sendData) return <CreateSimulation sendDataSimulation= {sendDataSimulation} 
+  return <CreateSimulation sendDataSimulation= {sendDataSimulation} 
                                             modifyDataRound={modifyDataRound} 
                                             addRobot={addRobot} 
                                             removeRobot={removeRobot}
                                             callback= {setSendData}/>;
-  else return <Simulacion/>;
 }
 
 export default connect(null, {sendDataSimulation, modifyDataRound, addRobot, removeRobot})(PageSimulation);

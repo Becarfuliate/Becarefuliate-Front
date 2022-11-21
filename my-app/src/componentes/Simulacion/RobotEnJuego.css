@@ -1,40 +1,40 @@
 #RobotEnJuego {
     position: absolute;
-    width: 21px;
-    height: 21px;
+    width: 11.55px;
+    height: 11.55px;
 }
 
 #RobotEnJuego img {
     display: block;
-    width: 21px;
-    height: 21px;
+    width: 11.55px;
+    height: 11.55px;
 }
 
 #RobotEnJuego .nombre {
     position: absolute;
-    top: 4px;
-    font-size: 15px;
+    top: 2px;
+    font-size: 7px;
 }
 
 #RobotStats {
     position: absolute;
     width: 450px;
-    height: 180px;
+    height: 125px;
     left: 120px;
-    border: solid 5px black;
+    border: solid 4px black;
     background-color: lightgrey;
 }
 
 #RobotStats img {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border: solid 1px black;
     background-color: white;
 }
 
 #RobotStats .nombre {
     position: absolute;
-    top: 18px;
+    top: 10px;
     left: 65px;
     font-size: 25px;
     word-spacing: 5px;
@@ -43,7 +43,7 @@
 #RobotStats .maxvida {
     position: absolute;
     left: 15px;
-    top: 65px;
+    top: 55px;
     width: 350px;
     height: 22px;
     background-color: red
@@ -52,7 +52,7 @@
 #RobotStats .vida {
     position: absolute;
     left: 15px;
-    top: 65px;
+    top: 55px;
     width: 350px;
     height: 22px;
     background-color: green
@@ -61,14 +61,14 @@
 #RobotStats .vidatext {
     position: absolute;
     left: 380px;
-    top: 65px;
+    top: 55px;
     font-size: 25px;
 }
 
 #RobotStats .mira {
     position: relative;
     left: -20px;
-    top: 90px;
+    top: 70px;
     font-size: 25px;
     word-spacing: 5px;
 }
@@ -76,7 +76,7 @@
 #RobotStats .motor {
     position: relative;
     left: 40px;
-    top: 90px;
+    top: 70px;
     font-size: 25px;
     word-spacing: 5px;
 }

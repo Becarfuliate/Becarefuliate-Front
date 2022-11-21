@@ -29,13 +29,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
-
 function ListarPartida({getDataGamesUser}) {
   const [listPartidas, setListPartidas] = useState([]);
   
   useEffect(() => {
     getDataGamesUser(setListPartidas);
   }, [getDataGamesUser]);
+
   
   return (
   <div>
