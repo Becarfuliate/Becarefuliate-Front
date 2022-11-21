@@ -34,7 +34,7 @@ const manejoRespuesta = (code, respuesta, userlogin) => {
             break;
         case 400:
             swal({
-                text: respuesta.detail,
+                text: 'Usuario incorrecto.',
                 icon: 'error',
                 timer: '2500'
             });
