@@ -67,11 +67,7 @@ const Lobby = () => {
     const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
     ws.current = socket;
   }, [dataSocket])
-  
-  if(goHome) {
-    ws.current.close();
-    history.push("/home");
-  }
+
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -326,27 +322,8 @@ const handleOutToHome = () => {
             sx={{ fontSize: 24}} >
             {nameUser}
           </Button>
-          {
-           socketDisconnect &&
-              <Button
-                color="inherit"
-                variant="button"
-                underline="none"
-                onClick={handleOutToHome}
-                sx={rightLink} >
-                {'Volver a Home'}
-              </Button>
-          }
           {!socketDisconnect &&           
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-            <Button
-              color="inherit"
-              variant="button"
-              underline="none"
-              onClick={handleOutToHome}
-              sx={rightLink} >
-              {'Volver a Home'}
-            </Button>
             <Button
               variant="button"
               underline="none"
