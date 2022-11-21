@@ -1,11 +1,5 @@
 import API from '../api';
 
-function getToken(){
-    const storage = localStorage.getItem('user');
-    if(storage) return JSON.parse(storage).token;
-    else return "";
-}
-
 function handleresponse(code, response, callback){
     callback(code === 200);
     if(code === 200){
@@ -17,9 +11,10 @@ function handleresponse(code, response, callback){
 }
 
 async function serviceListRobots(token, callback){
-    return await API.get('/robots?token=' + token)
+    const tken = JSON.parse(localStorage.getItem("user")).token;
+    return await API.get('/robots?token=' + tken)
     .then(response => handleresponse(response.status, response.data, callback))
     .catch((error) => handleresponse(error.response.status, error.response, callback));
 };
 
-export {serviceListRobots, getToken};
+export {serviceListRobots};

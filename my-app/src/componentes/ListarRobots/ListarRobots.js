@@ -2,9 +2,8 @@ import {getDataRobotsUser} from '../../store/robots/actions';
 import React, {useEffect, useState} from "react";
 import {connect} from 'react-redux';
 import './ListarRobots.css';
-import axios from 'axios';
 
-// const defaultimgRobot = "./robot.png"
+const defaultimgRobot = "./robot.png"
 
 function ListarRobots({getDataRobotsUser}){
     const [listRobots, setListRobots] = useState([]);
@@ -21,35 +20,19 @@ function ListarRobots({getDataRobotsUser}){
 function Listing(listRobots) {
 
     const listResults = [];
-    const [RobotImages, setRobotImages] = useState([]);
 
-    useEffect(() => {
-        const obtenerImagen = async (robotId) => {
-            const tkn = JSON.parse(localStorage.getItem("user")).token;
-            const baseURL = "http://127.0.0.1:8000";
-            const response = await axios.get(baseURL + "/image", {params: { token: tkn, robot_id: robotId }});
-            
-            setRobotImages(RobotImages => [...RobotImages, response.data]);
-        }
-
-        listRobots.robots.map( robot => {
-            obtenerImagen(robot.id);
-        })
-
-    }, []);
-
+    // eslint-disable-next-line
     listRobots.robots.map((robot, index) => {
-        console.log(RobotImages);
         listResults.push(
             <div className='block-robot' key={index} data-testid="robot-name">
-                <img src={`data:image/png;base64,${RobotImages[index]}`} alt="" />
+                <img src={defaultimgRobot} alt="" />
                 <p className="RobotName"> Nombre: {robot.name} </p>
                 <p className="RobotId"> ID: {robot.id} </p>
                 <p> Partidas Jugadas: {robot.matchs_pleyed} </p>
                 <p> Partidas Ganadas: {robot.matchs_won} </p>
             </div>
-        )
-    })
+        ) 
+    }) 
 
     return (
         <div id="robot-list"> {listResults} </div>

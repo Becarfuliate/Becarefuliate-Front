@@ -4,5 +4,4 @@ const getDataRobotsUser = (callback) => {
         data: callback
     }
 };
-
 export {getDataRobotsUser};
