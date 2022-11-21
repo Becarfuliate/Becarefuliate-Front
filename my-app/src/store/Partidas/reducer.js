@@ -1,11 +1,7 @@
-import {getToken, servicioListarGames} from './service';
+import {servicioListarGames} from './service';
 
-const defaultDataUser = {
-    token: getToken()
-};
-
-function reducer(dataUser = defaultDataUser, action){   
-    if (action.type === 'GET_DATA_GAMES_USER') return servicioListarGames(dataUser.token, action.data);
+function reducer(dataUser = [], action){   
+    if (action.type === 'GET_DATA_GAMES_USER') return servicioListarGames(action.data);
     
     return dataUser;
 }
