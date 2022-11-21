@@ -67,7 +67,13 @@ const Lobby = () => {
   const handleInitMatch = () => {
     debugger;
     console.log("Aqui poner la logica del iniciar");
-    iniciarPartida({id_match: dataSocket.matchId, name_user: nameUser}).then( response => setStartMatchResponse(response));
+    iniciarPartida({id_match: dataSocket.matchId, name_user: nameUser})
+                  .then( response => setStartMatchResponse(response.data));
+    
+    const robotsMatch = JSON.parse(localStorage.getItem("robotsMatch"))
+                        .filter((elem) => dataSocket.matchId === elem.matchId);
+
+    console.log(robotsMatch);    
     console.log(startMatchResponse);
   };
   
@@ -93,10 +99,9 @@ const Lobby = () => {
     
     const isUserJoinAdded = (idJoinMatch, userName, robotName,
       listUsersJoin) => {
-        let result = false;
-        console.log(listUsersJoin)
-        let value = listUsersJoin.findIndex(elem => elem.matchId === idJoinMatch && elem.name === userName && elem.robot === robotName)
-        console.log(-1 !== value)
+        const result = false;
+        const value = listUsersJoin.findIndex(elem => elem.matchId === idJoinMatch && 
+                                            elem.name === userName && elem.robot === robotName)
         if(-1 !== value)
           result = true;
         return result;
