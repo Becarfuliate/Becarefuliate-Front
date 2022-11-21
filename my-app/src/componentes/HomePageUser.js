@@ -2,9 +2,9 @@ import { BrowserRouter as Switch, Route } from "react-router-dom";
 import { Toolbar, AppBar, Link, Box} from "@mui/material"
 
 // Routes
-import Home from "./Home";
-import Registro from "./registro/Register";
+import Registro from "./Registro/Register";
 import Login from "./Login/Login";
+import Home from "./Home";
 
 function HomePageUser() {
   return (
