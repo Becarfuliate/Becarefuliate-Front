@@ -5,7 +5,6 @@ const sendDataRobot = () => {
     }
 };
 
-
 const modifyName = (name) => {
     return {
         type: "MODIFY_DATA_NAME_ROBOT",
