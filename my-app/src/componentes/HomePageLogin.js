@@ -13,6 +13,7 @@ import ListarPartida from "./ListarPartida/ListarPartida";
 import Partida from "./Partida/Partida";
 import ListarRobots from "./ListarRobots/ListarRobots";
 import AgregarRobot from "./AgregarRobot/AgregarRobot";
+import Lobby from "./Lobby";
 
 const theme = createTheme({
   palette: {
@@ -44,6 +45,7 @@ function HomepageLogin() {
         <Route path="/listarRobot" component={ListarRobots} />
         <Route path="/subirRobot" component={AgregarRobot} />
         <Route path="/signOff" component={SignOff} />
+        <Route exact path="/lobby" component={Lobby} />
       </Switch>
     </div>
   );
@@ -180,6 +182,9 @@ const Items = () => {
 function SignOff() {
   const history = useHistory();
   localStorage.removeItem("user");
+  localStorage.removeItem("stateMatchs");
+  localStorage.removeItem("usersJoin");
+  localStorage.removeItem("robotsMatchs");
   history.push("/");
   window.location.reload();
 }
