@@ -1,4 +1,5 @@
 import API from './api'
+import swal from "sweetalert";
 
 const dataLogin = (is_login_email ,userlogin, password) => {
     let email = "";
@@ -32,10 +33,18 @@ const manejoRespuesta = (code, respuesta, userlogin) => {
             window.location.reload();
             break;
         case 400:
-            alert(respuesta.detail);
+            swal({
+                text: 'Usuario incorrecto.',
+                icon: 'error',
+                timer: '2500'
+            });
             break;
         default:
-            alert("Error No Contemplado, " + respuesta)
+            swal({
+                text: 'Error.',
+                icon: 'error',
+                timer: '1800'
+            });
             break;
     }
 }

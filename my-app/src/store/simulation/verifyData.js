@@ -1,3 +1,5 @@
+import swal from "sweetalert";
+
 function verifyId_robots(dataSimulation){
     const totalRobots = dataSimulation.id_robot.split(',').length - 1;
     const cantRoundsGreaterT2AndLess4 = totalRobots >= 2 && totalRobots <= 4;
@@ -13,11 +15,19 @@ function verifyRounds(dataSimulation){
 
 function verifyDataSimulation(dataSimulation){
     if(!verifyId_robots(dataSimulation)){
-        alert("Los robots elegidos son mayores a 4 o menores a 2")
+        swal({
+            text: 'Los robots elegidos deben ser más que 2 o menos que 4.',
+            icon: 'warning',
+            timer: '2500'
+        });
         return false;
     }
     if(!verifyRounds(dataSimulation)){
-        alert("cantidad de rondas menor o igual a 1, o mayor a 10000");
+        swal({
+            text: 'Cantidad de rondas debe estar entre 1 a 10000.',
+            icon: 'warning',
+            timer: '2500'
+        });
         return false;
     }
     return true

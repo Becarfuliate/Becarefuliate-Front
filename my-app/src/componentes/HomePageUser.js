@@ -2,9 +2,9 @@ import { BrowserRouter as Switch, Route } from "react-router-dom";
 import { Toolbar, AppBar, Link, Box} from "@mui/material"
 
 // Routes
-import Home from "./Home";
 import Registro from "./Registro/Register";
 import Login from "./Login/Login";
+import Home from "./Home";
 
 function HomePageUser() {
   return (
@@ -13,13 +13,14 @@ function HomePageUser() {
         <Toolbar sx={{ justifyContent: 'space-between', backgroundColor: "#3f51b5"}}>
           <Box sx={{ flex: 1 }} />
           <Link
-            variant="button"
+            variant="text"
             underline="none"
+            text-transform="none"
             color="inherit"
             href="/"
             sx={{ fontSize: 24 }}
           >
-            {'pyRobots'}
+            {'PyRobots'}
           </Link>
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
             <Link

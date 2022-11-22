@@ -1,3 +1,5 @@
+import swal from "sweetalert";
+
 function verifyEmail(email){
   return (/^\w+([-|.]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|mi.unc)\.(?:|com|es|edu.ar)+$/.test(email));
 }
@@ -24,13 +26,25 @@ function verifyName(name){
 
 export function verifyDataUser(dataUser){
   if (!verifyName(dataUser.username)){
-    alert('El nombre no puede estar vacío o contener espacios');
+    swal({
+      text: 'El nombre no puede estar vacío ni contener espacios.',
+      icon: 'warning',
+      timer: '1800'
+    });
     return false;
   } else if(!verifyPassword(dataUser.password)){
-    alert('La contraseña es inválida');
+    swal({
+      text: 'La contraseña es inválida.',
+      icon: 'warning',
+      timer: '1800'
+    });
     return false;
   } else if(!verifyEmail(dataUser.email)){
-    alert('el email es inválido');
+    swal({
+      text: 'La dirección de correo es inválida.',
+      icon: 'warning',
+      timer: '1800'
+    });
     return false;
   }
   return true;

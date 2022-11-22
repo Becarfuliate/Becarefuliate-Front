@@ -1,5 +1,4 @@
-import {render, screen, fireEvent} from '@testing-library/react';
-import axios from 'axios';
+import {render, screen} from '@testing-library/react';
 import AgregarRobot from '../AgregarRobot/AgregarRobot';
 
 beforeEach(() => {
@@ -7,7 +6,7 @@ beforeEach(() => {
 })
 
 test('existen elementos en el componente renderizado de agregar robots', () => {
-    const textNameRobot = screen.getByText(/Nombre del Robot/i);
+    const textNameRobot = screen.getByText(/Subir Robot/i);
     const textAvatarRobot = screen.getByText(/Subir AvatarRobot/i);
     const textFileRObot = screen.getByText(/Subir codigo python del Robot/i);
     expect(textNameRobot).toBeInTheDocument();

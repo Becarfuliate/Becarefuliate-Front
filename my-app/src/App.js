@@ -6,10 +6,12 @@ import store from './store/index';
 
 function App() {
   const [login, setLogin] = useState(false);
+  
   React.useEffect(() => {
     if (localStorage.getItem("user")) setLogin(true)
     else setLogin(false);
-  }, [localStorage]);
+  }, []);
+
   if(!login) return (
     <Provider store={store}>
       <HomePageUser/>
