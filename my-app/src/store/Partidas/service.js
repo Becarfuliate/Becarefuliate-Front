@@ -7,7 +7,8 @@ function getToken(){
     else return "";
 }
 
-async function servicioListarGames(token, callback) {
+async function servicioListarGames(callback) {
+    const token = JSON.parse(localStorage.getItem("user")).token;
     return await axios.get(baseURL + "/matchs?token=" + token)
       .then((response) => callback(response.data))
       .catch((error) => callback([]));

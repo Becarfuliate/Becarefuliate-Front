@@ -12,7 +12,7 @@ const maxMira = 360;
 
 function RobotEnJuego({imagen, x, y, xf, yf, nombre, num, vida, motor, mira, ronda}) {
 
-    // Check Bordes
+    // Check BordesRobotImages
     if (x < min) { x = min;}
     if (y < min) { y = min;}
     if (x > maxMov) { x = maxMov;}
@@ -47,18 +47,20 @@ function RobotEnJuego({imagen, x, y, xf, yf, nombre, num, vida, motor, mira, ron
     const robotstats = { transform: `translate(100%, ${num*105}%)`}
     const robotvid = { width: `${3.5*vida}px`}
     
+    /*
     if (vida === 0) {
         rimagen = "https://toppng.com/uploads/preview/dead-pixel-society-black-and-white-pixel-11563243949kkuykxltej.png";
     }
+    */
 
     return (
     <div key={ronda*(num+1)}>
         <div style={robotanimar} id="RobotEnJuego">
-            <img src={rimagen} alt=""></img>
+            <img src={`data:image/png;base64,${rimagen}`} alt=""></img>
             <p className="nombre">{nombre}</p>
         </div>
         <div style={robotstats} id="RobotStats">
-            <img src={rimagen} alt=""></img>
+            <img src={`data:image/png;base64,${rimagen}`} alt=""></img>
             <b className="nombre">Nombre: {nombre}</b>
             <b className="vidatext">{vida}%</b>
             <div className="maxvida"></div>

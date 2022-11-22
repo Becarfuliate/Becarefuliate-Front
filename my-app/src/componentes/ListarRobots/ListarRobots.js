@@ -1,65 +1,64 @@
+import {getDataRobotsUser} from '../../store/robots/actions';
 import React, {useEffect, useState} from "react";
+import {connect} from 'react-redux';
 import './ListarRobots.css';
-import exportServiceListarRobots from '../Servicios/serviceListarRobots';
+import axios from 'axios';
 
-const Loading = () => {
-    return (
-        <div id='content-list-robots-loading'>
-            <h5 className='loading-robots'>
-                Loading Robots
-                <span className='spinner-show'></span>
-            </h5>
-        </div>
-    );
-};
+// const defaultimgRobot = "./robot.png"
 
-const Listing = (props) => {
-    const listResults = props.robots.map((robot, index) =>
-            <li key={index} data-testid="robot-name">
-                <div className='block-robot'>
-                    <p><strong> ID:</strong> {robot.id}</p>
-                    <p><strong> Nombre:</strong>{robot.name}</p>
-                    <p><strong> Avatar:</strong>{robot.avatar}</p>
-                    <p><strong> Partidas Jugadas:</strong>{robot.matchs_pleyed}</p>
-                    <p><strong> Partidas Ganadas:</strong>{robot.matchs_won}</p>
-                    <p><strong> Tiempo promedio de vida:</strong>{robot.avg_life_time}</p>
-                </div>
-            </li>
-        )
-    return (
-        <ul id='list-robots'>{listResults}</ul>
-    );
-};
-
-const UserRobots = () => {
+function ListarRobots({getDataRobotsUser}){
     const [listRobots, setListRobots] = useState([]);
+    const [responseDataRobot, useResponseDataRobot] = useState(false);
+    
     useEffect(() => {
-        exportServiceListarRobots.serviceListRobots().then(listRobots => setListRobots(listRobots));
-    }, [setListRobots]);
+        if(responseDataRobot) setListRobots(JSON.parse(localStorage.getItem('robotListUser')));
+        else getDataRobotsUser(useResponseDataRobot);
+    }, [responseDataRobot, getDataRobotsUser]);
+
+    return (<Listing robots={listRobots}/>);
+};
+
+function Listing(listRobots) {
+
+    const listResults = [];
+
+    const [RobotImages, setRobotImages] = useState([]);
+    useEffect(() => {
+        const obtenerImagen = async (robot) => {
+            const tkn = JSON.parse(localStorage.getItem("user")).token;
+            const baseURL = "http://127.0.0.1:8000";
+            const response = await axios.get(baseURL + "/image", {params: { token: tkn, robot_id: robot.id }});
+            
+            setRobotImages(RobotImages => [...RobotImages, [response.data, robot.name, robot.id, robot.matchs_pleyed, robot.matchs_won]]);
+        }
+        // eslint-disable-next-line
+        listRobots.robots.map( robot => {
+            obtenerImagen(robot);
+        })
+    }, [listRobots])
+    
+
+    const len = listRobots.robots.length;
+    console.log(len);
+    // eslint-disable-next-line
+    RobotImages.slice(0, len).map((robot, index) => {
+        listResults.push(
+            <div className='block-robot' key={index} data-testid="robot-name">
+                <img src={`data:image/png;base64,${robot[0]}`} alt="" />
+                <p className="RobotName"> Nombre: {robot[1]} </p>
+                <p className="RobotId"> ID: {robot[2]} </p>
+                <p> Partidas Jugadas: {robot[3]} </p>
+                <p> Partidas Ganadas: {robot[4]} </p>
+            </div>
+        ) 
+    })
 
     return (
-        <div id='content-list-robots'>
-                {
-                (Array.isArray(listRobots) && listRobots.length) ?
-                    <Listing robots={listRobots}/>
-                :
-                    <Loading />
-                }
-        </div>
+        <div id="robot-list"> {listResults} </div>
     );
 };
 
-const ListarRobots = () => {
-    return (
-        <div>
-            <UserRobots />
-        </div>
-    );
-};
+export default connect(null, {getDataRobotsUser})(ListarRobots);
 
-const objListarRobots = {
-    ListarRobots,
-    Listing
-}
 
-export default objListarRobots;
+    
