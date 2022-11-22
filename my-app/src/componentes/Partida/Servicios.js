@@ -1,41 +1,55 @@
 import axios from "axios";
+import swal from "sweetalert";
+
 const baseURL = "http://127.0.0.1:8000";
+
+const defaultdataPartida = {
+  name: "",
+  max_players: "",
+  password: "",
+  n_matchs: "",
+  n_rounds_match: ""
+}
 
 async function servicioPartida(postData) {
   await axios
     .post(baseURL + "/match/add", postData)
     .then(function (response) {
-      console.log(response.status);
+      swal({
+        text: 'Partida creada.',
+        icon: 'success',
+        timer: '1800'
+      });
     })
     .catch(function (error) {
       if (error.response.status === 409) {
-        window.alert("Revise los campos e intente de nuevo");
+        swal({
+          text: error.response.data.detail,
+          icon: 'error'
+        });
       }
-      if (error.response) {
-        console.log(`Returned with error: ${error.response.status}`);
+      if (error.response.status === 422) {
+        swal({
+          text: error.response.data.detail[0].msg,
+          icon: 'error'
+        });
       }
     });
 }
 
-/*
-//name, max_players, password, n_matchs, n_rounds_match;
-async function servicioListarPartida() {
-  await axios
-    .get(baseURL + "/matchs")
-    .then((response) => {
-      const respuesta = response.data;
-      //      console.log(respuesta);
-      let lista_partidas = [];
-      //      console.log(lista_partidas);
-      respuesta.map(function (element) {
-        lista_partidas.push(`${element.name}`);
-      });
-      //      console.log(lista_partidas);
-      return lista_partidas[0];
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+function handleSubmit(dataPartida) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const postData = {
+    name: dataPartida.name,
+    max_players: dataPartida.max_players,
+    min_players: 2,
+    password: dataPartida.password,
+    n_matchs: dataPartida.n_matchs,
+    n_rounds_matchs: dataPartida.n_rounds_match,
+    user_creator: user.userlogin,
+    token: user.token,
+  };
+  servicioPartida(postData);
 }
-*/
-export const partidas = { servicioPartida };
+
+export {handleSubmit, defaultdataPartida};
