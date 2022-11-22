@@ -51,7 +51,7 @@ function Listing(listRobots) {
                 <p> Partidas Ganadas: {robot[4]} </p>
             </div>
         ) 
-    }) 
+    })
 
     return (
         <div id="robot-list"> {listResults} </div>
