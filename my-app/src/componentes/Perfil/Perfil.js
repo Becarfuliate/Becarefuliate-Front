@@ -13,6 +13,7 @@ const imgstyle = {
     borderRadius: "15px",
 }
 
+
 const Perfil = () => {
 
     const [perfilName, setperfilName] = useState("Pepe");
@@ -70,7 +71,7 @@ const Perfil = () => {
       }, []) 
 
     return (
-        <div className="form">
+        <div className="form" style={{maxWidth: 500}}>
             <form>
                 <Typography variant="h4"> Nombre de Usuario: </Typography>
                 <Typography variant="h5" sx={{margin:2}}color={"green"}> {perfilName} </Typography>
