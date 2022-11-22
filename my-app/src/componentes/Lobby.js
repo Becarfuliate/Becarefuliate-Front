@@ -1,7 +1,7 @@
 import { Box, styled, List, ListItem, ListItemAvatar, ListItemText, Avatar, Button, Typography } from '@mui/material';
 import { BrowserRouter as Switch, Route } from "react-router-dom";
 import {iniciarPartida} from './iniciarPartida/iniciarPartida';
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useEffect, useState, useRef } from 'react';
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiAppBar from '@mui/material/AppBar';
@@ -54,7 +54,7 @@ const Lobby = () => {
   //Funcion que filtra de todos las partidas con usuarios unidos a los que
   //se necesitan de la partida actual en la que me encuentro
   
-  const [dataSocket, setDataSocket] = useState({
+  const [dataSocket] = useState({
     matchId: objectState.matchID,
     robotId: objectState.robotID,
     tkn: user.token,
@@ -213,7 +213,9 @@ const handleOutMatch = () => {
   
     //usamos onopen para esta seguro que hay una conexion que esta escuchando
     //el msj que vamos a enviar
+
   ws.current.onopen = () => {
+
       ws.current.onmessage = (e) => {
         if(e.data) {
           let objResponse = JSON.parse(e.data)
@@ -235,9 +237,7 @@ const handleOutMatch = () => {
           }
         }
       }
-    }
-
-
+    }// eslint-disable-next-line
   }, [socketDisconnect, dataSocket, nameUser])
 
 useEffect(() => {

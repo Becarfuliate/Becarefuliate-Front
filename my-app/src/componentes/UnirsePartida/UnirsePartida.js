@@ -3,6 +3,7 @@ import Select from '@mui/material/Select';
 import { useHistory } from "react-router-dom";
 import { useState, useEffect, useRef} from 'react';
 import exportServiceListarRobots from '../Servicios/serviceListarRobots'
+import swal from "sweetalert";
 
 const SelectRobot = ({selectedRobotID, setSelectedRobotID}) => {
 
@@ -111,7 +112,11 @@ const InputModal = (props) => {
             setOpen(false);
             handleRouteLobby();
         } else {
-            alert("Quiere Unirse ?, seleccione un Robot");
+            swal({
+                text: "Quiere Unirse ?, seleccione un Robot",
+                icon: 'warning',
+                timer: '1800'
+            })
         }
     }
     

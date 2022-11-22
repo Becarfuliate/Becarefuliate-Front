@@ -20,13 +20,6 @@ function ViewJoinMatch({dataMatch}){
 function CrearPartida({sendDataGame, modifyDataNameGame, modifyDataPasswordGame, 
                       modifyDataRoundsGame, modifyDataGamesGame, modifyDataMaxPlayersGame}) {  
   const [dataMatch, getDataMatch] = useState({id_match: ""});
-  const [createdMatch, setCreatedMatch] = useState(false);
-  const [state, setState] = useState(defaultdataPartida);
-  const [lectura, setLectura] = useState(true);
-
-  const handleChange = (evt) => {
-    setState({ ...state, [evt.target.name]: evt.target.value });
-  };
   
   return (
     
@@ -40,7 +33,7 @@ function CrearPartida({sendDataGame, modifyDataNameGame, modifyDataPasswordGame,
           onChange={(e) => {modifyDataNameGame(e.target.value)}} required />
 
           <input type="number" name="max_players" placeholder="Cantidad de jugadores" 
-          onChange={handleChange} required/>
+          onChange={(e) => {modifyDataMaxPlayersGame(e.target.value)}} required/>
 
           <input type="password" name="password" placeholder="Contraseña" 
           onChange={(e) =>  modifyDataPasswordGame(e.target.value)} />
@@ -49,7 +42,7 @@ function CrearPartida({sendDataGame, modifyDataNameGame, modifyDataPasswordGame,
           onChange={(e) => modifyDataGamesGame(e.target.value)} required />
           
           <input type="number" name="n_rounds_match" placeholder="Cantidad de rondas" 
-          onChange={handleChange} required />
+           onChange={(e) => modifyDataRoundsGame(e.target.value)} required />
 
           <input type="button" value="Submit" onClick={() => sendDataGame(getDataMatch)}/>
         </form>
