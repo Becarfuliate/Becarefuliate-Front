@@ -19,9 +19,14 @@ function ViewJoinMatch({dataMatch}){
 
 function CrearPartida({sendDataGame, modifyDataNameGame, modifyDataPasswordGame, 
                       modifyDataRoundsGame, modifyDataGamesGame, modifyDataMaxPlayersGame}) {  
-  const [dataMatch, getDataMatch] = useState({id_match: ""});                 
+  const [dataMatch, getDataMatch] = useState({id_match: ""});
+  const [createdMatch, setCreatedMatch] = useState(false);
   
   return (
+    
+    (dataMatch.id_match !== "") ? 
+      <ViewJoinMatch dataMatch= {dataMatch}/>
+    :
     <div className="login-page">
       <div className="form">
         <form className="register-form">
@@ -43,7 +48,6 @@ function CrearPartida({sendDataGame, modifyDataNameGame, modifyDataPasswordGame,
           <input type="button" value="Submit" onClick={() => sendDataGame(getDataMatch)}/>
         </form>
         </div>
-        <ViewJoinMatch dataMatch= {dataMatch}/>
     </div>
   );
 }

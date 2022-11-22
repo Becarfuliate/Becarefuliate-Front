@@ -91,7 +91,6 @@ const InputModal = (props) => {
             }
         }
         
-        console.log(state.current)
         history.push("/lobby", state.current);
     }
     

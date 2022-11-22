@@ -62,10 +62,7 @@ const Lobby = () => {
     nameCreatorMatch: objectState.nameCreatorMatch
   })
   
-  const handleOutMatch = () => {
-    setSocketDisconnect(true);
-    console.log("Se abandono la Partida, socketDisconnect", socketDisconnect)
-  }
+
   
   const handleInitMatch = () => {
     // debugger;
@@ -92,127 +89,137 @@ const Lobby = () => {
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
+const addRobotMatchInLocalStorage = (matchID, robotID, user) => {
+  //Actualizar LocalStorage de los robots en la partida solo sobre el usuario
+  //Debe estar dentro de un condicional que aseguro que no se repite valores
+  // user son usuarios unidos
+  //Problema de un espacio, que hace false la igualdad, ej.:"k" !== " k"
+  // lo soluciona el trim que esta en el user del que proviene el parametro
+  if(user === nameUser) {
+    if(localStorage.getItem('robotsMatchs')) {
+      console.log("agregado si ya hay mas de uno")
+      let listRobotsMatchs = JSON.parse(localStorage.getItem('robotsMatchs'));
+      listRobotsMatchs.push({
+        matchId: matchID,
+        robotId: robotID,
+        user: user
+      });
+      localStorage.setItem('robotsMatchs',
+      JSON.stringify(listRobotsMatchs));     
+    } else {
+      console.log("agregado primera vez")
+      localStorage.setItem('robotsMatchs',JSON.stringify([{
+        matchId: matchID,
+        robotId: robotID,
+        user:user
+      }]));
+    }
+  }
+}
+const removeRobotMatchInLocalStorage = (matchID) => {
+  //Actualizar LocalStorage de los robots en la partida
+  //Debe estar dentro de un condicional que aseguro que no se repite valores
+  if(localStorage.getItem('robotsMatchs')) {
+    let listRobotsMatchs = JSON.parse(localStorage.getItem('robotsMatchs'));
+    let filtredRobotsMatchs = listRobotsMatchs.filter(elem =>
+                                  elem.matchId !== matchID)
+    localStorage.setItem('robotsMatchs',
+    JSON.stringify(filtredRobotsMatchs));
+  }
+}
+
+const isUserJoinAdded = (idJoinMatch, userName, robotName,
+  listUsersJoin) => {
+    let result = false;
+    let value = listUsersJoin.findIndex(elem => elem.matchId === idJoinMatch && elem.name === userName && elem.robot === robotName)
+    if(-1 !== value)
+      result = true;
+    return result;
+};
+//Almacenamiento de los usuarios que se van uniendo
+const addUserJoin = (idJoinMatch, userName, robotName) => {
+
+  let usersJoinLocalStorage = [];
+  if(localStorage.getItem('usersJoin')) {
+    usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
+  }
+  if(Array.isArray(usersJoinLocalStorage) && usersJoinLocalStorage.length) {
+      if(!isUserJoinAdded(idJoinMatch, userName, robotName, usersJoinLocalStorage)) {
+        usersJoinLocalStorage.push({
+          matchId : idJoinMatch,
+          name : userName,
+          robot : robotName,
+        });
+        localStorage.setItem('usersJoin',
+        JSON.stringify(usersJoinLocalStorage));
+        //Sobre robot en la partida del usuario
+        addRobotMatchInLocalStorage(idJoinMatch, dataSocket.robotId, userName);
+      }
+  } else {
+      localStorage.setItem('usersJoin', JSON.stringify([{
+        matchId : idJoinMatch,
+        name : userName,
+        robot : robotName,
+      }]));
+      addRobotMatchInLocalStorage(idJoinMatch, dataSocket.robotId, userName);
+  }
+}
+
+
+
+const removeUserJoin = (idJoinMatch, userName, robotName) => {
+  let usersJoinLocalStorage = [];
+  if(localStorage.getItem('usersJoin')) {
+    usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
+    if(Array.isArray(usersJoinLocalStorage)
+    && usersJoinLocalStorage.length) {
+      if(isUserJoinAdded(idJoinMatch, userName, robotName, usersJoinLocalStorage)) {
+        console.log("usuarios unidos:", usersJoinLocalStorage);
+        console.log(idJoinMatch, userName, robotName);
+        // elem.matchId === idJoinMatch && elem.name === userName && elem.robot === robotName
+        let filtredArray = usersJoinLocalStorage.filter(elem => elem.matchId !== idJoinMatch || elem.name !== userName || elem.robot !== robotName)
+        localStorage.setItem('usersJoin', JSON.stringify(filtredArray));
+        console.log("userListMatch", filtredArray);
+        removeRobotMatchInLocalStorage(idJoinMatch);
+
+        console.log("usuarios removidos ", filtredArray)
+      }
+    }
+  }
+}
+
+const handleMessageJoin = (message) => {
+console.log(message)
+// "join":"usuario:robot, usuario:robot"
+let listMessage = message.split(",")
+for(let element of listMessage) {
+  let user = element.split(":")[0];
+  let robot = element.split(":")[1];
+  addUserJoin(dataSocket.matchId, user.trim(), robot.trim())
+}
+console.log("agregado")
+}
+
+const handleMessageLeave = (message) => {
+  console.log(message)
+  let user = message.split(":")[0];
+  let robot = message.split(":")[1];
+  removeUserJoin(dataSocket.matchId, user.trim(), robot.trim())
+  console.log("removido")
+}
+
+const handleOutMatch = () => {
+  console.log("openned, envio peticion de dejar match")
+  localStorage.removeItem('usersJoin');
+  setUsersJoin([]);
+  ws.current.send(JSON.stringify({"connection": "close"}));
+  setSocketDisconnect(true);
+  
+}
+
   useEffect(() => {
 
-    const addRobotMatchInLocalStorage = (matchID, robotID, user) => {
-      //Actualizar LocalStorage de los robots en la partida solo sobre el usuario
-      //Debe estar dentro de un condicional que aseguro que no se repite valores
-      // user son usuarios unidos
-      //Problema de un espacio, que hace false la igualdad, ej.:"k" !== " k"
-      // lo soluciona el trim que esta en el user del que proviene el parametro
-      if(user === nameUser) {
-        if(localStorage.getItem('robotsMatchs')) {
-          console.log("agregado si ya hay mas de uno")
-          let listRobotsMatchs = JSON.parse(localStorage.getItem('robotsMatchs'));
-          listRobotsMatchs.push({
-            matchId: matchID,
-            robotId: robotID,
-            user: user
-          });
-          localStorage.setItem('robotsMatchs',
-          JSON.stringify(listRobotsMatchs));     
-        } else {
-          console.log("agregado primera vez")
-          localStorage.setItem('robotsMatchs',JSON.stringify([{
-            matchId: matchID,
-            robotId: robotID,
-            user:user
-          }]));
-        }
-      }
-    }
   
-    const removeRobotMatchInLocalStorage = (matchID) => {
-      //Actualizar LocalStorage de los robots en la partida
-      //Debe estar dentro de un condicional que aseguro que no se repite valores
-      if(localStorage.getItem('robotsMatchs')) {
-        let listRobotsMatchs = JSON.parse(localStorage.getItem('robotsMatchs'));
-        let filtredRobotsMatchs = listRobotsMatchs.filter(elem =>
-                                      elem.matchId !== matchID)
-        localStorage.setItem('robotsMatchs',
-        JSON.stringify(filtredRobotsMatchs));
-      }
-    }
-
-    const isUserJoinAdded = (idJoinMatch, userName, robotName,
-      listUsersJoin) => {
-        let result = false;
-        let value = listUsersJoin.findIndex(elem => elem.matchId === idJoinMatch && elem.name === userName && elem.robot === robotName)
-        if(-1 !== value)
-          result = true;
-        return result;
-    };
-    //Almacenamiento de los usuarios que se van uniendo
-    const addUserJoin = (idJoinMatch, userName, robotName) => {
-
-      let usersJoinLocalStorage = [];
-      if(localStorage.getItem('usersJoin')) {
-        usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
-      }
-      if(Array.isArray(usersJoinLocalStorage) && usersJoinLocalStorage.length) {
-          if(!isUserJoinAdded(idJoinMatch, userName, robotName, usersJoinLocalStorage)) {
-            usersJoinLocalStorage.push({
-              matchId : idJoinMatch,
-              name : userName,
-              robot : robotName,
-            });
-            localStorage.setItem('usersJoin',
-            JSON.stringify(usersJoinLocalStorage));
-            //Sobre robot en la partida del usuario
-            addRobotMatchInLocalStorage(idJoinMatch, dataSocket.robotId, userName);
-          }
-      } else {
-          localStorage.setItem('usersJoin', JSON.stringify([{
-            matchId : idJoinMatch,
-            name : userName,
-            robot : robotName,
-          }]));
-          addRobotMatchInLocalStorage(idJoinMatch, dataSocket.robotId, userName);
-      }
-    }
-
-
-
-    const removeUserJoin = (idJoinMatch, userName, robotName) => {
-      let usersJoinLocalStorage = [];
-      if(localStorage.getItem('usersJoin')) {
-        usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
-        if(Array.isArray(usersJoinLocalStorage)
-        && usersJoinLocalStorage.length) {
-          if(isUserJoinAdded(idJoinMatch, userName, robotName, usersJoinLocalStorage)) {
-            console.log("usuarios unidos:", usersJoinLocalStorage);
-            console.log(idJoinMatch, userName, robotName);
-            // elem.matchId === idJoinMatch && elem.name === userName && elem.robot === robotName
-            let filtredArray = usersJoinLocalStorage.filter(elem => elem.matchId !== idJoinMatch || elem.name !== userName || elem.robot !== robotName)
-            localStorage.setItem('usersJoin',
-            JSON.stringify(filtredArray));
-            removeRobotMatchInLocalStorage(idJoinMatch);
-
-            console.log("usuarios removidos ", filtredArray)
-          }
-        }
-      }
-  }
-
-  const handleMessageJoin = (message) => {
-    console.log(message)
-    // "join":"usuario:robot, usuario:robot"
-    let listMessage = message.split(",")
-    for(let element of listMessage) {
-      let user = element.split(":")[0];
-      let robot = element.split(":")[1];
-      addUserJoin(dataSocket.matchId, user.trim(), robot.trim())
-    }
-    console.log("agregado")
-  }
-
-  const handleMessageLeave = (message) => {
-      console.log(message)
-      let user = message.split(":")[0];
-      let robot = message.split(":")[1];
-      removeUserJoin(dataSocket.matchId, user.trim(), robot.trim())
-      console.log("removido")
-  }
     //usamos onopen para esta seguro que hay una conexion que esta escuchando
     //el msj que vamos a enviar
   ws.current.onopen = () => {
@@ -249,9 +256,9 @@ useEffect(() => {
               ws.current.onclose = (event) =>
               {
                   alert('Onclose called' + JSON.stringify(event, Object.getOwnPropertyNames(event)));
-                  alert('code is' + event.code);
-                  alert('reason is ' + event.reason);
-                  alert('wasClean  is' + event.wasClean);
+                  // alert('code is' + event.code);
+                  // alert('reason is ' + event.reason);
+                  // alert('wasClean  is' + event.wasClean);
               }
 }, [])
 
@@ -266,6 +273,7 @@ useEffect(() => {
   let usersJoinLocalStorage = [];
   if(localStorage.getItem('usersJoin')) {
     usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
+    console.log("lista de usuarios: ", )
     if(Array.isArray(usersJoinLocalStorage) && usersJoinLocalStorage.length) {
       setUsersJoin(filtredUsersJoinOfMatch(dataSocket.matchId, usersJoinLocalStorage));
       setUsersJoinChange(false);
