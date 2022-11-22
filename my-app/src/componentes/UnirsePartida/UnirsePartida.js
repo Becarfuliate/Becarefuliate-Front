@@ -16,36 +16,38 @@ const SelectRobot = ({selectedRobotID, setSelectedRobotID}) => {
     useEffect(() => {
         exportServiceListarRobots.serviceListRobots().then(listRobots => setListRobots(listRobots));
     }, [setListRobots]);
-
+    
     return (
-        <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Seleccione su Robot
-        </InputLabel>
-        <Select
-            sx={{
-                background: 'white',
-                color: 'black',
-            }}
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={selectedRobotID}
-            label="Robot"
-            onChange={handleChange}
-        >
-            {
-                (Array.isArray(listRobots) && listRobots.length) ?
-                listRobots.map((robot, index) =>
-                    <MenuItem key={index} value={robot.id}>
-                        <em>{robot.name}</em>
-                    </MenuItem>
-                )
-                :
-                <MenuItem value="">
-                    <em>Debe agregar robots para poder combatir</em>
-                </MenuItem>
-            }
-        </Select>
-        </FormControl>
+        <div>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Seleccione su Robot
+                </InputLabel>
+                <Select
+                    sx={{
+                        background: 'white',
+                        color: 'black',
+                    }}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={selectedRobotID}
+                    label="Robot"
+                    onChange={handleChange}
+                >
+                    {
+                        (Array.isArray(listRobots) && listRobots.length) ?
+                        listRobots.map((robot, index) =>
+                            <MenuItem key={index} value={robot.id}>
+                                <em>{robot.name}</em>
+                            </MenuItem>
+                        )
+                        :
+                        <MenuItem value="">
+                            <em>Debe agregar robots para poder combatir</em>
+                        </MenuItem>
+                    }
+                </Select>
+            </FormControl>
+        </div>
     );
 };
 
@@ -126,62 +128,64 @@ const InputModal = (props) => {
     }
 
     return (
-        <div>
-        <Button onClick={handleOpen}>
-            {props.stateMatch}
-        </Button>
-        <Modal
-            open={open}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box
-                component="form"
-                sx={{
-                    '& > :not(style)': { m: 1, width: '25ch' },
-                }}
-                noValidate
-                autoComplete="off"
+        <form>
+            <div>
+            <Button onClick={handleOpen}>
+                {props.stateMatch}
+            </Button>
+            <Modal
+                open={open}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
             >
-            {passRequired && 
-                <TextField
-                sx={{
-                    background: 'white',
-                    color: 'black',
-                }}
-                required
-                id="standard-password-input"
-                label="Password Match"
-                type="password"
-                autoComplete="current-password"
-                variant="standard"
-                value = {passMatch}
-                onChange = {onChangePasswordMatch}
-                />
-            }
-            {
-                !joined &&
-                <SelectRobot 
-                    selectedRobotID = {selectedRobotID}
-                    setSelectedRobotID = {setSelectedRobotID}
-                />
-            }
-            {
-
-            }
-            <Button variant="contained" onClick={handleCloseToLobby}>
-                {
-                    joined ? 
-                    'Ir al Lobby':
-                    'Si has seleccionado a tu robot puedes ir al Lobby'
+                <Box
+                    component="form"
+                    sx={{
+                        '& > :not(style)': { m: 1, width: '25ch' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                >
+                {passRequired && 
+                    <TextField
+                    sx={{
+                        background: 'white',
+                        color: 'black',
+                    }}
+                    required
+                    id="standard-password-input"
+                    label="Password Match"
+                    type="password"
+                    autoComplete="current-password"
+                    variant="standard"
+                    value = {passMatch}
+                    onChange = {onChangePasswordMatch}
+                    />
                 }
-            </Button>
-            <Button variant="contained" onClick={handleClose}>
-                Cerrar
-            </Button>
-            </Box>
-        </Modal>
-        </div>
+                {
+                    !joined &&
+                    <SelectRobot 
+                        selectedRobotID = {selectedRobotID}
+                        setSelectedRobotID = {setSelectedRobotID}
+                    />
+                }
+                {
+
+                }
+                <Button variant="contained" onClick={handleCloseToLobby}>
+                    {
+                        joined ? 
+                        'Ir al Lobby':
+                        'Si has seleccionado a tu robot puedes ir al Lobby'
+                    }
+                </Button>
+                <Button variant="contained" onClick={handleClose}>
+                    Cerrar
+                </Button>
+                </Box>
+            </Modal>
+            </div>
+        </form>
     );
 }
 
