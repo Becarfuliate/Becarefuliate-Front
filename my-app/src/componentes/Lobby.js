@@ -71,7 +71,7 @@ const Lobby = () => {
       if(response.state === 'OK'){
         swal({text: 'Ganador: ' + response.data.ganador,icon: 'success'});
       } else {
-        swal({text: 'ERROR',icon: 'success'});
+        swal({text: 'ERROR',icon: 'error'});
       }
     }); 
   };
