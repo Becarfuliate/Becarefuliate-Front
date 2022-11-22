@@ -1,12 +1,13 @@
-import { Box, styled, Link, List, ListItem, ListItemAvatar, ListItemText, Avatar, Button, Typography } from '@mui/material';
+import { Box, styled, List, ListItem, ListItemAvatar, ListItemText, Avatar, Button, Typography } from '@mui/material';
 import { BrowserRouter as Switch, Route } from "react-router-dom";
+import {iniciarPartida} from './iniciarPartida/iniciarPartida';
 import { useLocation, useHistory } from "react-router-dom";
 import { useEffect, useState, useRef } from 'react';
 import MuiToolbar from '@mui/material/Toolbar';
 import MuiAppBar from '@mui/material/AppBar';
 import HomepageLogin from './HomePageLogin';
 import * as React from 'react';
-import {iniciarPartida} from './iniciarPartida/iniciarPartida';
+import swal from "sweetalert";
 
 const Toolbar = styled(MuiToolbar)(({ theme }) => ({
   height: 64,
@@ -32,7 +33,7 @@ const Lobby = () => {
   const [socketDisconnect, setSocketDisconnect] = useState(false);
   const [usersJoin, setUsersJoin] = useState([]); // array vacio
   const [usersJoinChange, setUsersJoinChange] = useState(false);
-  const [initFinalized, setInitFinalized] = useState(false);
+  //const [initFinalized, setInitFinalized] = useState(false);
   // const [goHome, setGoHome] = useState(false);
   //elementos traidos como un objeto de UnirsePartida
   // matchID: props.matchID,
@@ -48,8 +49,8 @@ const Lobby = () => {
   
   let user = JSON.parse(localStorage.getItem('user'));
   const nameUser = user.userlogin;
-  const [startMatchResponse, setStartMatchResponse] = useState({});
-  const [resultMatchResponse, setResultMatchResponse] = useState({});
+  //const [startMatchResponse, setStartMatchResponse] = useState({});
+  //const [resultMatchResponse, setResultMatchResponse] = useState({});
   //Funcion que filtra de todos las partidas con usuarios unidos a los que
   //se necesitan de la partida actual en la que me encuentro
   
@@ -64,13 +65,16 @@ const Lobby = () => {
   
 
   
-  const handleInitMatch = () => {
-    // debugger;
-    console.log("Aqui poner la logica del iniciar");
-    iniciarPartida({id_match: dataSocket.matchId, token: user.token}).then( response => setStartMatchResponse(response));
-    console.log(startMatchResponse);
+  const handleInitMatch = async () => {
+    await iniciarPartida({id_match: dataSocket.matchId, token: user.token})
+    .then( response => {
+      if(response.state === 'OK'){
+        swal({text: 'Ganador: ' + response.data.ganador,icon: 'success'});
+      } else {
+        swal({text: 'ERROR',icon: 'success'});
+      }
+    }); 
   };
-  
   const isCreatorOfMatch = (user, dataOfuserMatch) => {
     //dataOfuserMatch, nameCreatorMatch: "loco:ivanpereyra6654@gmail.com"
     let username = dataOfuserMatch.split(":")[0];
@@ -82,7 +86,6 @@ const Lobby = () => {
   const ws = useRef(null);
   useEffect(() => {
     const socket = new WebSocket(`ws://localhost:8000/ws/match/${dataSocket.matchId}/${dataSocket.tkn}/${dataSocket.robotId}`);
-    console.log("socket: ", socket)
     ws.current = socket;
   }, [dataSocket])
 
@@ -97,7 +100,6 @@ const addRobotMatchInLocalStorage = (matchID, robotID, user) => {
   // lo soluciona el trim que esta en el user del que proviene el parametro
   if(user === nameUser) {
     if(localStorage.getItem('robotsMatchs')) {
-      console.log("agregado si ya hay mas de uno")
       let listRobotsMatchs = JSON.parse(localStorage.getItem('robotsMatchs'));
       listRobotsMatchs.push({
         matchId: matchID,
@@ -107,7 +109,6 @@ const addRobotMatchInLocalStorage = (matchID, robotID, user) => {
       localStorage.setItem('robotsMatchs',
       JSON.stringify(listRobotsMatchs));     
     } else {
-      console.log("agregado primera vez")
       localStorage.setItem('robotsMatchs',JSON.stringify([{
         matchId: matchID,
         robotId: robotID,
@@ -174,22 +175,16 @@ const removeUserJoin = (idJoinMatch, userName, robotName) => {
     if(Array.isArray(usersJoinLocalStorage)
     && usersJoinLocalStorage.length) {
       if(isUserJoinAdded(idJoinMatch, userName, robotName, usersJoinLocalStorage)) {
-        console.log("usuarios unidos:", usersJoinLocalStorage);
-        console.log(idJoinMatch, userName, robotName);
         // elem.matchId === idJoinMatch && elem.name === userName && elem.robot === robotName
         let filtredArray = usersJoinLocalStorage.filter(elem => elem.matchId !== idJoinMatch || elem.name !== userName || elem.robot !== robotName)
         localStorage.setItem('usersJoin', JSON.stringify(filtredArray));
-        console.log("userListMatch", filtredArray);
         removeRobotMatchInLocalStorage(idJoinMatch);
-
-        console.log("usuarios removidos ", filtredArray)
       }
     }
   }
 }
 
 const handleMessageJoin = (message) => {
-console.log(message)
 // "join":"usuario:robot, usuario:robot"
 let listMessage = message.split(",")
 for(let element of listMessage) {
@@ -197,19 +192,15 @@ for(let element of listMessage) {
   let robot = element.split(":")[1];
   addUserJoin(dataSocket.matchId, user.trim(), robot.trim())
 }
-console.log("agregado")
 }
 
 const handleMessageLeave = (message) => {
-  console.log(message)
   let user = message.split(":")[0];
   let robot = message.split(":")[1];
   removeUserJoin(dataSocket.matchId, user.trim(), robot.trim())
-  console.log("removido")
 }
 
 const handleOutMatch = () => {
-  console.log("openned, envio peticion de dejar match")
   localStorage.removeItem('usersJoin');
   setUsersJoin([]);
   ws.current.send(JSON.stringify({"connection": "close"}));
@@ -223,9 +214,7 @@ const handleOutMatch = () => {
     //usamos onopen para esta seguro que hay una conexion que esta escuchando
     //el msj que vamos a enviar
   ws.current.onopen = () => {
-      console.log("openned, escuchando respuestas del back")
       ws.current.onmessage = (e) => {
-        console.log("got message: ", e.data)
         if(e.data) {
           let objResponse = JSON.parse(e.data)
           if(objResponse.join) {
@@ -273,7 +262,6 @@ useEffect(() => {
   let usersJoinLocalStorage = [];
   if(localStorage.getItem('usersJoin')) {
     usersJoinLocalStorage = JSON.parse(localStorage.getItem('usersJoin'));
-    console.log("lista de usuarios: ", )
     if(Array.isArray(usersJoinLocalStorage) && usersJoinLocalStorage.length) {
       setUsersJoin(filtredUsersJoinOfMatch(dataSocket.matchId, usersJoinLocalStorage));
       setUsersJoinChange(false);

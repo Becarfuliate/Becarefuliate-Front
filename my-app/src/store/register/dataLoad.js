@@ -11,7 +11,7 @@ async function loadDataUser(dataRegisterUser){
       })
       .catch( (error) => {
         if (error.response.status === 409) alert(error.response.data.detail);
-        else alert(error.response.status);
+        else alert("ERROR en los datos");
       });
 }
 
