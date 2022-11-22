@@ -1,5 +1,4 @@
 import {render, screen, fireEvent} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import Login from '../Login/Login';
 jest.mock('axios') // reemplaza el axios real por un objeto fake
