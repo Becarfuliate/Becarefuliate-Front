@@ -1,11 +1,12 @@
 import { useHistory, Switch, Route, Link } from "react-router-dom";
 import { AppBar, Button, createTheme, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, ThemeProvider, Toolbar, Typography } from "@mui/material";
 import { blueGrey, indigo } from "@mui/material/colors";
-import { Adb, AddBox, ExitToApp, FileUpload, Menu, Public, SportsEsports } from "@mui/icons-material";
+import { Adb, AddBox, ExitToApp, FileUpload, Home, Menu, Public, SportsEsports } from "@mui/icons-material";
 import { useState } from "react";
 
 // Routes
 import home from "./Home";
+import Perfil from "./Perfil/Perfil";
 import crearSimulacion from "./Simulacion/crearSimulacion";
 import Simulacion from "./Simulacion/Simulacion";
 import ListarPartida from "./ListarPartida/ListarPartida";
@@ -35,6 +36,7 @@ function HomepageLogin() {
       </ThemeProvider>
       <Switch>
         <Route path="/home" component={home} />
+        <Route path="/perfil" component={Perfil} />
         <Route path="/crearSimulacion" component={crearSimulacion} />
         <Route path="/simulacion" component={Simulacion} />
         <Route path="/listarPartidas" component={ListarPartida} />
@@ -71,7 +73,7 @@ const Navbar = (props) => {
             PyRobots
           </Typography>
 
-          <Button href="/home" variant="text" color="inherit" sx={{position: "absolute", right: 20}}>
+          <Button href="/perfil" variant="text" color="inherit" sx={{position: "absolute", right: 20}}>
             {nameUser}
           </Button>
 
@@ -107,6 +109,15 @@ const Items = () => {
   return(
     <div>
       <List component='nav'>
+      <ListItem button component={Link} to="/home">
+          <ListItemIcon>
+            <Home/>
+          </ListItemIcon>
+          <ListItemText>
+            Home
+          </ListItemText>
+        </ListItem>
+
         <ListItem button component={Link} to="/crearSimulacion">
           <ListItemIcon>
             <SportsEsports/>
