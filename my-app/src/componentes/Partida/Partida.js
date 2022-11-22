@@ -15,10 +15,17 @@ function ViewJoinMatch({dataMatch}){
             />);
   else 
     return <div></div>;
-}
+}  
 
 function CrearPartida({sendDataGame, modifyDataNameGame, modifyDataPasswordGame, 
                       modifyDataRoundsGame, modifyDataGamesGame, modifyDataMaxPlayersGame}) {  
+                        
+  const [state, setState] = useState(defaultdataPartida);
+  const [lectura, setLectura] = useState(true);
+
+  const handleChange = (evt) => {
+    setState({ ...state, [evt.target.name]: evt.target.value });
+  };
   const [dataMatch, getDataMatch] = useState({id_match: ""});
   const [createdMatch, setCreatedMatch] = useState(false);
   
@@ -33,8 +40,8 @@ function CrearPartida({sendDataGame, modifyDataNameGame, modifyDataPasswordGame,
           <input type="text" name="name" placeholder="Nombre de partida" 
           onChange={(e) => {modifyDataNameGame(e.target.value)}} required />
 
-          <input type="number" name="max_players" placeholder="Maximo de jugadores" 
-          onChange={(e) => modifyDataMaxPlayersGame(e.target.value)} required/>
+          <input type="number" name="max_players" placeholder="Cantidad de jugadores" 
+          onChange={handleChange} required/>
 
           <input type="password" name="password" placeholder="Contraseña" 
           onChange={(e) =>  modifyDataPasswordGame(e.target.value)} />
@@ -42,8 +49,8 @@ function CrearPartida({sendDataGame, modifyDataNameGame, modifyDataPasswordGame,
           <input type="number" name="n_matchs" placeholder="Cantidad de juegos" 
           onChange={(e) => modifyDataGamesGame(e.target.value)} required />
           
-          <input type="number" name="n_rounds_match" placeholder="Maximo de rondas" 
-          onChange={(e) => modifyDataRoundsGame(e.target.value)} required />
+          <input type="number" name="n_rounds_match" placeholder="Cantidad de rondas" 
+          onChange={handleChange} required />
 
           <input type="button" value="Submit" onClick={() => sendDataGame(getDataMatch)}/>
         </form>

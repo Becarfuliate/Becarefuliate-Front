@@ -1,10 +1,13 @@
 import "./Misil.css";
 
-const min = 0;
-const tamaño = 5;
-const maxBorde = 1021-tamaño;
+// Size Constants
+const tamaño = 3;
+const maxBorde = 561.55-tamaño;
 
-//The Robot size of 21x21px.
+// Logical Constants
+const min = 0;
+const maxMov = 1000;
+
 function Misil({xmis, ymis, xmisf, ymisf, num, ronda}) {
     
     let show = false;
@@ -17,18 +20,18 @@ function Misil({xmis, ymis, xmisf, ymisf, num, ronda}) {
     // Check Bordes
     if (xmis < min) { xmis = min;}
     if (ymis < min) { ymis = min;}
-    if (xmis > maxBorde) { xmis = maxBorde;}
-    if (ymis > maxBorde) { ymis = maxBorde;}
+    if (xmis > maxMov) { xmis = maxMov;}
+    if (ymis > maxMov) { ymis = maxMov;}
     if (xmisf < min) { xmisf = min;}
     if (ymisf < min) { ymisf = min;}
-    if (xmisf > maxBorde) { xmisf = maxBorde;}
-    if (ymisf > maxBorde) { ymisf = maxBorde;}
+    if (xmisf > maxMov) { xmisf = maxMov;}
+    if (ymisf > maxMov) { ymisf = maxMov;}
 
     //Misil: Aplicar Coordenadas.
-    document.documentElement.style.setProperty("--xinitmis_" + num, xmis + "px");
-    document.documentElement.style.setProperty("--yinitmis_" + num, (maxBorde-ymis) + "px");
-    document.documentElement.style.setProperty("--xfinalmis_" + num, xmisf + "px");
-    document.documentElement.style.setProperty("--yfinalmis_" + num, (maxBorde-ymisf) + "px");
+    document.documentElement.style.setProperty("--xinitmis_" + num, (xmis*0.55) + "px");
+    document.documentElement.style.setProperty("--yinitmis_" + num, (maxBorde-(ymis*0.55)) + "px");
+    document.documentElement.style.setProperty("--xfinalmis_" + num, (xmisf*0.55) + "px");
+    document.documentElement.style.setProperty("--yfinalmis_" + num, (maxBorde-(ymisf*0.55)) + "px");
 
     const misilanimar = { animation: `animatemis_${num} 1s linear forwards`}
 

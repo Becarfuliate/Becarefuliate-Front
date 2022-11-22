@@ -33,13 +33,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }));
 
-
 function ListarPartida({getDataGamesUser}) {
   const [listPartidas, setListPartidas] = useState([]);
   
   useEffect(() => {
     getDataGamesUser(setListPartidas);
   }, [getDataGamesUser]);
+
   
   let user = JSON.parse(localStorage.getItem('user'));
   //Funcion para saber si se logueo con email o username, asi saber

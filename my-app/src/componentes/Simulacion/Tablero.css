@@ -1,7 +1,7 @@
 #Tablero {
     position: relative;
-    width: 1021px;
-    height: 1021px;
+    width: 561.55px;
+    height: 561.55px;
     border: solid 5px black;
     background-color: burlywood;
     list-style-type: none;
@@ -10,18 +10,18 @@
 .supervivientes {
     position: relative;
     top: 35%;
-    left: 30%;
-    width: 600px;
-    height: 200px;
+    left: 15%;
+    width: 400px;
+    height: 150px;
     background-color: lavenderblush;
     border: solid 3px black;
     word-spacing: 5px;
-    font-size: xx-large;
+    font-size: x-large;
     font-weight: bolder;
     color: red;
 }
 
-.supervivientes li {
+.supervivientes div {
     position: relative;
     left: 15%;
     color: black;

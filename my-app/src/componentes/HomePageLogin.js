@@ -1,14 +1,16 @@
 import { useHistory, Switch, Route, Link } from "react-router-dom";
-import { AppBar, Button, createTheme, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, ThemeProvider, Toolbar } from "@mui/material";
+import { AppBar, Button, createTheme, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, ThemeProvider, Toolbar, Typography } from "@mui/material";
 import { blueGrey, indigo } from "@mui/material/colors";
 import { Adb, AddBox, ExitToApp, FileUpload, Menu, Public, SportsEsports } from "@mui/icons-material";
 import { useState } from "react";
 
 // Routes
+import home from "./Home";
 import crearSimulacion from "./Simulacion/crearSimulacion";
+import Simulacion from "./Simulacion/Simulacion";
 import ListarPartida from "./ListarPartida/ListarPartida";
 import Partida from "./Partida/Partida";
-import objListarRobots from "./ListarRobots/ListarRobots";
+import ListarRobots from "./ListarRobots/ListarRobots";
 import AgregarRobot from "./AgregarRobot/AgregarRobot";
 import Lobby from "./Lobby";
 
@@ -33,10 +35,12 @@ function HomepageLogin() {
         <Cajon variant="temporary" open={isDrawerOpen} onClose={actionOpen}/>
       </ThemeProvider>
       <Switch>
-        <Route exact path="/user/crearSimulacion" component={crearSimulacion} />
+        <Route path="/home" component={home} />
+        <Route path="/crearSimulacion" component={crearSimulacion} />
+        <Route path="/simulacion" component={Simulacion} />
         <Route path="/listarPartidas" component={ListarPartida} />
-        <Route path="/user/crearPartida" component={Partida} />
-        <Route path="/listarRobot" component={objListarRobots.ListarRobots} />
+        <Route path="/crearPartida" component={Partida} />
+        <Route path="/listarRobot" component={ListarRobots} />
         <Route path="/subirRobot" component={AgregarRobot} />
         <Route path="/signOff" component={SignOff} />
         <Route exact path="/lobby" component={Lobby} />
@@ -65,7 +69,11 @@ const Navbar = (props) => {
             <Menu />
           </IconButton>
 
-          <Button variant="text" color="inherit" sx={{position: "absolute", right: 20}}>
+          <Typography variant="h5" sx={{fontWeight:"bold", marginLeft:"42%"}}>
+            PyRobots
+          </Typography>
+
+          <Button href="/home" variant="text" color="inherit" sx={{position: "absolute", right: 20}}>
             {nameUser}
           </Button>
 
@@ -85,7 +93,11 @@ const Cajon = (props) => {
       open={props.open}
       onClose={props.onClose ? props.onClose : null}
     >
-      <Toolbar/>
+      <Toolbar>
+        <Typography variant="h6" sx={{color:"grey", fontWeight:"bold", marginLeft:"23%"}}>
+          PyRobots
+        </Typography>
+        </Toolbar>
       <Divider/>
       <Items/>
 
@@ -97,7 +109,7 @@ const Items = () => {
   return(
     <div>
       <List component='nav'>
-        <ListItem button component={Link} to="/user/crearSimulacion">
+        <ListItem button component={Link} to="/crearSimulacion">
           <ListItemIcon>
             <SportsEsports/>
           </ListItemIcon>
@@ -115,7 +127,7 @@ const Items = () => {
           </ListItemText>
         </ListItem>
 
-        <ListItem button component={Link} to="/user/crearPartida">
+        <ListItem button component={Link} to="/crearPartida">
           <ListItemIcon>
             <AddBox/>
           </ListItemIcon>
