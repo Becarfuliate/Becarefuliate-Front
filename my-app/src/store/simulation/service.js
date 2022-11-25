@@ -1,24 +1,25 @@
 import verifyDataSimulation from './verifyData';
-import axios from "axios";
+import {API, endpoints, getToken, getUserLogin} from '../api';
 
-const baseURL = "http://127.0.0.1:8000";
-const endpointRunSimulation = "/simulation/add";
+function handleResponseRunSimulation(response, callback){
+    callback(response.status === 200);
+    if(response.status === 200){
+        localStorage.setItem("simulacion", JSON.stringify(response.data));
+        return {state: 'OK', data: ''};
+    } else {
+        return {state: 'ERROR', data: response};
+    }
+};
+
 async function runSimulation(dataSimulation, callback){ 
     if(verifyDataSimulation(dataSimulation)){
         dataSimulation.id_robot = dataSimulation.id_robot.substring(1);
-        dataSimulation.user_creator = JSON.parse(localStorage.getItem("user")).userlogin;
-        dataSimulation.token = JSON.parse(localStorage.getItem("user")).token;
+        dataSimulation.user_creator = getUserLogin();
+        dataSimulation.token = getToken();
         
-        return await axios.post(baseURL + endpointRunSimulation, dataSimulation)
-        .then((response) => {
-            localStorage.setItem("simulacion", JSON.stringify(response.data));
-            callback(true);
-            return {state: 'OK', data: response};
-        })
-        .catch((err) => {
-            callback(false);
-            return {state: 'ERROR', data: err};
-        });
+        return await API.post(endpoints.runSimulation, dataSimulation)
+        .then((response) => handleResponseRunSimulation(response, callback))
+        .catch((err) => handleResponseRunSimulation(err, callback));
     }
     callback(false);
     return {state: 'ERROR', data: ''};
