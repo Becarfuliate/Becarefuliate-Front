@@ -1,11 +1,6 @@
 import exportServiceLogin from '../../componentes/Servicios/serviceLogin';
+import {API, endpoints, getToken, alertSwal} from '../api';
 import verifyDataRobot from './verifyDataRobot';
-import swal from 'sweetalert';
-import {API, endpoints, getToken} from '../api';
-
-function alertSwal(msg, icon){
-    swal({ text: msg, icon: icon, timer: '2500' }); 
-}
 
 const handleResponseUploadRobot = (code) => {
     alertSwal('Error en los datos', 'error'); 

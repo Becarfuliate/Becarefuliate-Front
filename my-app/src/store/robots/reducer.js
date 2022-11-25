@@ -13,11 +13,11 @@ function reducer(dataRobot = defaultDataRobot, action){
 
     if (action.type === 'GET_DATA_ROBOTS_USER') 
         serviceListRobots(action.data);
-    else if (action.type === 'MODIFY_DATA_NAME_ROBOT') 
+    else if (action.type === 'GET_DATA_NAME_ROBOT') 
         return dataRobotChange({attribute:'name', value: action.data});
-    else if (action.type === 'MODIFY_DATA_CONFIG_ROBOT') 
+    else if (action.type === 'GET_DATA_CONFIG_ROBOT') 
         return dataRobotChange({attribute:'config', value: action.data});
-    else if (action.type === 'MODIFY_DATA_AVATAR_ROBOT') 
+    else if (action.type === 'GET_DATA_AVATAR_ROBOT') 
         return dataRobotChange({attribute:'avatar', value: action.data});
     else if(action.type === 'SEND_DATA_ROBOT') 
         serviceUploadRobot(dataRobot);

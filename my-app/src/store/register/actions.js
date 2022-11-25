@@ -7,21 +7,21 @@ const sendDataUser = () => {
 
 const modifyDataName = (name) => {
     return {
-        type: "MODIFY_DATA_NAME",
+        type: "GET_DATA_NAME",
         data: name
     }
 };
 
 const modifyDataPassword = (password) => {
     return {
-        type: "MODIFY_DATA_PASS",
+        type: "GET_DATA_PASS",
         data: password
     }
 };
 
 const modifyDataEmail = (email) => {
     return {
-        type: "MODIFY_DATA_EMAIL",
+        type: "GET_DATA_EMAIL",
         data: email
     }
 };

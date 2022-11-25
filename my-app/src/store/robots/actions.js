@@ -24,21 +24,21 @@ const sendDataRobot = () => {
 
 const modifyName = (name) => {
     return {
-        type: "MODIFY_DATA_NAME_ROBOT",
+        type: "GET_DATA_NAME_ROBOT",
         data: name
     }
 };
 
 const modifyAvatar = (avatar) => {
     return {
-        type: "MODIFY_DATA_AVATAR_ROBOT",
+        type: "GET_DATA_AVATAR_ROBOT",
         data: avatar
     }
 };
 
 const modifyConfig = (config) => {
     return {
-        type: "MODIFY_DATA_CONFIG_ROBOT",
+        type: "GET_DATA_CONFIG_ROBOT",
         data: config
     }
 };

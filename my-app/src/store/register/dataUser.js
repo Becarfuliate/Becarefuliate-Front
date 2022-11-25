@@ -1,4 +1,4 @@
-import swal from "sweetalert";
+import {alertSwal} from '../api';
 
 function verifyEmail(email){
   return (/^\w+([-|.]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail|mi.unc)\.(?:|com|es|edu.ar)+$/.test(email));
@@ -26,25 +26,13 @@ function verifyName(name){
 
 export function verifyDataUser(dataUser){
   if (!verifyName(dataUser.username)){
-    swal({
-      text: 'El nombre no puede estar vacío ni contener espacios.',
-      icon: 'warning',
-      timer: '1800'
-    });
+    alertSwal('El nombre no puede estar vacío ni contener espacios', 'warning');
     return false;
   } else if(!verifyPassword(dataUser.password)){
-    swal({
-      text: 'La contraseña es inválida.',
-      icon: 'warning',
-      timer: '1800'
-    });
+    alertSwal('La contraseña es inválida', 'warning');
     return false;
   } else if(!verifyEmail(dataUser.email)){
-    swal({
-      text: 'La dirección de correo es inválida.',
-      icon: 'warning',
-      timer: '1800'
-    });
+    alertSwal('La dirección de correo es inválida', 'warning');
     return false;
   }
   return true;
