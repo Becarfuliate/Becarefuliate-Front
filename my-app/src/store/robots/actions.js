@@ -43,5 +43,4 @@ const modifyConfig = (config) => {
     }
 };
 
-export {sendDataRobot, modifyName, modifyAvatar, 
-        modifyConfig, getDataRobotsUser, getImageRobotsUser};
+export {sendDataRobot, modifyName, modifyAvatar, modifyConfig, getDataRobotsUser, getImageRobotsUser};

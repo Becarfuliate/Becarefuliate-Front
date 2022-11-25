@@ -1,11 +1,7 @@
 import exportServiceLogin from '../../componentes/Servicios/serviceLogin';
 import verifyDataRobot from './verifyDataRobot';
 import swal from 'sweetalert';
-import API from '../api';
-
-const endpointUploadRobot = '/upload/robot';
-const endpointListRobots = '/robots';
-const endpointImageRobot = '/image';
+import {API, endpoints, getToken} from '../api';
 
 function alertSwal(msg, icon){
     swal({ text: msg, icon: icon, timer: '2500' }); 
@@ -22,13 +18,6 @@ function handleResponseListRobots(code, response, callback){
     
     localStorage.setItem('robotListUser', JSON.stringify(response));
     return {state: 'OK', data: response};
-}
-
-function getToken(){
-    const user = JSON.parse(localStorage.getItem('user'));
-    const token = (user)? user.token : '';
-
-    return token;
 }
 
 function filesRobot(dataRobot){
@@ -55,7 +44,7 @@ function dataAddRobotPost(dataRobot){
 const serviceUploadRobot = async (dataRobot) => {
     const resultsVerifyDataRobot = verifyDataRobot(dataRobot);
     if (resultsVerifyDataRobot.state === 'OK'){        
-        await API.post(endpointUploadRobot, filesRobot(dataRobot), dataAddRobotPost(dataRobot))
+        await API.post(endpoints.uploadRobot, filesRobot(dataRobot), dataAddRobotPost(dataRobot))
             .then(respuesta => alertSwal(respuesta.data.msg, 'success'))
             .catch(error => handleResponseUploadRobot(error.response.status));
     }
@@ -63,7 +52,7 @@ const serviceUploadRobot = async (dataRobot) => {
 };
 
 async function serviceListRobots(callback){
-    return await API.get(endpointListRobots, {params: {token: getToken()}})
+    return await API.get(endpoints.listRobots, {params: {token: getToken()}})
         .then(response => handleResponseListRobots(response.status, response.data, callback))
         .catch((error) => handleResponseListRobots(error.response.status, error.response, callback));
 };
@@ -78,7 +67,7 @@ function dataImagetRobot(robot_id){
 }
 
 async function serviceImageRobot(callback, robot_id){
-    await API.get(endpointImageRobot, dataImagetRobot(robot_id))
+    await API.get(endpoints.imageRobot, dataImagetRobot(robot_id))
         .then(response => callback(response.data))
         .catch(err => callback(""));
 }
