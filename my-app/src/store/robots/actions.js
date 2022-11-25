@@ -4,4 +4,44 @@ const getDataRobotsUser = (callback) => {
         data: callback
     }
 };
-export {getDataRobotsUser};
+
+const getImageRobotsUser = (callback, robot_id) => {
+    return {
+        type: "GET_IMAGE_ROBOTS_USER",
+        callback: callback,
+        data: {
+            robot_id: robot_id
+        }
+    }
+};
+
+const sendDataRobot = () => {
+    return {
+        type: "SEND_DATA_ROBOT",
+        data: ""
+    }
+};
+
+const modifyName = (name) => {
+    return {
+        type: "MODIFY_DATA_NAME_ROBOT",
+        data: name
+    }
+};
+
+const modifyAvatar = (avatar) => {
+    return {
+        type: "MODIFY_DATA_AVATAR_ROBOT",
+        data: avatar
+    }
+};
+
+const modifyConfig = (config) => {
+    return {
+        type: "MODIFY_DATA_CONFIG_ROBOT",
+        data: config
+    }
+};
+
+export {sendDataRobot, modifyName, modifyAvatar, 
+        modifyConfig, getDataRobotsUser, getImageRobotsUser};

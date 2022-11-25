@@ -1,18 +1,16 @@
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import {getDataGamesUser} from '../../store/Partidas/actions';
+import UnirsePatida from '../UnirsePartida/UnirsePartida';
 import TableContainer from '@mui/material/TableContainer';
 import React, { useState, useEffect } from "react";
 import TableBody from '@mui/material/TableBody';
 import TableHead from '@mui/material/TableHead';
 import { styled } from '@mui/material/styles';
 import TableRow from '@mui/material/TableRow';
+import SvgIcon from '@mui/material/SvgIcon';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
-import UnirsePatida from '../UnirsePartida/UnirsePartida';
 import {connect} from 'react-redux';
-
-import SvgIcon from '@mui/material/SvgIcon';
-
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
